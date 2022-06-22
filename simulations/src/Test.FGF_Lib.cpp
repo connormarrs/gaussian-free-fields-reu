@@ -10,6 +10,7 @@
 #include <random>
 #include <ctime>
 #include <cmath>
+#include "gtest/gtest.h"
 
 using namespace std;
 
@@ -35,4 +36,13 @@ double eigfcn(double r, int n, double k) {
 	} else {
 		return (M_SQRT2/2.0)*sin(2.0*M_PI*k*r/(1.0*n));
 	}
+}
+
+TEST (EigenTest, Values){
+	EXPET_EQ ((-1.0*27.0)/(4.0*pow(M_PI,2)), eigval (5.0, 3))
+}
+
+int main(int argc, char ∗∗argv) {
+  ::testing::InitGoogleTest(&argc, argv);
+  return RUN_ALL_TESTS();
 }
