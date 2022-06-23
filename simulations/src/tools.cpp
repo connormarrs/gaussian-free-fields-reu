@@ -1,4 +1,4 @@
-#include "tools.hpp"
+#include "../headers/tools.hpp"
 
 vector<int> Tools::linspace(int start_in, int end_in, int num_in) {
 	vector<int> linspaced;

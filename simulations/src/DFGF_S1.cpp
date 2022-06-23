@@ -1,4 +1,4 @@
-#include "DFGF_S1.hpp"
+#include "../headers/DFGF_S1.hpp"
 #define _USE_MATH_DEFINES
 
 /**

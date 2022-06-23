@@ -16,7 +16,7 @@ using namespace std;
 
 class Tools {
     public:
-        vector<int> linspace(int start_in, int end_in, int num_in);
+        static vector<int> linspace(int start_in, int end_in, int num_in);
 };
 
 #endif
