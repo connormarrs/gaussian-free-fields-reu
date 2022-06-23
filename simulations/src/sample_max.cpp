@@ -8,19 +8,24 @@
 
 #define _USE_MATH_DEFINES
 
+#include <float.h>
 #include <iostream>
 #include <string>
 #include <vector>
 #include <random>
 #include <ctime>
 #include <cmath>
+#include <fstream>
 
 using namespace std;
+using std::fstream;
+using std::string;
 
 const double s = .25; // parameter of the DFGF
-const int num_nvals = 500; // number of n values to test
-const int n_start = 20; // start of n vals;
-const int n_end = 10000; //end of n vals;
+const int num_nvals = 100; // number of n values to test
+const int n_start = 1000; // start of n vals;
+const int n_end = 1500; // end of n vals;
+const int num_trials = 3000; // number of trials
 
 /**
  * Computes the rth eigenvalue for the nth discrete laplacian
@@ -154,12 +159,8 @@ void test_arithmetic(){
  * Method borrowed from here:
  * https://stackoverflow.com/questions/27028226/python-linspace-in-c
  */
-vector<int> linspace(int start_in, int end_in, int num_in) {
+vector<int> linspace(int start, int end, int num) {
 	vector<int> linspaced;
-	
-	int start = static_cast<int>(start_in);
-	int end = static_cast<int>(end_in);
-	int num = static_cast<int>(num_in);
 	
 	if (num == 0) { 
 		return linspaced; 
@@ -169,44 +170,68 @@ vector<int> linspace(int start_in, int end_in, int num_in) {
 		return linspaced;
 	}
 	
-	int delta = (end - start) / (num - 1);
+	int delta = (int) round((end - start) / (1.0*(num - 1)));
 	
-	for(int i=0; i < num-1; ++i) {
+	for(int i=0; i < num; ++i) {
 		linspaced.push_back(start + delta * i);
 	}
 	
 	return linspaced;
 }
 
-void test_max() {
+void test_linspace() {
+	int start_ind = 10;
+	int end_ind = 160;
+	int num_ind = 32;
 
+	linspace(start_ind, end_ind, num_ind);
 }
 
-void test_linspace() {
+void test_max() {
+	
+}
 
+void sample() {
+	vector<int> nvals = linspace(n_start, n_end, num_nvals); // set the nvals array
+	
+	// generate vector of values
+	vector<double> exp_Max(num_nvals);
+
+	// iterate over all values of n
+	for(int k=0; k<num_nvals; k++) {
+		double sum_Max = 0;
+		// loop over the number of trials, add the maximum to our total
+		for(int j=0; j<num_trials; j++) {
+			sum_Max += compute_max(nvals[k], gen_rand_vec(nvals[k]));
+		}
+		// set expected value of M_k to be the empirical mean
+		exp_Max[k] = sum_Max/num_trials;
+		string filename("exp_sample.csv");
+		fstream file;
+		
+		file.open(filename, std::ios_base::app | std::ios_base::in);
+		if (file.is_open()) {
+			file << nvals[k] << ',' << exp_Max[k] << '\n';
+		}
+	}
 }
 
 /**
  * The main file that runs the code
  */
 int main() {
-	const int num_nvals = 500; // number of n values to test
-	const int n_start = 20; // start of n vals;
-	const int n_end = 10000; //end of n vals;
-	const int num_trials = 3000; // number of trials to run for each n
-
 	/**
 	 *	TESTING SECTION
 	 */
 	test_rand_vec();
 	test_arithmetic();
 	test_max();
+	test_linspace();
 
 	/**
 	 *	EXPERIMENT SECTION
 	 */
-	vector<int> nvals = linspace();// set the nvals
+	sample();
 
 	return 0;
-
 }
