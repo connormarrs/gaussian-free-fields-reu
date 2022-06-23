@@ -205,7 +205,7 @@ int main() {
 	/**
 	 *	EXPERIMENT SECTION
 	 */
-	vector<int> nvals = linspace()// set the nvals
+	vector<int> nvals = linspace();// set the nvals
 
 	return 0;
 
