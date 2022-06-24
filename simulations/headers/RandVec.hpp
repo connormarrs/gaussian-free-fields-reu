@@ -14,7 +14,7 @@ using namespace std;
 class RandVec{
 	private:
 		int len_vec;
-    	vector<normal_distribution<double>> gaussian_vector;
+    	vector<normal_distribution<double> > gaussian_vector;
 		default_random_engine generator;
 	public:
 		RandVec(int n);
