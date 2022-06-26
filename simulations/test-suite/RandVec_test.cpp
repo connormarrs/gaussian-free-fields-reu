@@ -67,40 +67,12 @@ double sampleCov(vector<double> data1, vector<double> data2){
     
 
 int main() {
-    RandVec Randvecs(25);
-    vector<vector<double>> seqs; 
-	std::vector<future<vector<double>>> tasks;
-	RandVec RandVecs;
-	for (int i; i<num_trials; i++){
-		int param = num_vars;
-        auto t = std::async(&RandVec::gen_rand_vec, &RandVecs, num_vars);
-		tasks.push_back(std::move(t));
-	}
-	for (int i; i<num_trials; i++){
-		vector<double> sequence = tasks[i].get();
-		seqs.push_back(sequence);
-	}
-    //vector<vector<double>> AA = Randvecs.parallelSampler(num_vars,num_trials);
-    vector<double> vals1=seqs[0];
-    vector<double> vals2=seqs[1];
-    vector<vector<double>> AB;
-    AB.reserve( vals1.size() + vals2.size() ); // preallocate memory
-    AB.insert( AB.end(), vals1.begin(), vals1.end() );
-    AB.insert( AB.end(), vals2.begin(), vals2.end() );
-    //PrintVector(AB);
-    //vector<vector<double>> vals3 = t3.get();
-    //vals.insert(vals1.end(), vals2.begin(), vals2.end());
-    //vals.insert(vals.end(), vals3.begin(),vals3.end());
-    // for (int i=0; i<AB.size(); i++){
-    //    PrintVector(AB[i]);
-    // }
-    // for (int i=0; i<vals2.size(); i++){
-    //    PrintVector(vals2[i]);
-    // }
-    for (int i=0; i<AB.size(); i++){
-       PrintVector(AB[i]);
-    }
-    cout << "Sample Covariance is "<<sampleCov(vals1,vals2)<<"\n";
-
-
+    int num_vars=100000;
+    int num_trials=3;
+    //auto k = generateTestingVectors(num_vars,num_trials);
+    //PrintVector(k[0]);
+    RandVec Randvecs(num_vars);
+    cout<<"t1\n";
+    vector<vector<double>> AA = Randvecs.parallelSampler(num_vars,num_trials);
+    cout<<sampleCov(AA[0],AA[1])<<"\n";
 }

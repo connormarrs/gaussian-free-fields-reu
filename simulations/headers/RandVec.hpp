@@ -77,18 +77,26 @@ unsigned RandVec::timeSinceEpochMillisec(){
 }
 
 vector<vector<double>> RandVec::parallelSampler(int size, int num_seq){
+	cout<<"called";
 	vector<vector<double>> seqs; 
-	vector<std::future<vector<double>>> tasks;
-	RandVec RandVecs;
-	for (int i; i<num_seq; i++){
-		int param = size;
-		auto t = std::async(&RandVec::gen_rand_vec, &RandVecs, size);
-		tasks.push_back(t);
+	seqs.reserve(num_seq);
+	vector<future<vector<double>>> tasks;
+	RandVec RandVecs(size);
+	for (int i=0; i<num_seq; i++){
+		tasks.push_back(std::async(&RandVec::gen_rand_vec, &RandVecs, size));
+		cout<<tasks.size();
+		// cout<<"loop2\n";
+		// seqs.push_back(tasks[i].get());
+		// cout<<"pushed";		
 	}
-	for (int i; i<num_seq; i++){
-		vector<double> sequence = tasks[i].get();
-		seqs.push_back(sequence);
+	for (int i =0; i<tasks.size();i++){
+		cout<<"loop2\n";
+		cout<<"loop3";
+		seqs.push_back(tasks[i].get());
+		cout<<"pushed";		
 	}
+	cout<<"loops done";
 	return seqs;
+
 }
 #endif
