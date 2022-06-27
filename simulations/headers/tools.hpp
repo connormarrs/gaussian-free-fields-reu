@@ -26,6 +26,10 @@ class Tools {
 		static double sampleMean(vector<double> data);
 		static double compute_max(vector<double> data);
 		static void prINTVector(vector<int> input);
+		static vector<vector<vector<double>>> time_method1(double s, int start_in, int end_in, int num_in, int size, int num_seqs, vector<vector<vector<double>>>(*func)(double, int, int, int ,int, int));
+		static vector<vector<double>> time_method2(vector<vector<vector<double>>> datatensor, vector<vector<double>> (*func)(vector<vector<vector<double>>>));
+		static vector<double> time_method3(vector<vector<double>> maximat, vector<double>(*func)(vector<vector<double>>));
+
 };
  
 // vector<int> Tools::linspace(int start_in, int end_in, int num_in) {

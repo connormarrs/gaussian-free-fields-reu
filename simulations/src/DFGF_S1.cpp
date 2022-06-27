@@ -8,18 +8,13 @@
  */
 DFGF_S1::DFGF_S1(double s) { 
 	s = s;
-	// n = n_val;
-	// // Set the values of k 
-	// for(int k=0; k<n; k++) {
-	// 	k_vals[k] = 2.0 * M_PI * k/n;
-	// }
-	// z_vars = rand_vector; // construct random vector of size n
 }
 
 /**
  * Computes the rth eigenvalue for the nth discrete laplacian
  */
 double DFGF_S1::eigval(int r, int n) {
+	
 	return pow(1.0*n,2.0)/(2.0*(pow(M_PI,2.0))) * (1.0-cos(2.0*M_PI*r/(1.0*n)));
 }
 
@@ -53,10 +48,7 @@ double DFGF_S1::dfgf(int k,int n, double s, vector<double> z_vars){
 	return sum;
 }
 
-/**
- * 
- * 
- */
+//Use create a thread for each possible k value for a given n and apply the dfgf method. Returns a vector containing the results.
 
 vector<double> DFGF_S1::FullDFGF_S1(double s, int n, vector<double> randomVector){
 	DFGF_S1 dfgfs1(s);
@@ -72,11 +64,15 @@ vector<double> DFGF_S1::FullDFGF_S1(double s, int n, vector<double> randomVector
 	return DFGF;
 }
 
+
+//This function returns a 3d array containing the num_seqs DFGFs for each n eastablished by the linspace by applying the previous method.
 vector<vector<vector<double>>> DFGF_S1::parallelDFGF(double s, int start_in, int end_in, int num_in, int size, int num_seqs){
 	RandVec RandVecs(size);
+	//establishes a set of trial n values that correspond closely to given bounds
 	vector<int> trialns = Tools::linspace(start_in, end_in, num_in);
-
 	vector<vector<vector<double>>> dfgftensor;
+	//for loop creates threads to calculate matrices containing the outputs of num_seqs DFGFs of order trialns[n].
+	//Then stores these matrices in vector called dfgftensor.
 	for(int n = 0; n < trialns.size(); n++){
 		cout<<"     calculating n="<<trialns[n]<<"\n";
 		vector<vector<double>> dfgfmat;
@@ -90,7 +86,7 @@ vector<vector<vector<double>>> DFGF_S1::parallelDFGF(double s, int start_in, int
 	}
 	return dfgftensor;
 }
-
+//computes the row wise max of a given matrix
 vector<vector<double>> DFGF_S1::parallelMax(vector<vector<vector<double>>> data){
 	vector<vector<double>> maximamat;
 	for(int i = 0; i<data.size(); i++){
@@ -106,7 +102,7 @@ vector<vector<double>> DFGF_S1::parallelMax(vector<vector<vector<double>>> data)
 		}
 		return maximamat;
 	}
-
+//computes the  row-wise means of a matrix
 vector<double> DFGF_S1::parallelMeans(vector<vector<double>> data){
 	vector<future<double>> tasks;
 	vector<double> exMaxima;

@@ -31,7 +31,7 @@ class RandVec{
 };
 
 
-#endif
+
 
 // /**
 //  * Constructor for the Sampler class
@@ -90,4 +90,4 @@ class RandVec{
 // 	return seqs;
 
 // }
-// #endif
+#endif

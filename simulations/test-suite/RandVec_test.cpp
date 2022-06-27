@@ -9,15 +9,11 @@ using namespace std;
 
 int num_vars=1000000;
 int num_trials=2;
+// 
 vector<vector<double>> generateTestingVectors(int num_var, int num_trial){
     vector<vector<double>> randomVecs;
-    for (int j=0; j < num_trials; j++){
-        RandVec RandVecs(num_var);
-        unsigned randSeed= RandVecs.timeSinceEpochMillisec();
-        vector<double> vec = RandVecs.gen_rand_vec(num_var);
-        randomVecs.push_back(vec);
-    }
-
+    RandVec Randvec;
+    randomVecs=Randvec.parallelSampler(num_var, num_trial);
     return randomVecs;
 
 }
@@ -33,7 +29,7 @@ void PrintVector(std::vector<double> input) {
   }
   std::cout << " }" << std::endl;
 }
-
+// component wise sample mean of a vector
 double sampleMean(vector<double> data){
     double sum=0;
     int limit = data.size();
@@ -48,6 +44,7 @@ double sampleMean(vector<double> data){
     }
     return 0;
 }
+//finds the smaple covariance of two provided vectors
 double sampleCov(vector<double> data1, vector<double> data2){
     double sum=0;
     int limit = data1.size();

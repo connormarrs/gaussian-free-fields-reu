@@ -25,24 +25,25 @@ vector<double> RandVec::gen_rand_vec(int size){
 	// https://stackoverflow.com/questions/21327249/how-to-generate
 	//-uncorrelated-random-sequences-using-c
 	// https://cplusplus.com/reference/random/normal_distribution/
+	// additonally uses the time since the epoch and a psuedo random offset to ensure independence.
 	vector<double> randvec;
 	for (int j=0; j<size; j++){
 		std::random_device rd;
 		int offset=rd();
 		unsigned randSeed=timeSinceEpochMillisec()+offset;
 		generator.seed(randSeed);
-		//cout << generator<<"\n";
 		randvec.push_back(gaussian_vector[j](generator));
 	}
 
 	return randvec;
 }
 // method from https://stackoverflow.com/questions/19555121/how-to-get-current-timestamp-in-milliseconds-since-1970-just-the-way-java-gets
+// calculates the time since the start of the epoch in milliseconds
 unsigned RandVec::timeSinceEpochMillisec(){
 	using namespace std::chrono;
 	return unsigned(duration_cast<std::chrono::milliseconds>(system_clock::now().time_since_epoch()).count());
 }
-
+// samples num_seq sequences of standard normal random variables of length size then returns an array of these sequences.
 vector<vector<double>> RandVec::parallelSampler(int size, int num_seq){
 	vector<vector<double>> seqs; 
 	seqs.reserve(num_seq);

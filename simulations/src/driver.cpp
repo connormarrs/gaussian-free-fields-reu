@@ -23,9 +23,9 @@ int main() {
 	// int num_trials = 50; // number of trials to sample for each n
 	// double s = .25; // parameter s of the FGF
 	int start_in = 1;
-	int end_in = 250;
-	int num_in = 50;
-	int num_seqs = 110;
+	int end_in = 1001;
+	int num_in = 100;
+	int num_seqs = 100;
 	int size = end_in;
 	double s = 0.25;
 	DFGF_S1 DS1(s);//issue is in this line
@@ -52,13 +52,16 @@ int main() {
 	cout<<"calculating maxima"<<"\n";
 	begin = std::chrono::high_resolution_clock::now();
 	vector<double> exmax = DS1.parallelMeans(maximamat);
-	vector<int> n_vals = Tools::linspace(start_in, end_in, num_in );
+
 
 	// Stop measuring time and calculate the elapsed time
     end = std::chrono::high_resolution_clock::now();
     elapsed = std::chrono::duration_cast<std::chrono::nanoseconds>(end - begin);
 	cout<< "time elapsed is " << elapsed.count()<<"\n";
 	cout<<"writing to csv"<<"\n";
+
+	//write results
+	vector<int> n_vals = Tools::linspace(start_in, end_in, num_in );
 	string filename("mt1test.csv");
 	fstream file;
 	

@@ -34,6 +34,7 @@ class DFGF_S1 {
 };
 
 
+// //pasting cause im having importing problems
 
 // #define _USE_MATH_DEFINES
 
@@ -112,7 +113,7 @@ class DFGF_S1 {
 
 // 	vector<vector<vector<double>>> dfgftensor;
 // 	for(int n = 0; n < trialns.size(); n++){
-// 		cout<<"     calculating n="<<trialns[n]<<"\n";
+// 		cout<<"calculating n="<<trialns[n]<<"\n";
 // 		vector<vector<double>> dfgfmat;
 // 		vector<vector<double>> z_seqs = RandVecs.parallelSampler(trialns[n], num_seqs);
 // 		for(int t = 0; t< num_seqs; t++){
@@ -153,17 +154,17 @@ class DFGF_S1 {
 // 	return exMaxima;
 // }
 
-// double DFGF_S1::compute_max(vector<double> data) {
-// 	// iterate over all angles 2pik/n
-// 	double max = data[0]; // dfgf(); // set max to smallest possible values computer knows
-// 	for(int k=1; k<data.size(); k++){
-// 		// if we find larger value replace it
-// 		if(data[k] > max) {
-// 			max = data[k];
-// 		}
-// 	}
-// 	return max;
-// }
+// // double DFGF_S1::compute_max(vector<double> data) {
+// // 	// iterate over all angles 2pik/n
+// // 	double max = data[0]; // dfgf(); // set max to smallest possible values computer knows
+// // 	for(int k=1; k<data.size(); k++){
+// // 		// if we find larger value replace it
+// // 		if(data[k] > max) {
+// // 			max = data[k];
+// // 		}
+// // 	}
+// // 	return max;
+// // }
 
 
 #endif
