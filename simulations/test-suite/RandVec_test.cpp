@@ -75,4 +75,5 @@ int main() {
     cout<<"t1\n";
     vector<vector<double>> AA = Randvecs.parallelSampler(num_vars,num_trials);
     cout<<sampleCov(AA[0],AA[1])<<"\n";
-}
+    return 0;
+    }

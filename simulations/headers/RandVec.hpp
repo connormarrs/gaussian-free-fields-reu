@@ -31,72 +31,63 @@ class RandVec{
 };
 
 
-//pasted here because i was having trouble with imports otherwise
 
-/**
- * Constructor for the Sampler class
- */
-RandVec::RandVec(int n) {
-	len_vec = n;
-	// instantiate a vector of length n of i.i.d. gaussians
-	for (int i=0; i<n; ++i) {
-		// for each n, use a new generator to guarantee independence
-		normal_distribution<double> distribution(0.0,1.0);
-		// need to use push back
-		gaussian_vector.push_back(distribution);
+
+// /**
+//  * Constructor for the Sampler class
+//  */
+// RandVec::RandVec(int n) {
+// 	len_vec = n;
+// 	// instantiate a vector of length n of i.i.d. gaussians
+// 	for (int i=0; i<n; ++i) {
+// 		// for each n, use a new generator to guarantee independence
+// 		normal_distribution<double> distribution(0.0,1.0);
+// 		// need to use push back
+// 		gaussian_vector.push_back(distribution);
 		
 
-	}
-}
+// 	}
+// }
 
-/**
- *  gen_rand_vec
- */
-vector<double> RandVec::gen_rand_vec(int size){
-	// source: should guarantee that using std::normal_distribution
-	// generates independent samples
-	// https://stackoverflow.com/questions/21327249/how-to-generate
-	//-uncorrelated-random-sequences-using-c
-	// https://cplusplus.com/reference/random/normal_distribution/
-	vector<double> randvec;
-	for (int j=0; j<size; j++){
-		std::random_device rd;
-		int offset=rd();
-		unsigned randSeed=timeSinceEpochMillisec()+offset;
-		generator.seed(randSeed);
-		//cout << generator<<"\n";
-		randvec.push_back(gaussian_vector[j](generator));
-	}
+// /**
+//  *  gen_rand_vec
+//  */
+// vector<double> RandVec::gen_rand_vec(int size){
+// 	// source: should guarantee that using std::normal_distribution
+// 	// generates independent samples
+// 	// https://stackoverflow.com/questions/21327249/how-to-generate
+// 	//-uncorrelated-random-sequences-using-c
+// 	// https://cplusplus.com/reference/random/normal_distribution/
+// 	vector<double> randvec;
+// 	for (int j=0; j<size; j++){
+// 		std::random_device rd;
+// 		int offset=rd();
+// 		unsigned randSeed=timeSinceEpochMillisec()+offset;
+// 		generator.seed(randSeed);
+// 		//cout << generator<<"\n";
+// 		randvec.push_back(gaussian_vector[j](generator));
+// 	}
 
-	return randvec;
-}
-// method from https://stackoverflow.com/questions/19555121/how-to-get-current-timestamp-in-milliseconds-since-1970-just-the-way-java-gets
-unsigned RandVec::timeSinceEpochMillisec(){
-	using namespace std::chrono;
-	return unsigned(duration_cast<std::chrono::milliseconds>(system_clock::now().time_since_epoch()).count());
-}
+// 	return randvec;
+// }
+// // method from https://stackoverflow.com/questions/19555121/how-to-get-current-timestamp-in-milliseconds-since-1970-just-the-way-java-gets
+// unsigned RandVec::timeSinceEpochMillisec(){
+// 	using namespace std::chrono;
+// 	return unsigned(duration_cast<std::chrono::milliseconds>(system_clock::now().time_since_epoch()).count());
+// }
 
-vector<vector<double>> RandVec::parallelSampler(int size, int num_seq){
-	cout<<"called";
-	vector<vector<double>> seqs; 
-	seqs.reserve(num_seq);
-	vector<future<vector<double>>> tasks;
-	RandVec RandVecs(size);
-	for (int i=0; i<num_seq; i++){
-		tasks.push_back(std::async(&RandVec::gen_rand_vec, &RandVecs, size));
-		cout<<tasks.size();
-		// cout<<"loop2\n";
-		// seqs.push_back(tasks[i].get());
-		// cout<<"pushed";		
-	}
-	for (int i =0; i<tasks.size();i++){
-		cout<<"loop2\n";
-		cout<<"loop3";
-		seqs.push_back(tasks[i].get());
-		cout<<"pushed";		
-	}
-	cout<<"loops done";
-	return seqs;
+// vector<vector<double>> RandVec::parallelSampler(int size, int num_seq){
+// 	vector<vector<double>> seqs; 
+// 	seqs.reserve(num_seq);
+// 	vector<future<vector<double>>> tasks;
+// 	RandVec RandVecs(size);
+// 	for (int i=0; i<num_seq; i++){
+// 		tasks.push_back(std::async(&RandVec::gen_rand_vec, &RandVecs, size));	
+// 	}
+// 	for (int i =0; i<tasks.size();i++){
+// 		seqs.push_back(tasks[i].get());	
+// 	}
+// 	return seqs;
 
-}
+// }
 #endif
