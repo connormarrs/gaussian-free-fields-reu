@@ -22,8 +22,8 @@ int main() {
 	// int num_nvals = 20; // number of n values to test
 	// int num_trials = 50; // number of trials to sample for each n
 	// double s = .25; // parameter s of the FGF
-	int start_in = 10;
-	int end_in = 2000;
+	int start_in = 1;
+	int end_in = 250;
 	int num_in = 50;
 	int num_seqs = 110;
 	int size = end_in;

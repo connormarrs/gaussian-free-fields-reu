@@ -27,7 +27,7 @@ class Tools {
 		static double compute_max(vector<double> data);
 		static void prINTVector(vector<int> input);
 };
-#endif
+ 
 // vector<int> Tools::linspace(int start_in, int end_in, int num_in) {
 // 	vector<int> linspaced;
 	
@@ -97,7 +97,7 @@ class Tools {
 // 	AB.insert( AB.end(), B.begin(), B.end() );
 // 	return AB;
 // }
-// #endif
+
 
 // //fractional powers of large integers take a long time to compute. We can speed this up with multithreading.
 // // vector<double> Tools::fracpowers(int start_in, int end_in, int num_in, double s, int thread_num){
@@ -148,3 +148,6 @@ class Tools {
 // 	}
 // 	return max;
 // }
+
+
+#endif
