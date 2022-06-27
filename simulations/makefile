@@ -1,25 +1,19 @@
-#Makefile for simulations code. 
-#Attempted by Alexander Neuschotz; refined by others.
+# Author: Trent Rabe
 
-CXX = clang++
+output: driver.o DFGF_S1.o RandVec.o tools.o
+	g++ -std=c++11 driver.o DFGF_S1.o RandVec.o tools.o -o output
 
-CXXFLAGS = -g -Wall -std=c++11
+driver.o: ./src/driver.cpp ./headers/DFGF_S1.hpp ./headers/RandVec.hpp ./headers/tools.hpp
+	g++ -std=c++11 -c ./src/driver.cpp -o driver.o
 
-#driver = executable main
-driver: driver.o DFGF_S1.o RandVec.o tools.o
-	$(CXX) $(CXXFLAGS) -o driver driver.o DFGF_S1.o RandVec.o tools.o
+DFGF_S1.o: ./src/DFGF_S1.cpp ./headers/DFGF_S1.hpp ./headers/RandVec.hpp
+	g++ -std=c++11 -c ./src/DFGF_S1.cpp -o DFGF_S1.o
 
-driver.o: ../src/driver.cpp ../headers/DFGF_S1.hpp ../headers/RandVec.hpp ../headers/tools.hpp
-	$(CXX) $(CXXFLAGS) -c ../src/driver.cpp -o driver.o
+RandVec.o: ./src/RandVec.cpp ./headers/RandVec.hpp
+	g++ -std=c++11 -c ./src/RandVec.cpp -o RandVec.o
 
-DFGF_S1.o: ../headers/DFGF_S1.hpp ../headers/RandVec.hpp
-	$(CXX) $(CXXFLAGS) -c ../headers/DFGF_S1.hpp ../headers/RandVec.hpp -o DFGF_S1.o
-
-RandVec.o: ../headers/RandVec.hpp
-	$(CXX)  $(CXXFLAGS) -c ../headers/RandVec.hpp -o RandVec.o
-
-tools.o: ../headers/tools.hpp
-	$(CXX)  $(CXXFLAGS) -c ../headers/tools.hpp -o tools.o
+tools.o: ./src/tools.cpp ./headers/tools.hpp
+	g++ -std=c++11 -c ./src/tools.cpp
 
 clean:
-	rm -rf ./out/*
+	rm *.o
