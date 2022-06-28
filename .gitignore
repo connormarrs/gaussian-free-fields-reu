@@ -1,0 +1,5 @@
+# ignore all .o files
+*.o
+
+# ignore vscode settings
+.vscode/
