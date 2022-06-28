@@ -1,6 +1,5 @@
  #include "../headers/tools.hpp"
 
-
 vector<int> Tools::linspace(int start_in, int end_in, int num_in) {
 	vector<int> linspaced;
 	
@@ -48,7 +47,6 @@ void Tools::printVector(vector<double> input) {
   std::cout << " }" << std::endl;
 }
 
-
 // vector printer from https://github.com/ourarash/multithreading_cpp
 void Tools::prINTVector(vector<int> input) {
   cout << "input size is " << int(input.size());
@@ -61,7 +59,6 @@ void Tools::prINTVector(vector<int> input) {
   std::cout << " }" << std::endl;
 }
 
-
 vector<double> Tools::joinVecs(vector<double> A, vector<double> B){
 	// quick vector joining method from https://stackoverflow.com/questions/3177241/what-is-the-best-way-to-concatenate-two-vectors
 	vector<double> AB;
@@ -70,30 +67,6 @@ vector<double> Tools::joinVecs(vector<double> A, vector<double> B){
 	AB.insert( AB.end(), B.begin(), B.end() );
 	return AB;
 }
-
-//fractional powers of large integers take a long time to compute. We can speed this up with multithreading.
-// vector<double> Tools::fracpowers(int start_in, int end_in, int num_in, double s, int thread_num){
-// 	Tools tools;
-// 	vector<int> n_vals= linspace(start_in, end_in, num_in);
-// 	int thread_intervals = int(num_in/thread_num);
-// 	vector<future<vector<double>>> tasks;
-// 	for(int i=0; i < thread_intervals; i++){
-// 		if (i<thread_intervals-1){
-// 			tasks.push_back(std::async(Tools::exponentiate, n_vals, s, int(i*thread_intervals), int((i+1)*thread_intervals)));
-// 		}
-// 		else{
-// 			tasks.push_back(std::async(Tools::exponentiate, n_vals, s, i*thread_intervals, n_vals.size()));	
-// 		}
-// 	}
-// 	vector<double> powers;
-// 	for (int i =0; i< tasks.size(); i++){
-
-// 		powers=Tools::joinVecs(powers, tasks[i].get());
-// 	}
-// 	return powers;
-// }
-
-
 
 double Tools::sampleMean(vector<double> data){
     double sum=0;
@@ -109,6 +82,7 @@ double Tools::sampleMean(vector<double> data){
     }
     return 0;
 }
+
 double Tools::compute_max(vector<double> data) {
 	// iterate over all angles 2pik/n
 	double max = data[0]; // dfgf(); // set max to smallest possible values computer knows
@@ -120,45 +94,3 @@ double Tools::compute_max(vector<double> data) {
 	}
 	return max;
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-// vector<int> Tools::linspace(int start_in, int end_in, int num_in) {
-// 	vector<int> linspaced;
-	
-// 	int start = static_cast<int>(start_in);
-// 	int end = static_cast<int>(end_in);
-// 	int num = static_cast<int>(num_in);
-	
-// 	if (num == 0) { 
-// 		return linspaced; 
-// 	}
-// 	if (num == 1) {
-// 		linspaced.push_back(start);
-// 		return linspaced;
-// 	}
-	
-// 	int delta = (end - start) / (num - 1);
-	
-// 	for(int i=0; i < num-1; ++i) {
-// 		linspaced.push_back(start + delta * i);
-// 	}
-	
-// 	return linspaced;
-// }

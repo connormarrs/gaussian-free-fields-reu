@@ -3,6 +3,20 @@
 #include <stdio.h>
 #include <chrono>
 
+int start_in = 10;
+int end_in = 2000;
+int num_in = 50;
+int numTrials = 110;
+int size = end_in;
+double s = 0.25;
+
+double getMeans(double s, int n, int numTrials){
+	RandVec randvec(n);
+	DFGF_S1 dfgf(s, n, numTrials, randvec);
+	return dfgf.getMeanOfMaxima();
+}
+
+
 /**
  * The main file that runs the code
  */
@@ -22,50 +36,23 @@ int main() {
 	// int num_nvals = 20; // number of n values to test
 	// int num_trials = 50; // number of trials to sample for each n
 	// double s = .25; // parameter s of the FGF
-	int start_in = 10;
-	int end_in = 2000;
-	int num_in = 50;
-	int num_seqs = 110;
-	int size = end_in;
-	double s = 0.25;
-	DFGF_S1 DS1(s);//issue is in this line
 
-	// Start measuring time 
-	// code from this example https://levelup.gitconnected.com/8-ways-to-measure-execution-time-in-c-c-48634458d0f9
-    auto begin = std::chrono::high_resolution_clock::now();
-	cout<<"calculating datatensor \n";
-	
-	auto datatensor = DS1.parallelDFGF(s, start_in, end_in, num_in, size, num_seqs);
-	 
-	auto end = std::chrono::high_resolution_clock::now();
-	auto elapsed = std::chrono::duration_cast<std::chrono::nanoseconds>(end - begin);
-	cout<< "time elapsed is " << elapsed.count()<< "\n";
-	
-	cout <<"calculating maximat\n";
-	begin = std::chrono::high_resolution_clock::now();
-	vector<vector<double>> maximamat = DS1.parallelMax(datatensor);
-	
-	end = std::chrono::high_resolution_clock::now();
-	elapsed = std::chrono::duration_cast<std::chrono::nanoseconds>(end - begin);
-	cout<< "time elapsed is " << elapsed.count()<< "\n";
+	vector<int> n_vals = Tools::linspace(start_in, end_in, num_in);
+	vector<double> means;
+	vector<future<double>> tasks;
+	for(int n = 0; n < n_vals.size(); n++){
+		tasks.push_back(async(getMeans, s, n_vals[n], numTrials));
+	}
 
-	cout<<"calculating maxima"<<"\n";
-	begin = std::chrono::high_resolution_clock::now();
-	vector<double> exmax = DS1.parallelMeans(maximamat);
-	vector<int> n_vals = Tools::linspace(start_in, end_in, num_in );
-
-	// Stop measuring time and calculate the elapsed time
-    end = std::chrono::high_resolution_clock::now();
-    elapsed = std::chrono::duration_cast<std::chrono::nanoseconds>(end - begin);
-	cout<< "time elapsed is " << elapsed.count()<<"\n";
-	cout<<"writing to csv"<<"\n";
-	string filename("mt1test.csv");
+	for(int j = 0; j<tasks.size(); j++){
+		means.push_back(tasks[j].get());
+	}
+	string filename("exp_sample.csv");
 	fstream file;
-	
 	file.open(filename, std::ios_base::app | std::ios_base::in);
-	for(int i =0; i < exmax.size(); i ++){
+	for(int i =0; i < means.size(); i ++){
 		if (file.is_open()) {
-			file << n_vals[i] << ',' << exmax[i] << '\n';
+			file << n_vals[i] << ',' << means[i] << '\n';
 		}
 	}
 	return 0;
@@ -93,8 +80,7 @@ int main() {
 	// 	}
 	// 	// set expected value of M_k to be the empirical mean
 	// 	exp_Max[n] = sum_Max/num_trials;
-	// 	string filename("exp_sample.csv");
-	// 	fstream file;
+
 		
 	// 	file.open(filename, std::ios_base::app | std::ios_base::in);
 	// 	if (file.is_open()) {
