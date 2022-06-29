@@ -6,7 +6,7 @@ output: driver.o DFGF_S1.o RandVec.o tools.o
 driver.o: ./src/driver.cpp ./headers/DFGF_S1.hpp
 	g++ -std=c++11 -c ./src/driver.cpp -o driver.o
 
-DFGF_S1.o: ./src/DFGF_S1.cpp ./headers/DFGF_S1.hpp ./headers/RandVec.hpp ./headers/tools.hpp
+DFGF_S1.o: ./src/DFGF_S1.cpp ./headers/DFGF_S1.hpp
 	g++ -std=c++11 -c ./src/DFGF_S1.cpp -o DFGF_S1.o
 
 RandVec.o: ./src/RandVec.cpp ./headers/RandVec.hpp

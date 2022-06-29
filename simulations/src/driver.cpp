@@ -3,8 +3,8 @@
 #include <stdio.h>
 #include <chrono>
 
-int start_in = 1;
-int end_in = 30;
+int start_in = 10;
+int end_in = 31;
 int num_in = 20;
 int numTrials = 20;
 int size = end_in;
@@ -41,26 +41,29 @@ int main() {
 
 
 	vector<int> n_vals = Tools::linspace(start_in, end_in, num_in);
-	Tools::prINTVector(n_vals);
+	//Tools::prINTVector(n_vals);
 
 	vector<double> means;
 	vector<future<double>> tasks;
-	for(int n = 0; n < n_vals.size(); n++){
-		tasks.push_back(async(getMeans, s, n_vals[n], numTrials));
-	}
+	int n =10;
+	RandVec randvec(n);
+	DFGF_S1 dfgf(s, n, numTrials, randvec);
+	// for(int n = 0; n < n_vals.size(); n++){
+	// 	tasks.push_back(async(getMeans, s, n_vals[n], numTrials));
+	// }
 
-	for(int j = 0; j<tasks.size(); j++){
-		means.push_back(tasks[j].get());
-	}
-	Tools::printVector(means);
-	string filename("exp_sample.csv");
-	fstream file;
-	file.open(filename, std::ios_base::app | std::ios_base::in);
-	for(int i =0; i < means.size(); i ++){
-		if (file.is_open()) {
-			file << n_vals[i] << ',' << means[i] << '\n';
-		}
-	}
+	// for(int j = 0; j<tasks.size(); j++){
+	// 	means.push_back(tasks[j].get());
+	// }
+	// Tools::printVector(means);
+	// string filename("exp_sample.csv");
+	// fstream file;
+	// file.open(filename, std::ios_base::app | std::ios_base::in);
+	// for(int i =0; i < means.size(); i ++){
+	// 	if (file.is_open()) {
+	// 		file << n_vals[i] << ',' << means[i] << '\n';
+	// 	}
+	// }
 
 
 	return 0;
