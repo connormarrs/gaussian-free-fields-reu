@@ -34,12 +34,11 @@ int main() {
 	double s = 0.25;
 	//decide whether or not u want to save during the calcualtions or after
 	//saving during slightly slows the code
-
 	bool intermittentSave = true;
 
 
 
-
+	//simulations setup
 	vector<int> n_vals = Tools::linspace(start_in, end_in, num_in);
 	vector<double> means;
 	vector<future<double>> tasks;
@@ -49,33 +48,41 @@ int main() {
 
 
 	vector<vector<int>> timeData;
-	for(int n=0; n < n_vals.size(); n++){
-		
+	// for(int n=0; n < n_vals.size(); n++){
+	int n = 0;
+	while(n<n_vals.size()){
+		if(means.size()>= n){
 		auto begin = std::chrono::high_resolution_clock::now();
-		means.push_back(getMeans(s, n_vals[n], numTrials));
+		RandVec randvec(n_vals[n]);
+		DFGF_S1 dfgf(s, n_vals[n], numTrials, randvec);
+		means.push_back(dfgf.getMeanOfMaxima());
 		auto end = std::chrono::high_resolution_clock::now();
 		auto elapsed = std::chrono::duration_cast<std::chrono::milliseconds>(end - begin);
 		cout<< "time elapsed is " << elapsed.count()<< "\n";
 		times.push_back(elapsed.count());
-
+		}
 
 		//open files and write
-		if(intermittentSave){
-			string filename1("expectedMeanData.csv");
-			fstream file1;
-			file1.open(filename1, std::ios_base::app | std::ios_base::in);
+		if(means.size()>=n+1){
+			if(intermittentSave){
+				string filename1("expectedMaxData.csv");
+				fstream file1;
+				file1.open(filename1, std::ios_base::app | std::ios_base::in);
 
-			string filename2("timeData.csv");
-			fstream file2;
-			file2.open(filename2, std::ios_base::app | std::ios_base::in);
-			if (file1.is_open()) {
-				file1 << n_vals[n] << ',' << means[n] << '\n';		
-			}
-			if (file1.is_open()) {
-				file2 << n_vals[n] << ',' << times[n] << '\n';
-			}	
+				string filename2("timeData.csv");
+				fstream file2;
+				file2.open(filename2, std::ios_base::app | std::ios_base::in);
+				if (file1.is_open()) {
+					file1 << n_vals[n] << ',' << means[n] << '\n';		
+				}
+				if (file1.is_open()) {
+					file2 << n_vals[n] << ',' << times[n] << '\n';
+				}	
 		}
-		
+		n++;
+		}
+	
+	//}
 
 	}
 
