@@ -71,19 +71,25 @@ double DFGF_S1::computeEigenVector(int r, int k) {
 	}
 }
 
+vector<double> DFGF_S1::computeFullEigenVector(int){
+	vector<double> eigenVector;
+	v
+}
 
 /**
  * Computes the rth eigenvalue for the nth discrete laplacian
  */
-void DFGF_S1::computeEigenVectors() {
+void DFGF_S1::computeAllEigenVectors() {
 	cout<<"compute eigenvectors is called\n";
 	// 2d vector of tasks for each entry of eigenvectors
 	vector<vector<future<double>>> tasks;
 	tasks.reserve(n);
+	cout<<tasks.size();
 	for(int k=0; k<n; k++){
+		vector<future<double>> temp;
 		for(int r=0; r<n; r++){
 			// pass in object with "this" keyword and multi-thread
-			tasks[k].push_back(
+			temp.push_back(
 				async(&DFGF_S1::computeEigenVector, this, r,k)
 			);
 		}
@@ -115,6 +121,7 @@ void DFGF_S1::computeCoefficients() {
 	vector<vector<future<double>>> tasks;
 	tasks.reserve(n);
 	cout<<"tasks vector is created\n";
+	cout<< tasks.size();
 	for(int k=0; k<n; k++){
 		for(int r=0; r<n; r++){
 			// pass in object with "this" keyword and multi-thread
