@@ -39,11 +39,14 @@ double DFGF_S1::computeEigenVal(int k) {
  * Computes the rth eigenvalue for the nth discrete laplacian
  */
 void DFGF_S1::computeEigenVals() {
+	cout<<"compute eigenvals is called\n";
 	vector<future<double>> tasks;
 	for(int k=0; k<n; k++){
 		// pass in object with "this" keyword and multi-thread
 		tasks.push_back(
-			async(&DFGF_S1::computeEigenVal, this, k)
+			async([this](int k)-> double {
+            return this->computeEigenVal(k);
+        }, k)
 		);
 	}
 	for(int j=0; j<n; j++){
@@ -56,6 +59,7 @@ void DFGF_S1::computeEigenVals() {
  * evaluated at the kth value.
  */
 double DFGF_S1::computeEigenVector(int r, int k) {
+
 	double arg = 2.0 * M_PI * k/n;
 
 	if(n%2==0 && r==(n/2)) {
@@ -72,17 +76,17 @@ double DFGF_S1::computeEigenVector(int r, int k) {
  * Computes the rth eigenvalue for the nth discrete laplacian
  */
 void DFGF_S1::computeEigenVectors() {
+	cout<<"compute eigenvectors is called\n";
 	// 2d vector of tasks for each entry of eigenvectors
 	vector<vector<future<double>>> tasks;
+	tasks.reserve(n);
 	for(int k=0; k<n; k++){
-		vector<future<double>> temp;
 		for(int r=0; r<n; r++){
 			// pass in object with "this" keyword and multi-thread
-			temp.push_back(
+			tasks[k].push_back(
 				async(&DFGF_S1::computeEigenVector, this, r,k)
 			);
 		}
-		tasks.push_back(temp);
 	}
 	for(int k=0; k<tasks.size(); k++){
 		vector<double> temp;	
@@ -97,6 +101,8 @@ void DFGF_S1::computeEigenVectors() {
 }
 
 double DFGF_S1::computeCoeff(int r, int k){
+
+	cout <<pow(eigenVals[r], -1.0*s)*eigenVectors[r][k];
 	return pow(eigenVals[r], -1.0*s)*eigenVectors[r][k];
 }
 
@@ -104,17 +110,18 @@ double DFGF_S1::computeCoeff(int r, int k){
  * Computes the rth eigenvalue for the nth discrete laplacian
  */
 void DFGF_S1::computeCoefficients() {
+	cout<<"compute Coeff is called\n";
 	// 2d vector of tasks for each entry of eigenvectors
 	vector<vector<future<double>>> tasks;
+	tasks.reserve(n);
+	cout<<"tasks vector is created\n";
 	for(int k=0; k<n; k++){
-		vector<future<double>> temp;
 		for(int r=0; r<n; r++){
 			// pass in object with "this" keyword and multi-thread
-			temp.push_back(
+			tasks[k].push_back(
 				async(&DFGF_S1::computeCoeff, this, r,k)
 			);
 		}
-		tasks.push_back(temp);
 	}
 	for(int k=0; k<tasks.size(); k++){
 		vector<double> temp;	
@@ -132,7 +139,7 @@ void DFGF_S1::computeCoefficients() {
 double DFGF_S1::evaluatePoint(int k, vector<double> sampleVector){
 	double sum=0;
 	for(int i = 0; i<n; i++){
-		sum += coefficients[i][k]*sampleVector[i];
+		sum =sum + coefficients[i][k]*sampleVector[i];
 	}
 	return sum;
 }
@@ -152,6 +159,7 @@ vector<double> DFGF_S1::evaluate(vector<double> sampleVector){
 void DFGF_S1::runTrials(){
 	vector<future<vector<double>>> tasks;
 	vector<vector<double>> sampleArray= gaussianVector.parallelSampler(n, numTrials);
+	Tools::printVector(sampleArray[0]);
 	for(int i = 0; i < numTrials; i++){
 		tasks.push_back(async(&DFGF_S1::evaluate, this, sampleArray[i]));
 	}
