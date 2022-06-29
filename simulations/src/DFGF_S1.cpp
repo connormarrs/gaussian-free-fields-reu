@@ -13,19 +13,17 @@ DFGF_S1::DFGF_S1(double sVal, int nVal, int numberTrials, RandVec randVector) {
 	numTrials = numberTrials;
 
 	// construct the eigenVals
+	cout<<"calculating: "<<n<<"\n";
 	this->computeEigenVals();
-
 	this->computeEigenVectors();
-
 	this->computeCoefficients();
 
-	//this may be a little extreme for some uses (maybe we dont want to run these in the constructor)
-	
-	this->runTrials();
-	
-	this -> parallelMax();
 
-	meanOfMaxima=Tools::sampleMean(maxima);
+
+	//this may be a little extreme for some uses (maybe we dont want to run these in the constructor)
+	this->runTrials();
+	this -> parallelMax();
+	meanOfMaxima = Tools::sampleMean(maxima);
 }
 
 /**
@@ -51,7 +49,6 @@ void DFGF_S1::computeEigenVals() {
 	for(int j=0; j<tasks.size(); j++){
 		eigenVals.push_back(tasks[j].get());
 	}
-	Tools::printVector(eigenVals);
 }
 
 /**
@@ -73,7 +70,7 @@ double DFGF_S1::computeEigenVector(int r, int k) {
 
 vector<double> DFGF_S1::computeFullEigenVector(int r){
 	vector<double> eigenVector;
-	for(int k = 1; k< n; k++){
+	for(int k = 0; k< n-1; k++){
 		eigenVector.push_back(computeEigenVector(r, k));
 	}
 	return eigenVector;
@@ -85,7 +82,7 @@ vector<double> DFGF_S1::computeFullEigenVector(int r){
 void DFGF_S1::computeEigenVectors() {
 	// 2d vector of tasks for each entry of eigenvectors
 	vector<future<vector<double>>> tasks;
-	for(int r=1; r<n; r++){
+	for(int r=0; r<n-1; r++){
 		tasks.push_back(async(&DFGF_S1::computeFullEigenVector, this, r));
 	}
 
@@ -114,21 +111,27 @@ vector<double> DFGF_S1::computeFullCoefficients(int r){
 void DFGF_S1::computeCoefficients() {
 	// 2d vector of tasks for each entry of eigenvectors
 	vector<future<vector<double>>> tasks;
-	for(int r=1; r<n; r++){
+	for(int r=0; r<n-1; r++){
 		tasks.push_back(async(&DFGF_S1::computeFullCoefficients, this, r));
 	}
 		for(int r=0; r<tasks.size(); r++){
 			// pass in object with "this" keyword and multi-thread
 			coefficients.push_back(tasks[r].get());
 		}
+	// cout<<"printing coefficients\n";
+	// for(int i =0; i<coefficients.size();i++){
+	// 	cout<<(coefficients[i].size())<<"\n";
+	// 	Tools::printVector(coefficients[i]);
+	//}
 	}
 
 
 // helper to compute the value of the DFGF at a particular theta_k
 double DFGF_S1::evaluatePoint(int k, vector<double> sampleVector){
 	double sum=0;
-	for(int i = 0; i<n; i++){
-		sum =sum + coefficients[i][k]*sampleVector[i];
+	for(int i = 0; i<n-1; i++){
+		//cout<<"term is "<<coefficients[i][k]*sampleVector[i]<<"\n";
+		sum += coefficients[i][k]*sampleVector[i];
 	}
 	return sum;
 }
@@ -136,7 +139,7 @@ double DFGF_S1::evaluatePoint(int k, vector<double> sampleVector){
 vector<double> DFGF_S1::evaluate(vector<double> sampleVector){
 	vector<double> dfgf;
 	vector<future<double>> tasks;
-	for(int k=0; k<n; k++){//k=0 to n-1?
+	for(int k=0; k<n-1; k++){//k=0 to n-1?
 		tasks.push_back(async(&DFGF_S1::evaluatePoint, this, k, sampleVector));
 	}
 	for(int k=0; k<tasks.size(); k++){
@@ -147,21 +150,26 @@ vector<double> DFGF_S1::evaluate(vector<double> sampleVector){
 // creates a matrix where the ith row is the DFGF in the ith trial
 void DFGF_S1::runTrials(){
 	vector<future<vector<double>>> tasks;
-	vector<vector<double>> sampleArray= gaussianVector.parallelSampler(n, numTrials);
+	vector<vector<double>> sampleArray= gaussianVector.parallelSampler(n-1, numTrials);
+
 	for(int i = 0; i < numTrials; i++){
+		//Tools::printVector(sampleArray[i]);
 		tasks.push_back(async(&DFGF_S1::evaluate, this, sampleArray[i]));
 	}
 	for(int i =0; i<tasks.size(); i++){
 		trialData.push_back(tasks[i].get());
 	}
+	// cout<<"printing data\n";
+	// for (int i =0; i < trialData.size();i++){
+	// 	Tools::printVector(trialData[i]);
+	// }
 }
 
 
 // returns vector containing the maxima of each row of a matrix
 void DFGF_S1::parallelMax(){
 	vector<future<double>> tasks;
-	vector<double> maxima;
-	for(int j = 0; j<trialData.size(); j++){
+	for(int j = 0; j<trialData.size(); j++){	
 		tasks.push_back(std::async(Tools::compute_max, trialData[j]));
 		}
 	for(int l = 0; l < tasks.size(); l++){

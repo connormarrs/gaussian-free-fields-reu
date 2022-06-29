@@ -3,12 +3,7 @@
 #include <stdio.h>
 #include <chrono>
 
-int start_in = 10;
-int end_in = 31;
-int num_in = 20;
-int numTrials = 20;
-int size = end_in;
-double s = 0.25;
+
 
 double getMeans(double s, int n, int numTrials){
 	RandVec randvec(n);
@@ -31,35 +26,89 @@ int main() {
 	 * Set the parameters and run the main method in the driver
 	 * to generate the data.
 	 */
-	// int n_start = 5; // value to start indexing n by
-	// int n_end = 100; // end value for n test values
-	// int num_nvals = 20; // number of n values to test
-	// int num_trials = 50; // number of trials to sample for each n
-	// double s = .25; // parameter s of the FGF
+	int start_in = 10;
+	int end_in = 2010;
+	int num_in = 400;
+	int numTrials = 500;
+	int size = end_in;
+	double s = 0.25;
+	//decide whether or not u want to save during the calcualtions or after
+	//saving during slightly slows the code
+
+	bool intermittentSave = true;
 
 
 
 
 	vector<int> n_vals = Tools::linspace(start_in, end_in, num_in);
-	//Tools::prINTVector(n_vals);
-
 	vector<double> means;
 	vector<future<double>> tasks;
-	int n =10;
-	RandVec randvec(n);
-	DFGF_S1 dfgf(s, n, numTrials, randvec);
+	vector<int> times;
+
+
+
+
+	vector<vector<int>> timeData;
+	for(int n=0; n < n_vals.size(); n++){
+		
+		auto begin = std::chrono::high_resolution_clock::now();
+		means.push_back(getMeans(s, n_vals[n], numTrials));
+		auto end = std::chrono::high_resolution_clock::now();
+		auto elapsed = std::chrono::duration_cast<std::chrono::milliseconds>(end - begin);
+		cout<< "time elapsed is " << elapsed.count()<< "\n";
+		times.push_back(elapsed.count());
+
+
+		//open files and write
+		if(intermittentSave){
+			string filename1("expectedMeanData.csv");
+			fstream file1;
+			file1.open(filename1, std::ios_base::app | std::ios_base::in);
+
+			string filename2("timeData.csv");
+			fstream file2;
+			file2.open(filename2, std::ios_base::app | std::ios_base::in);
+			if (file1.is_open()) {
+				file1 << n_vals[n] << ',' << means[n] << '\n';		
+			}
+			if (file1.is_open()) {
+				file2 << n_vals[n] << ',' << times[n] << '\n';
+			}	
+		}
+		
+
+	}
+
+			if(!intermittentSave){
+			string filename1("expectedMeanData.csv");
+			fstream file1;
+			file1.open(filename1, std::ios_base::app | std::ios_base::in);
+
+			string filename2("timeData.csv");
+			fstream file2;
+			file2.open(filename2, std::ios_base::app | std::ios_base::in);\
+			for(int n = 0; n<means.size();n++){
+				if (file1.is_open()) {
+					file1 << n_vals[n] << ',' << means[n] << '\n';		
+				}
+				if (file1.is_open()) {
+					file2 << n_vals[n] << ',' << times[n] << '\n';
+				}	
+			}
+		}
+	//Tools::printVector(means);
 	// for(int n = 0; n < n_vals.size(); n++){
 	// 	tasks.push_back(async(getMeans, s, n_vals[n], numTrials));
 	// }
-
 	// for(int j = 0; j<tasks.size(); j++){
-	// 	means.push_back(tasks[j].get());
+	// 	double mean = tasks[j].get();
+	// 	means.push_back(mean);
 	// }
-	// Tools::printVector(means);
-	// string filename("exp_sample.csv");
+	// string filename1("expectedMeanData.csv");
 	// fstream file;
-	// file.open(filename, std::ios_base::app | std::ios_base::in);
+	// file.open(filename1, std::ios_base::app | std::ios_base::in);
 	// for(int i =0; i < means.size(); i ++){
+	// 	cout<<n_vals[i]<<","<<means[i]<<"\n";
 	// 	if (file.is_open()) {
 	// 		file << n_vals[i] << ',' << means[i] << '\n';
 	// 	}
