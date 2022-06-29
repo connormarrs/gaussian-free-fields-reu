@@ -50,6 +50,7 @@ int main() {
 	vector<vector<int>> timeData;
 	// for(int n=0; n < n_vals.size(); n++){
 	int n = 0;
+	//use for loop if u want it to actually work
 	while(n<n_vals.size()){
 		if(means.size()>= n){
 		auto begin = std::chrono::high_resolution_clock::now();
@@ -60,6 +61,7 @@ int main() {
 		auto elapsed = std::chrono::duration_cast<std::chrono::milliseconds>(end - begin);
 		cout<< "time elapsed is " << elapsed.count()<< "\n";
 		times.push_back(elapsed.count());
+
 		}
 
 		//open files and write
