@@ -54,6 +54,7 @@ unsigned RandVec::generateSeed(){
  * 
  * param num_seq: how many times we will sample the vector
  */
+//check this method (maybe binding a function would be better than instantiating a new class or using this keyword)
 vector<vector<double>> RandVec::parallelSampler(int size, int num_sample){
 	vector<vector<double>> sample; 
 	vector<future<vector<double>>> tasks; // list of threads

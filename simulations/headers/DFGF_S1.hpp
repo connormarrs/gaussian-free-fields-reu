@@ -38,12 +38,15 @@ class DFGF_S1: public DFGF {
         double computeEigenVector(int r, int k);
         double computeCoeff(int r, int k);
         void computeCoefficients();
+        vector<double> computeFullEigenVector(int r);
+        vector<double> computeFullCoefficients(int r);
     public:
         // constructors
         DFGF_S1(double s, int n, int numberTrials, RandVec gaussianVector);
 		DFGF_S1() = default;
         double evaluatePoint(int k, vector<double> sampleVector);
         vector<double> evaluate(vector<double> sampleVector);
+
         void runTrials();
         void parallelMax();
         void parallelMean();
