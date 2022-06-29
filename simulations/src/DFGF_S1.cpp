@@ -122,10 +122,13 @@ void DFGF_S1::computeCoefficients() {
 	for(int r=0; r<n-1; r++){
 		tasks.push_back(async(&DFGF_S1::computeFullCoefficients, this, r));
 	}
-		for(int r=0; r<tasks.size(); r++){
-			// pass in object with "this" keyword and multi-thread
-			coefficients.push_back(tasks[r].get());
-		}
+	for(int r=0; r<tasks.size(); r++){
+		// pass in object with "this" keyword and multi-thread
+		coefficients.push_back(tasks[r].get());
+	}
+	for(int r = 0; r<n-1; r++){
+		coefficients.push_back(computeFullCoefficients(r));
+	}
 	// cout<<"printing coefficients\n";
 	// for(int i =0; i<coefficients.size();i++){
 	// 	cout<<(coefficients[i].size())<<"\n";

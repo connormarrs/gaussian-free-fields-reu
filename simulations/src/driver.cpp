@@ -48,11 +48,8 @@ int main() {
 
 
 	vector<vector<int>> timeData;
-	// for(int n=0; n < n_vals.size(); n++){
-	int n = 0;
-	//use for loop if u want it to actually work
-	while(n<n_vals.size()){
-		if(means.size()>= n){
+	for(int n=0; n < n_vals.size(); n++){
+
 		auto begin = std::chrono::high_resolution_clock::now();
 		RandVec randvec(n_vals[n]);
 		DFGF_S1 dfgf(s, n_vals[n], numTrials, randvec);
@@ -62,29 +59,24 @@ int main() {
 		cout<< "time elapsed is " << elapsed.count()<< "\n";
 		times.push_back(elapsed.count());
 
-		}
 
 		//open files and write
-		if(means.size()>=n+1){
-			if(intermittentSave){
-				string filename1("expectedMaxData.csv");
-				fstream file1;
-				file1.open(filename1, std::ios_base::app | std::ios_base::in);
+		if(intermittentSave){
+			string filename1("expectedMaxData.csv");
+			fstream file1;
+			file1.open(filename1, std::ios_base::app | std::ios_base::in);
 
-				string filename2("timeData.csv");
-				fstream file2;
-				file2.open(filename2, std::ios_base::app | std::ios_base::in);
-				if (file1.is_open()) {
-					file1 << n_vals[n] << ',' << means[n] << '\n';		
-				}
-				if (file1.is_open()) {
-					file2 << n_vals[n] << ',' << times[n] << '\n';
-				}	
+			string filename2("timeData.csv");
+			fstream file2;
+			file2.open(filename2, std::ios_base::app | std::ios_base::in);
+			if (file1.is_open()) {
+				file1 << n_vals[n] << ',' << means[n] << '\n';		
+			}
+			if (file1.is_open()) {
+				file2 << n_vals[n] << ',' << times[n] << '\n';
+			}	
 		}
-		n++;
-		}
-	
-	//}
+		
 
 	}
 
