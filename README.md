@@ -71,7 +71,7 @@
 
 #### Data Files
 In order to keep the output data organized use the following convention.
-(Month)(Day).StartVal.EndVal.NumberofPoints.NumberofTrials.csv
+(Month)(Day).StartVal.EndVal.NumberofPoints.NumberofTrials.TimetoComputeN.csv
 
-For example, data generated on July 2nd, starting at 50 and ending at 1000, with 190 points, and 1500 trials per point would take the form
-702.50.1000.190.1500.csv
+For example, data generated on July 2nd, starting at 50 and ending at 1000, with 190 points, and 1500 trials per point that took 200 milliseconds for the first n value would take the form
+702.50.1000.190.1500.200.csv
