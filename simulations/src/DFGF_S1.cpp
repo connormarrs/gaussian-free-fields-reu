@@ -166,14 +166,15 @@ vector<double> DFGF_S1::evaluate(vector<double> sampleVector){
 void DFGF_S1::runTrials(){
 	vector<future<vector<double>>> tasks;
 	vector<vector<double>> sampleArray= gaussianVector.parallelSampler(n, numTrials);
-
+	vector<vector<double>> data;
 	for(int i = 0; i < numTrials; i++){
 		//Tools::printVector(sampleArray[i]);
 		tasks.push_back(async(&DFGF_S1::evaluate, this, sampleArray[i]));
 	}
 	for(int i =0; i<tasks.size(); i++){
-		trialData.push_back(tasks[i].get());
+		data.push_back(tasks[i].get());
 	}
+	trialData = data;
 	// cout<<"printing data\n";
 	// for (int i =0; i < trialData.size();i++){
 	// 	Tools::printVector(trialData[i]);
