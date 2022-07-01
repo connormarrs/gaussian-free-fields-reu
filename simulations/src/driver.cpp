@@ -75,6 +75,8 @@ int main() {
 			if (file1.is_open()) {
 				file2 << n_vals[n] << ',' << times[n] << '\n';
 			}	
+			file1.close();
+			file2.close();
 		}
 		
 
@@ -96,6 +98,8 @@ int main() {
 					file2 << n_vals[n] << ',' << times[n] << '\n';
 				}	
 			}
+			file1.close();
+			file2.close();
 		}
 	//Tools::printVector(means);
 	// for(int n = 0; n < n_vals.size(); n++){
