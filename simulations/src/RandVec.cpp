@@ -18,7 +18,7 @@ RandVec::RandVec(int n) {
 }
 
 /**
- * gen_rand_vec: samples a given random vector. Ensures they do
+ * gen_rand_vec: samples a given random vector. Ensures they don't
  * feed the same seed to threads accidentally
  * 
  * param size: length of the random vector to sample - allows us to sample
@@ -27,7 +27,7 @@ RandVec::RandVec(int n) {
 vector<double> RandVec::sample(int size){
 	vector<double> randVec;
 	for (int j=0; j<size; j++){
-		// ensures that we randomly seed shit given threads could seed it with the same time.
+		// ensures that we randomly seed stuff given threads could seed it with the same time.
 		generator.seed(generateSeed());
 		randVec.push_back(gaussianVector[j](generator));
 	}
