@@ -4,7 +4,8 @@
 #include <chrono>
 
 
-
+//Gives the mean of the maxima for specified s and n values over a number of trials
+//Not Used?
 double getMeans(double s, int n, int numTrials){
 	RandVec randvec(n);
 	DFGF_S1 dfgf(s, n, numTrials, randvec);
@@ -32,7 +33,7 @@ int main() {
 	int numTrials = 500;
 	int size = end_in;
 	double s = 0.25;
-	//decide whether or not u want to save during the calcualtions or after
+	//decide whether or not you want to save during the calcualtions or after
 	//saving during slightly slows the code
 	bool intermittentSave = true;
 
@@ -49,11 +50,15 @@ int main() {
 
 	vector<vector<int>> timeData;
 	for(int n=0; n < n_vals.size(); n++){
-
+// 		Start Time
 		auto begin = std::chrono::high_resolution_clock::now();
+		
+		//Adding Mean of Max Values for n and s over numTrials to means vector
 		RandVec randvec(n_vals[n]);
 		DFGF_S1 dfgf(s, n_vals[n], numTrials, randvec);
-		means.push_back(dfgf.getMeanOfMaxima());
+		means.push_back(dfgf.getMeanOfMaxima()); 
+		
+		//Ending Time and Printing
 		auto end = std::chrono::high_resolution_clock::now();
 		auto elapsed = std::chrono::duration_cast<std::chrono::milliseconds>(end - begin);
 		cout<< "time elapsed is " << elapsed.count()<< "\n";
@@ -62,10 +67,12 @@ int main() {
 
 		//open files and write
 		if(intermittentSave){
+			//Open Files to Append
 			string filename1("expectedMaxData.csv");
 			fstream file1;
 			file1.open(filename1, std::ios_base::app | std::ios_base::in);
-
+			
+			//Writing Time
 			string filename2("timeData.csv");
 			fstream file2;
 			file2.open(filename2, std::ios_base::app | std::ios_base::in);
@@ -84,7 +91,8 @@ int main() {
 			string filename1("expectedMeanData.csv");
 			fstream file1;
 			file1.open(filename1, std::ios_base::app | std::ios_base::in);
-
+			
+				
 			string filename2("timeData.csv");
 			fstream file2;
 			file2.open(filename2, std::ios_base::app | std::ios_base::in);\
