@@ -6,7 +6,8 @@
 ---
 **Description of what is going on.**
 
-    Add in functions here
+    double getMeans(double s, int n, int numTrials){
+    
     
 
 ## RandVec
