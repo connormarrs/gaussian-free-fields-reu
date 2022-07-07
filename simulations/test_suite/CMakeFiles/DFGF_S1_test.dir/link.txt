@@ -1,0 +1,2 @@
+/usr/bin/ar qc libDFGF_S1_test.a CMakeFiles/DFGF_S1_test.dir/DFGF_S1_test.cpp.o
+/usr/bin/ranlib libDFGF_S1_test.a
