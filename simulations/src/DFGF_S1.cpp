@@ -122,7 +122,7 @@ void DFGF_S1::computeCoefficients() {
 	for(int r=0; r<n-1; r++){
 		tasks.push_back(async(&DFGF_S1::computeFullCoefficients, this, r));
 	}
-	for(int r=0; r<tasks.size(); r++){
+	for(long unsigned int r=0; r<tasks.size(); r++){
 		// pass in object with "this" keyword and multi-thread
 		coefficients.push_back(tasks[r].get());
 	}
@@ -171,7 +171,7 @@ void DFGF_S1::runTrials(){
 		//Tools::printVector(sampleArray[i]);
 		tasks.push_back(async(&DFGF_S1::evaluate, this, sampleArray[i]));
 	}
-	for(int i =0; i<tasks.size(); i++){
+	for(long unsigned int i =0; i<tasks.size(); i++){
 		trialData.push_back(tasks[i].get());
 	}
 	// cout<<"printing data\n";
@@ -184,10 +184,10 @@ void DFGF_S1::runTrials(){
 // returns vector containing the maxima of each row of a matrix
 void DFGF_S1::parallelMax(){
 	vector<future<double>> tasks;
-	for(int j = 0; j<trialData.size(); j++){	
+	for(long unsigned int j = 0; j<trialData.size(); j++){	
 		tasks.push_back(std::async(Tools::compute_max, trialData[j]));
 		}
-	for(int l = 0; l < tasks.size(); l++){
+	for(long unsigned int l = 0; l < tasks.size(); l++){
 		maxima.push_back(tasks[l].get());
 	}
 	// for(int j = 0; j<trialData.size(); j++){	

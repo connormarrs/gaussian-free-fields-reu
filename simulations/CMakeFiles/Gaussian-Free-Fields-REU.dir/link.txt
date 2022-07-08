@@ -1,2 +1,0 @@
-/usr/bin/ar qc libGaussian-Free-Fields-REU.a CMakeFiles/Gaussian-Free-Fields-REU.dir/src/DFGF_S1.cpp.o CMakeFiles/Gaussian-Free-Fields-REU.dir/src/driver.cpp.o CMakeFiles/Gaussian-Free-Fields-REU.dir/src/RandVec.cpp.o CMakeFiles/Gaussian-Free-Fields-REU.dir/src/tools.cpp.o
-/usr/bin/ranlib libGaussian-Free-Fields-REU.a

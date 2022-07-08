@@ -65,7 +65,7 @@ vector<vector<double>> RandVec::parallelSampler(int size, int num_sample){
 		tasks.push_back(std::async(&RandVec::sample, &RandVecs, size));	
 	}
 	// loop through and fill array with values once computed
-	for (int i =0; i<tasks.size();i++){
+	for (long unsigned int i =0; i<tasks.size();i++){
 		sample.push_back(tasks[i].get());
 	}
 	return sample;

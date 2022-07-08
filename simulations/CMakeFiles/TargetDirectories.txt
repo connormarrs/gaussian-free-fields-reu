@@ -1,8 +1,0 @@
-/home/dirtyslut69/gaussian-free-fields-reu/simulations/CMakeFiles/Gaussian-Free-Fields-REU.dir
-/home/dirtyslut69/gaussian-free-fields-reu/simulations/CMakeFiles/test.dir
-/home/dirtyslut69/gaussian-free-fields-reu/simulations/CMakeFiles/edit_cache.dir
-/home/dirtyslut69/gaussian-free-fields-reu/simulations/CMakeFiles/rebuild_cache.dir
-/home/dirtyslut69/gaussian-free-fields-reu/simulations/test_suite/CMakeFiles/DFGF_S1_test.dir
-/home/dirtyslut69/gaussian-free-fields-reu/simulations/test_suite/CMakeFiles/test.dir
-/home/dirtyslut69/gaussian-free-fields-reu/simulations/test_suite/CMakeFiles/edit_cache.dir
-/home/dirtyslut69/gaussian-free-fields-reu/simulations/test_suite/CMakeFiles/rebuild_cache.dir
