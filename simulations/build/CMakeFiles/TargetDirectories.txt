@@ -1,0 +1,9 @@
+/mnt/c/Users/trent/gaussian-free-fields-reu/simulations/build/CMakeFiles/rebuild_cache.dir
+/mnt/c/Users/trent/gaussian-free-fields-reu/simulations/build/CMakeFiles/run_tools_tests.dir
+/mnt/c/Users/trent/gaussian-free-fields-reu/simulations/build/CMakeFiles/run_RandVec_tests.dir
+/mnt/c/Users/trent/gaussian-free-fields-reu/simulations/build/CMakeFiles/run_driver_tests.dir
+/mnt/c/Users/trent/gaussian-free-fields-reu/simulations/build/CMakeFiles/run_DFGF_S1_tests.dir
+/mnt/c/Users/trent/gaussian-free-fields-reu/simulations/build/CMakeFiles/run_driver.dir
+/mnt/c/Users/trent/gaussian-free-fields-reu/simulations/build/CMakeFiles/edit_cache.dir
+/mnt/c/Users/trent/gaussian-free-fields-reu/simulations/build/CMakeFiles/test.dir
+/mnt/c/Users/trent/gaussian-free-fields-reu/simulations/build/CMakeFiles/run_all_tests.dir
