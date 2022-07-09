@@ -46,7 +46,8 @@ class DFGF_S1: public DFGF {
     public:
         // constructors
         DFGF_S1(double s, int n, int numberTrials, RandVec gaussianVector);
-		DFGF_S1() = default;
+		DFGF_S1()=default;
+        ~DFGF_S1()=default;
         double evaluatePoint(int k, vector<double> sampleVector);
         vector<double> evaluate(vector<double> sampleVector);
 

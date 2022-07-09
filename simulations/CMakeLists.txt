@@ -14,12 +14,15 @@ get_filename_component(ProjectId ${CMAKE_CURRENT_SOURCE_DIR} NAME)
 string(REPLACE " " "_" ProjectId ${ProjectId})
 project(${ProjectId})
 
-# define cmmake variables for file locations
+##############################################
+# define cmmake variables for file locations #
+##############################################
 file(GLOB USER_FILES_1
 "./src/DFGF_S1.cpp"
 "./src/driver.cpp"
 "./src/RandVec.cpp"
 "./src/tools.cpp"
+"./headers/DFGF.hpp"
 "./headers/DFGF_S1.hpp"
 "./headers/driver.hpp"
 "./headers/RandVec.hpp"
@@ -28,18 +31,21 @@ file(GLOB USER_FILES_1
 "./headers/driver.h"
 "./headers/RandVec.h"
 "./headers/tools.h"
+"./headers/DFGF.h"
 )
 
 file(GLOB USER_FILES_2
 "./src/DFGF_S1.cpp"
 "./src/RandVec.cpp"
 "./src/tools.cpp"
+"./headers/DFGF.hpp"
 "./headers/DFGF_S1.hpp"
 "./headers/RandVec.hpp"
 "./headers/tools.hpp"
 "./headers/DFGF_S1.h"
 "./headers/RandVec.h"
 "./headers/tools.h"
+"./headers/DFGF.h"
 )
 
 file(GLOB TEST_FILES_ALL RELATIVE ${CMAKE_CURRENT_SOURCE_DIR} 
@@ -72,13 +78,17 @@ if(GTEST_FOUND)
 	message(">> GTest was found among local libraries.")
 	include_directories(${GTEST_INCLUDE_DIRS})
 
-    # create an executable for all tests 
-	add_executable( run_all_tests ${TEST_FILES_ALL} ${USER_FILES_1} )
-	target_link_libraries( run_all_tests gtest_main ${GTEST_LIBRARIES} pthread)
-
     # create an executable for driver 
 	add_executable( run_driver ${USER_FILES_1} )
 	target_link_libraries( run_driver gtest_main ${GTEST_LIBRARIES} pthread)
+
+    # create an executable for tools tests 
+	add_executable( run_tools_tests ${TEST_FILES_ALL} ${USER_FILES_2} )
+	target_link_libraries( run_tools_tests gtest_main ${GTEST_LIBRARIES} pthread)
+
+    # create an executable for RandVec tests 
+	add_executable( run_RandVec_tests ${TEST_FILES_ALL} ${USER_FILES_2} )
+	target_link_libraries( run_RandVec_tests gtest_main ${GTEST_LIBRARIES} pthread)
 
     # create an executable for DFGF_S1 tests 
 	add_executable( run_DFGF_S1_tests ${TEST_FILES_ALL} ${USER_FILES_2} )
@@ -88,13 +98,9 @@ if(GTEST_FOUND)
 	add_executable( run_driver_tests ${TEST_FILES_ALL} ${USER_FILES_1} )
 	target_link_libraries( run_driver_tests gtest_main ${GTEST_LIBRARIES} pthread)
 
-    # create an executable for RandVec tests 
-	add_executable( run_RandVec_tests ${TEST_FILES_ALL} ${USER_FILES_2} )
-	target_link_libraries( run_RandVec_tests gtest_main ${GTEST_LIBRARIES} pthread)
-
-    # create an executable for tools tests 
-	add_executable( run_tools_tests ${TEST_FILES_ALL} ${USER_FILES_2} )
-	target_link_libraries( run_tools_tests gtest_main ${GTEST_LIBRARIES} pthread)
+    # create an executable for all tests 
+	add_executable( run_all_tests ${TEST_FILES_ALL} ${USER_FILES_1} )
+	target_link_libraries( run_all_tests gtest_main ${GTEST_LIBRARIES} pthread)
 
 else()
 	message(">> Couldn't find Local GTest library, Downloading one instead ...")
@@ -124,10 +130,6 @@ else()
 		${CMAKE_CURRENT_BINARY_DIR}/googletest-build
 	        EXCLUDE_FROM_ALL)
 
-	# create an executable for all tests 
-	add_executable( run_all_tests ${TEST_FILES_ALL} ${USER_FILES_1} )
-	target_link_libraries( run_all_tests gtest_main)
-
     # create an executable for driver 
 	add_executable( run_driver ${USER_FILES_1} )
 	target_link_libraries( run_driver gtest_main)
@@ -147,6 +149,10 @@ else()
     # create an executable for tools tests 
 	add_executable( run_tools_tests ${TEST_FILES_ALL} ${USER_FILES_2} )
 	target_link_libraries( run_tools_tests gtest_main)
+
+	# create an executable for all tests 
+	add_executable( run_all_tests ${TEST_FILES_ALL} ${USER_FILES_1} )
+	target_link_libraries( run_all_tests gtest_main)
 
 endif()
 
