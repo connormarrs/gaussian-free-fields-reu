@@ -17,39 +17,19 @@ DFGF_S1::DFGF_S1(double sVal, int nVal, int numberTrials, RandVec randVector) {
 	this->computeEigenVals();
 	this->computeEigenVectors();
 	this->computeCoefficients();
-
-
-
-	//this may be a little extreme for some uses (maybe we dont want to run these in the constructor)
-	this->runTrials();
-	this -> parallelMax();
-	meanOfMaxima = Tools::sampleMean(maxima);
 }
 
-/**
- * Computes the kth eigenvalue for the nth discrete laplacian
- */
+
+//Computes the kth eigenvalue for the nth discrete laplacian
 double DFGF_S1::computeEigenVal(int k) {
 	return pow(1.0*n,2.0)/(2.0*(pow(M_PI,2.0))) * (1.0-cos(2.0*M_PI*k/(1.0*n)));
 }
 
-/**
- * Computes the rth eigenvalue for the nth discrete laplacian
- */
+
+//Updates vector with eigenvalue for nth discrete laplacian
+//Change name of Function
 void DFGF_S1::computeEigenVals() {
 	vector<future<double>> tasks;
-	// for(int k=1; k<n; k++){
-	// 	// pass in object with "this" keyword and multi-thread
-	// 	tasks.push_back(
-	// 		async([this](int k)-> double {
-    //         return this->computeEigenVal(k);
-    //     }, k)
-	// 	);
-	// }
-
-	// for(int j=0; j<tasks.size(); j++){
-	// 	eigenVals.push_back(tasks[j].get());
-	// }
 	for(int k=1; k<n; k++){
 		eigenVals.push_back(computeEigenVal(k));
 	}
@@ -63,7 +43,8 @@ void DFGF_S1::computeEigenVals() {
 double DFGF_S1::computeEigenVector(int r, int k) {
 
 	double arg = 2.0 * M_PI * k/n;
-
+	
+	//Accounts for Alternatning Sine Function
 	if(n%2==0 && r==(n/2)) {
 		return pow(-1.0, k);
 	} else if(r<ceil((1.0*n)/2.0)) {
@@ -87,14 +68,6 @@ vector<double> DFGF_S1::computeFullEigenVector(int r){
 void DFGF_S1::computeEigenVectors() {
 	// 2d vector of tasks for each entry of eigenvectors
 	vector<future<vector<double>>> tasks;
-	// for(int r=0; r<n-1; r++){
-	// 	tasks.push_back(async(&DFGF_S1::computeFullEigenVector, this, r));
-	// }
-
-	// for(int r=0; r<tasks.size(); r++){
-	// 	// pass in object with "this" keyword and multi-thread
-	// 		eigenVectors.push_back(tasks[r].get());
-	// }
 	for(int r=1; r<n; r++){
 		eigenVectors.push_back(computeFullEigenVector(r));
 	}
@@ -129,11 +102,7 @@ void DFGF_S1::computeCoefficients() {
 	for(int r = 0; r<n-1; r++){
 		coefficients.push_back(computeFullCoefficients(r));
 	}
-	// cout<<"printing coefficients\n";
-	// for(int i =0; i<coefficients.size();i++){
-	// 	cout<<(coefficients[i].size())<<"\n";
-	// 	Tools::printVector(coefficients[i]);
-	//}
+	}
 	}
 
 
@@ -154,12 +123,6 @@ vector<double> DFGF_S1::evaluate(vector<double> sampleVector){
 		dfgf.push_back(this->evaluatePoint(k, sampleVector));
 	}
 	vector<future<double>> tasks;
-	// for(int k=0; k<n-1; k++){//k=0 to n-1?
-	// 	tasks.push_back(async(&DFGF_S1::evaluatePoint, this, k, sampleVector));
-	// }
-	// for(int k=0; k<tasks.size(); k++){
-	// 	dfgf.push_back(tasks[k].get());
-	// }
 	return dfgf;
 }
 // creates a matrix where the ith row is the DFGF in the ith trial
@@ -174,10 +137,7 @@ void DFGF_S1::runTrials(){
 	for(long unsigned int i =0; i<tasks.size(); i++){
 		trialData.push_back(tasks[i].get());
 	}
-	// cout<<"printing data\n";
-	// for (int i =0; i < trialData.size();i++){
-	// 	Tools::printVector(trialData[i]);
-	// }
+	}
 }
 
 
@@ -190,9 +150,7 @@ void DFGF_S1::parallelMax(){
 	for(long unsigned int l = 0; l < tasks.size(); l++){
 		maxima.push_back(tasks[l].get());
 	}
-	// for(int j = 0; j<trialData.size(); j++){	
-	// 	maxima.push_back(Tools::compute_max(trialData[j]));
-	// 	}
+	
 	
 }
 
