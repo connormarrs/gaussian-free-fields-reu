@@ -28,18 +28,21 @@ class DFGF_S1: public DFGF {
         RandVec gaussianVector;
         // 2d vector to hold the many samples of the random vector; allows for multithreading
         vector<vector<double>> trialData;
+        // vector where the nth entry represents the maximum of the DFGF computed for that nth trial.
         vector<double> maxima;
         double meanOfMaxima;
-        // fills the eigenvalue array
+
         void computeEigenVals();
         double computeEigenVal(int k);
         void computeEigenVectors();
-        // computes f_r(theta_k)
         double computeEigenVector(int r, int k);
         double computeCoeff(int r, int k);
         void computeCoefficients();
         vector<double> computeFullEigenVector(int r);
         vector<double> computeFullCoefficients(int r);
+
+        void computeMaxVectors();
+
     public:
         // constructors
         DFGF_S1(double s, int n, int numberTrials, RandVec gaussianVector);
@@ -48,9 +51,8 @@ class DFGF_S1: public DFGF {
         vector<double> evaluate(vector<double> sampleVector);
 
         void runTrials();
-        void parallelMax();
         void parallelMean();
-        double getMeanOfMaxima();
+        double computeEmpMean();
 };
 
 #endif

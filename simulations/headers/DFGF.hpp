@@ -19,9 +19,7 @@ using namespace std;
  */
 class DFGF {
     public:
-        // virtual void sampleMean(int n);
-        // virtual double computeMax();
-        // virtual double computeEmpMean();
+        virtual double computeEmpMean();
     protected:
         int n;
         double s;

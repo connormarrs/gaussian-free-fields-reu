@@ -1,5 +1,11 @@
-// //need help importing gtest
-// //#include google testing thing
+#include "gtest/gtest.h"
+#include "DFGF_S1.hpp"
+
+TEST (DFGF_S1___Test, checkEigenvalues){
+    int n =5;
+    ASSERT_EQ(n,5);
+}
+
 // #include "randvecs.h"
 // #include "sample_max_class.h"
 // using namespace std;
