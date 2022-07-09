@@ -1,1 +1,0 @@
-/usr/bin/c++  -std=c++11 -Wall -std=c++11 -Wall -std=c++11 -std=c++11 -Wall -std=c++14 -Wall -std=c++14 -Wall -g CMakeFiles/run_driver.dir/src/DFGF_S1.cpp.o CMakeFiles/run_driver.dir/src/RandVec.cpp.o CMakeFiles/run_driver.dir/src/driver.cpp.o CMakeFiles/run_driver.dir/src/tools.cpp.o -o run_driver  lib/libgtest_main.a lib/libgtest.a 
