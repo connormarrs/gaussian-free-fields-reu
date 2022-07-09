@@ -39,7 +39,7 @@ vector<double> Tools::exponentiate(vector<int> A, double s, int start, int stop)
 void Tools::printVector(vector<double> input) {
   cout << "input size is " << int(input.size());
   std::cout << "{ ";
-  for (int n=0; n< input.size(); n++) {
+  for (long unsigned int n=0; n< input.size(); n++) {
 
     std::cout << input[n];
     if (n < input.size()) std::cout << ", ";
@@ -51,7 +51,7 @@ void Tools::printVector(vector<double> input) {
 void Tools::prINTVector(vector<int> input) {
   cout << "input size is " << int(input.size());
   std::cout << "{ ";
-  for (int n=0; n< input.size(); n++) {
+  for (long unsigned int n=0; n< input.size(); n++) {
 
     std::cout << input[n];
     if (n < input.size()) std::cout << ", ";
@@ -86,7 +86,7 @@ double Tools::sampleMean(vector<double> data){
 double Tools::compute_max(vector<double> data) {
 	// iterate over all angles 2pik/n
 	double max = data[0]; // dfgf(); // set max to smallest possible values computer knows
-	for(int k=1; k<data.size(); k++){
+	for(long unsigned int k=1; k<data.size(); k++){
 		// if we find larger value replace it
 		if(data[k] > max) {
 			max = data[k];

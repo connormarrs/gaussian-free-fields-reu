@@ -31,7 +31,7 @@ int main() {
 	int end_in = 2010;
 	int num_in = 400;
 	int numTrials = 500;
-	int size = end_in;
+	// int size = end_in;
 	double s = 0.25;
 	//decide whether or not you want to save during the calcualtions or after
 	//saving during slightly slows the code
@@ -49,8 +49,8 @@ int main() {
 
 
 	vector<vector<int>> timeData;
-	for(int n=0; n < n_vals.size(); n++){
-// 		Start Time
+	for(long unsigned int n=0; n < n_vals.size(); n++){
+    // 		Start Time
 		auto begin = std::chrono::high_resolution_clock::now();
 		
 		//Adding Mean of Max Values for n and s over numTrials to means vector
@@ -96,7 +96,7 @@ int main() {
 			string filename2("timeData.csv");
 			fstream file2;
 			file2.open(filename2, std::ios_base::app | std::ios_base::in);\
-			for(int n = 0; n<means.size();n++){
+			for(long unsigned int n = 0; n<means.size();n++){
 				if (file1.is_open()) {
 					file1 << n_vals[n] << ',' << means[n] << '\n';		
 				}
