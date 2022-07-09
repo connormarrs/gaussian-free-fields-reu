@@ -1,11 +1,11 @@
-// #include "../headers/RandVec.hpp"
-// #include <iostream>
-// #include <numeric>
-// #include <thread>
-// #include <vector>
-// #include <future>
+#include "../headers/RandVec.hpp"
+#include <iostream>
+#include <numeric>
+#include <thread>
+#include <vector>
+#include <future>
 
-// using namespace std;
+using namespace std;
 
 // int num_vars=1000000;
 // int num_trials=2;
