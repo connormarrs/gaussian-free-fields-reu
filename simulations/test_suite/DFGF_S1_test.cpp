@@ -1,5 +1,5 @@
 #include "gtest/gtest.h"
-#include "DFGF_S1.hpp"
+#include "../headers/DFGF_S1.hpp"
 
 TEST (DFGF_S1___Test, checkEigenvalues){
     int n =5;

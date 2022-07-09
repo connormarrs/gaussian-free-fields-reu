@@ -9,7 +9,7 @@
 double getMeans(double s, int n, int numTrials){
 	RandVec randvec(n);
 	DFGF_S1 dfgf(s, n, numTrials, randvec);
-	return dfgf.getMeanOfMaxima();
+	return dfgf.computeEmpMean();
 }
 
 
@@ -56,7 +56,7 @@ int main() {
 		//Adding Mean of Max Values for n and s over numTrials to means vector
 		RandVec randvec(n_vals[n]);
 		DFGF_S1 dfgf(s, n_vals[n], numTrials, randvec);
-		means.push_back(dfgf.getMeanOfMaxima()); 
+		means.push_back(dfgf.computeEmpMean()); 
 		
 		//Ending Time and Printing
 		auto end = std::chrono::high_resolution_clock::now();
@@ -105,24 +105,6 @@ int main() {
 				}	
 			}
 		}
-	//Tools::printVector(means);
-	// for(int n = 0; n < n_vals.size(); n++){
-	// 	tasks.push_back(async(getMeans, s, n_vals[n], numTrials));
-	// }
-	// for(int j = 0; j<tasks.size(); j++){
-	// 	double mean = tasks[j].get();
-	// 	means.push_back(mean);
-	// }
-	// string filename1("expectedMeanData.csv");
-	// fstream file;
-	// file.open(filename1, std::ios_base::app | std::ios_base::in);
-	// for(int i =0; i < means.size(); i ++){
-	// 	cout<<n_vals[i]<<","<<means[i]<<"\n";
-	// 	if (file.is_open()) {
-	// 		file << n_vals[i] << ',' << means[i] << '\n';
-	// 	}
-	// }
-
 
 	return 0;
 }
