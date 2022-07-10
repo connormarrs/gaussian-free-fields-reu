@@ -20,7 +20,7 @@ class DFGF_S1: public DFGF {
     private:
         vector<double> eigenVals;
         // 2d vector to hold the values of the eigenfunctions at each point in the domain
-        vector<vector<double>> eigenVectors; 
+        vector<vector<double>> eigenVectors;  /* eigenVector[r][k] = f_r(theta_k) */
         // 2d vector to hold the values of the eigenfunctions at each point in the domain
         // multiplied by 1/eigenfunction^s
         vector<vector<double>> coefficients;
@@ -35,11 +35,9 @@ class DFGF_S1: public DFGF {
         void computeEigenVals();
         double computeEigenVal(int k);
         void computeEigenVectors();
-        double computeEigenVector(int r, int k);
-        double computeCoeff(int r, int k);
-        void computeCoefficients();
-        vector<double> computeFullEigenVector(int r);
-        vector<double> computeFullCoefficients(int r);
+        double computeCoeffPoint(int r, int k);
+        void computeCoeffs();
+        vector<double> computeCoefficientVector(int r);
 
         void computeMaxVectors();
 
@@ -48,8 +46,15 @@ class DFGF_S1: public DFGF {
         DFGF_S1(double s, int n, int numberTrials, RandVec gaussianVector);
 		DFGF_S1()=default;
         ~DFGF_S1()=default;
+
         double evaluatePoint(int k, vector<double> sampleVector);
         vector<double> evaluate(vector<double> sampleVector);
+
+        vector<double> computeEigenFunctionVector(int r);
+        double computeEigenFunctionPoint(int r, int k);
+        vector<double> getEigenVals();
+        vector<vector<double>> getEigenVectors();
+        vector<vector<double>> getCoeffs(); 
 
         void runTrials();
         void parallelMean();

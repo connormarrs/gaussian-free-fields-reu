@@ -35,6 +35,16 @@ vector<double> Tools::exponentiate(vector<int> A, double s, int start, int stop)
 	return result;
 }
 
+bool Tools::vectComparison(vector<double> x, vector<double> y) {
+	bool result = (x.size()==y.size()) ? true : false;
+	for(long unsigned int i=0; i<x.size(); i++){
+		if(abs(x[i]-y[i])>1e-6){
+			result = false;
+		}
+	}
+	return result;
+}
+
 // vector printer from https://github.com/ourarash/multithreading_cpp
 void Tools::printVector(vector<double> input) {
   cout << "input size is " << int(input.size());

@@ -26,5 +26,6 @@ class Tools {
 		static double sampleMean(vector<double> data);
 		static double compute_max(vector<double> data);
 		static void prINTVector(vector<int> input);
+		static bool vectComparison(vector<double> x, vector<double> y);
 };
 #endif

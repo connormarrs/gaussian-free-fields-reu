@@ -16,7 +16,7 @@ DFGF_S1::DFGF_S1(double sVal, int nVal, int numberTrials, RandVec randVector) {
 	// construct the eigenVals
 	this->computeEigenVals();
 	this->computeEigenVectors();
-	this->computeCoefficients();
+	this->computeCoeffs();
 }
 
 
@@ -52,14 +52,14 @@ void DFGF_S1::computeEigenVals() {
  * 
  * @return double the kth entry of the rth eigenvector
  */
-double DFGF_S1::computeEigenVector(int r, int k) {
+double DFGF_S1::computeEigenFunctionPoint(int r, int k) {
 	/* shortcut for computing the argument of trig functions */
 	double arg = 2.0 * M_PI * r/n;
 	
 	//Accounts for Alternatning Sine Function
 	if(n%2==0 && r==(n/2)) {
-		return pow(-1.0, k);
-	} else if(r<ceil((1.0*n)/2.0)) {
+		return (M_SQRT2/2.0)*pow(-1.0, k);
+	} else if(r<ceil(n/2.0)) {
 		return (M_SQRT2/2.0)*cos(k*arg);
 	} else {
 		return (M_SQRT2/2.0)*sin(k*arg);
@@ -72,21 +72,20 @@ double DFGF_S1::computeEigenVector(int r, int k) {
  * @param r which eigenvector to compute (e.g. the rth eigenvector)
  * @return vector<double> the rth eigenvector
  */
-vector<double> DFGF_S1::computeFullEigenVector(int r){
+vector<double> DFGF_S1::computeEigenFunctionVector(int r){
 	vector<double> eigenVector;
-	for(int k = 0; k< n-1; k++){
-		eigenVector.push_back(computeEigenVector(r, k));
+	for(int k = 0; k< n; k++){
+		eigenVector.push_back(computeEigenFunctionPoint(r, k));
 	}
 	return eigenVector;
 }
 
 /**
- * @brief Compute each eigenvector and 
+ * @brief Compute each eigenvector and push them onto 2d array of eigenvectors
  */
 void DFGF_S1::computeEigenVectors() {
-	// 2d vector of tasks for each entry of eigenvectors
 	for(int r=1; r<n; r++){
-		eigenVectors.push_back(computeFullEigenVector(r));
+		eigenVectors.push_back(computeEigenFunctionVector(r));
 	}
 }
 
@@ -97,7 +96,7 @@ void DFGF_S1::computeEigenVectors() {
  * @param k the index of parameter passed to DFGF
  * @return double given by (lambda_r)^{-s}f_r(theta_k)
  */
-double DFGF_S1::computeCoeff(int r, int k){
+double DFGF_S1::computeCoeffPoint(int r, int k){
 	return pow(eigenVals[r], -1.0*s)*eigenVectors[r][k];
 }
 
@@ -108,11 +107,11 @@ double DFGF_S1::computeCoeff(int r, int k){
  * @param r index of eigenvectors and eigenvalues to compute
  * @return vector<double> of coeff(r,k) for k in range(0,n)
  */
-vector<double> DFGF_S1::computeFullCoefficients(int r){
+vector<double> DFGF_S1::computeCoefficientVector(int r){
 	vector<double> coefficientVector;
 	/* start indexing at 1 to not divide by 0 eigenvalue */
 	for(int k = 1; k< n; k++){
-		coefficientVector.push_back(computeCoeff(r, k));
+		coefficientVector.push_back(computeCoeffPoint(r, k));
 	}
 	return coefficientVector;
 }
@@ -120,11 +119,11 @@ vector<double> DFGF_S1::computeFullCoefficients(int r){
 /**
  * @brief function to compute the array of coefficients using multithreading
  */
-void DFGF_S1::computeCoefficients() {
+void DFGF_S1::computeCoeffs() {
 	// 2d vector of tasks for each entry of eigenvectors
 	vector<future<vector<double>>> tasks;
 	for(int r=0; r<n-1; r++){
-		tasks.push_back(async(&DFGF_S1::computeFullCoefficients, this, r));
+		tasks.push_back(async(&DFGF_S1::computeCoefficientVector, this, r));
 	}
 	/* .size() returns long unsigned int */
 	for(long unsigned int r=0; r<tasks.size(); r++){
@@ -133,6 +132,32 @@ void DFGF_S1::computeCoefficients() {
 	}
 }
 
+/**
+ * @brief Get the Eigen Vals object
+ * 
+ * @return vector<double> 
+ */
+vector<double> DFGF_S1::getEigenVals() {
+	return eigenVals;
+}
+
+/**
+ * @brief Get the Eigen Vectors object
+ * 
+ * @return vector<vector<double>> 
+ */
+vector<vector<double>> DFGF_S1::getEigenVectors() {
+	return eigenVectors;
+}
+
+/**
+ * @brief Get the Coefficients object
+ * 
+ * @return vector<vector<double>> 
+ */
+vector<vector<double>> DFGF_S1::getCoeffs(){
+	return coefficients;
+}
 
 /**
  * @brief computes the DFGF at point k given a sample of random numbers
