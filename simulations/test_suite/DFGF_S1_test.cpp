@@ -26,9 +26,9 @@ class DFGF_S1_Fixture: public ::testing::Test {
         int m = 15;
         int numTrials = 30; 
 
-        RandVec gauss_vector_m = RandVec(m);
+        RandVec gauss_vector_m = RandVec(m, numTrials);
         DFGF_S1 sample_field_m = DFGF_S1(s,m,numTrials, gauss_vector_m); 
-        RandVec gauss_vector_n = RandVec(n);
+        RandVec gauss_vector_n = RandVec(n, numTrials);
         DFGF_S1 sample_field_n = DFGF_S1(s,n,numTrials, gauss_vector_n);
 
         vector<double> known_eigvals_n = {

@@ -7,7 +7,7 @@
 //Gives the mean of the maxima for specified s and n values over a number of trials
 //Not Used?
 double getMeans(double s, int n, int numTrials){
-	RandVec randvec(n);
+	RandVec randvec(n, numTrials);
 	DFGF_S1 dfgf(s, n, numTrials, randvec);
 	return dfgf.computeEmpMean();
 }
@@ -54,7 +54,7 @@ int main() {
 		auto begin = std::chrono::high_resolution_clock::now();
 		
 		//Adding Mean of Max Values for n and s over numTrials to means vector
-		RandVec randvec(n_vals[n]);
+		RandVec randvec(n_vals[n], numTrials);
 		DFGF_S1 dfgf(s, n_vals[n], numTrials, randvec);
 		means.push_back(dfgf.computeEmpMean()); 
 		
@@ -63,7 +63,6 @@ int main() {
 		auto elapsed = std::chrono::duration_cast<std::chrono::milliseconds>(end - begin);
 		cout<< "time elapsed is " << elapsed.count()<< "\n";
 		times.push_back(elapsed.count());
-
 
 		//open files and write
 		if(intermittentSave){

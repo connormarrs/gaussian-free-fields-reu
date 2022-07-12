@@ -73,28 +73,15 @@ void RandVec::threadSafe_Sample() {
 
 	/* for each component of the random vector spawn new thread to sample component */
 	for(int j=0; j<lenVec; j++){
+		/* we seed each generator with distinct value of j ==> different streams of random numbers */
 		tasks.push_back(
-			/* we seed each generator with distinct value of j ==> different streams of random numbers */
-			thread(sample_univariate_gaussian, j, j)
+			thread(&RandVec::sample_univariate_gaussian, this, (unsigned int)j, j)
 		);
-	}	
+	}
 	for(int j=0; j<lenVec; j++){
 		/* for each task, wait until completion to return to main thread */
 		tasks[j].join();
 	}
-}
-
-/**
- * @brief Generates random seed safe for multithreading
- * 
- * @cite https://stackoverflow.com/questions/19555121/how-to-get-current-timestamp-in-milliseconds-since-1970-just-the-way-java-gets
- * 
- */
-unsigned RandVec::generateSeed(){
-	std::random_device rd;
-		int offset=rd();
-	using namespace std::chrono;
-	return unsigned(duration_cast<std::chrono::milliseconds>(system_clock::now().time_since_epoch()).count()+offset);
 }
 
 /**
@@ -113,4 +100,5 @@ vector<vector<double>> RandVec::getSample(int size) {
 		}
 		subArray.push_back(temp);
 	}
+	return subArray;
 }

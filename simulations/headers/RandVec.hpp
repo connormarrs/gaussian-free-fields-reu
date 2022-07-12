@@ -6,10 +6,7 @@
 #include <string>
 #include <vector>
 #include <random>
-#include <ctime>
 #include <cmath>
-#include <chrono>
-#include <cstdint>
 #include <thread>
 
 using namespace std;
@@ -24,7 +21,6 @@ class RandVec{
 		int lenVec;
 		int numTrials;
 		vector<vector<double>> samples; /* numTrials vs N array of */
-		unsigned generateSeed();
 		void threadSafe_Sample();
 		void sample_univariate_gaussian(unsigned int seed, int index);
 		double getRandomValue(unsigned int seed);
