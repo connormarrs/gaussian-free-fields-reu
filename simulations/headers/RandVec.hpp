@@ -10,7 +10,7 @@
 #include <cmath>
 #include <chrono>
 #include <cstdint>
-#include <future>
+#include <thread>
 
 using namespace std;
 
@@ -22,17 +22,17 @@ using namespace std;
 class RandVec{
 	private:
 		int lenVec;
-		// vector of generators to generate Gaussian Vectors;
-    	vector<normal_distribution<double> > gaussianVector;
-		default_random_engine generator;
+		int numTrials;
+		vector<vector<double>> samples; /* numTrials vs N array of */
 		unsigned generateSeed();
+		void threadSafe_Sample();
+		void sample_univariate_gaussian(unsigned int seed, int index);
+		double getRandomValue(unsigned int seed);
 	public:
-		RandVec(int n);
+		RandVec(int maxN, int numTrials);
 		RandVec() = default; // pass in default constructor
-    	//the following methods relate to the generation of vectors of iid standard normal rvs (and by extension dfgfs)
-    	vector<double> sample(int size);
-		//creates sequences of random variables in parallel (fast especially when there are a lot of cores)
-		vector<vector<double>> parallelSampler(int size, int num_seq);
+		~RandVec() = default;
+		vector<vector<double>> getSample(int size);
 };
 
 #endif

@@ -3,8 +3,7 @@
 
 /**
  * Constructor:
- * 
- * 
+ *  
  */
 DFGF_S1::DFGF_S1(double sVal, int nVal, int numberTrials, RandVec randVector) { 
 	// set the parameters
@@ -19,6 +18,11 @@ DFGF_S1::DFGF_S1(double sVal, int nVal, int numberTrials, RandVec randVector) {
 	this->computeCoeffs();
 }
 
+/**********************************************
+ * 
+ * 			SETUP COEFFICIENT METHODS
+ * 
+ **********************************************/
 
 /**
  * @brief Computes the kth eigenvalue using the formula explained in the markdown.
@@ -132,6 +136,12 @@ void DFGF_S1::computeCoeffs() {
 	}
 }
 
+/**********************************************
+ * 
+ * 				GETTER METHODS
+ * 
+ **********************************************/
+
 /**
  * @brief Get the Eigen Vals object
  * 
@@ -158,6 +168,12 @@ vector<vector<double>> DFGF_S1::getEigenVectors() {
 vector<vector<double>> DFGF_S1::getCoeffs(){
 	return coefficients;
 }
+
+/**********************************************
+ * 
+ * 			EVALUATE AND SAMPLE METHODS
+ * 
+ **********************************************/
 
 /**
  * @brief computes the DFGF at point k given a sample of random numbers
@@ -195,7 +211,8 @@ vector<double> DFGF_S1::evaluate(vector<double> sampleVector){
  */
 void DFGF_S1::runTrials(){
 	vector<future<vector<double>>> tasks;
-	vector<vector<double>> sampleArray= gaussianVector.parallelSampler(n, numTrials);
+	/* get the sample data from gaussianVector but scale size for DFGF */
+	vector<vector<double>> sampleArray = gaussianVector.getSample(n);
 
 	for(int i = 0; i < numTrials; i++){
 		tasks.push_back(async(&DFGF_S1::evaluate, this, sampleArray[i]));
