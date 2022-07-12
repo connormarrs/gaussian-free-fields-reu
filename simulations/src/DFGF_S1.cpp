@@ -101,7 +101,7 @@ void DFGF_S1::computeEigenVectors() {
  * @return double given by (lambda_r)^{-s}f_r(theta_k)
  */
 double DFGF_S1::computeCoeffPoint(int r, int k){
-	return pow(eigenVals[r], -1.0*s)*eigenVectors[r][k];
+	return pow(eigenVals[r], -1.0*s)*eigenVectors[r-1][k];
 }
 
 /**
@@ -114,7 +114,7 @@ double DFGF_S1::computeCoeffPoint(int r, int k){
 vector<double> DFGF_S1::computeCoefficientVector(int r){
 	vector<double> coefficientVector;
 	/* start indexing at 1 to not divide by 0 eigenvalue */
-	for(int k = 1; k< n; k++){
+	for(int k = 0; k<n; k++){
 		coefficientVector.push_back(computeCoeffPoint(r, k));
 	}
 	return coefficientVector;
@@ -126,7 +126,7 @@ vector<double> DFGF_S1::computeCoefficientVector(int r){
 void DFGF_S1::computeCoeffs() {
 	// 2d vector of tasks for each entry of eigenvectors
 	vector<future<vector<double>>> tasks;
-	for(int r=0; r<n-1; r++){
+	for(int r=1; r<n; r++){
 		tasks.push_back(async(&DFGF_S1::computeCoefficientVector, this, r));
 	}
 	/* .size() returns long unsigned int */
@@ -184,8 +184,8 @@ vector<vector<double>> DFGF_S1::getCoeffs(){
  */
 double DFGF_S1::evaluatePoint(int k, vector<double> sampleVector){
 	double sum=0;
-	for(int i = 1; i<n-1; i++){
-		sum += coefficients[i][k]*sampleVector[i];
+	for(int r = 1; r<n; r++){
+		sum += coefficients[r-1][k]*sampleVector[r];
 	}
 	return sum;
 }
@@ -198,11 +198,9 @@ double DFGF_S1::evaluatePoint(int k, vector<double> sampleVector){
  */
 vector<double> DFGF_S1::evaluate(vector<double> sampleVector){
 	vector<double> dfgf;
-
-	for(int k=0; k<n-1; k++){
+	for(int k=0; k<n; k++){
 		dfgf.push_back(this->evaluatePoint(k, sampleVector));
 	}
-	vector<future<double>> tasks;
 	return dfgf;
 }
 
