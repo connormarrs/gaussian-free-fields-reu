@@ -33,7 +33,7 @@ class DFGF_T2: public DFGF {
         double meanOfMaxima;
 
         void computeEigenVals();
-        double computeEigenVal(int k);
+        double computeEigenVal(int p, int q);
         void computeEigenVectors();
         void computeCoeffs();
         void computeMaxVectors();
