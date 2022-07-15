@@ -19,15 +19,18 @@ project(${ProjectId})
 ##############################################
 file(GLOB USER_FILES_1
 "./src/DFGF_S1.cpp"
+"./src/DFGF_T2.cpp"
 "./src/driver.cpp"
 "./src/RandVec.cpp"
 "./src/tools.cpp"
 "./headers/DFGF.hpp"
 "./headers/DFGF_S1.hpp"
+"./headers/DFGF_T2.hpp"
 "./headers/driver.hpp"
 "./headers/RandVec.hpp"
 "./headers/tools.hpp"
 "./headers/DFGF_S1.h"
+"./headers/DFGF_T2.h"
 "./headers/driver.h"
 "./headers/RandVec.h"
 "./headers/tools.h"
@@ -36,13 +39,16 @@ file(GLOB USER_FILES_1
 
 file(GLOB USER_FILES_2
 "./src/DFGF_S1.cpp"
+"./src/DFGF_T2.cpp"
 "./src/RandVec.cpp"
 "./src/tools.cpp"
 "./headers/DFGF.hpp"
 "./headers/DFGF_S1.hpp"
+"./headers/DFGF_T2.hpp"
 "./headers/RandVec.hpp"
 "./headers/tools.hpp"
 "./headers/DFGF_S1.h"
+"./headers/DFGF_T2.h"
 "./headers/RandVec.h"
 "./headers/tools.h"
 "./headers/DFGF.h"
@@ -57,6 +63,10 @@ file(GLOB TEST_FILES_ALL RELATIVE ${CMAKE_CURRENT_SOURCE_DIR}
 
 file(GLOB TEST_FILES_DFGF_S1 RELATIVE ${CMAKE_CURRENT_SOURCE_DIR} 
 "./test_suite/DFGF_S1_test.cpp"
+)
+
+file(GLOB TEST_FILES_DFGF_T2 RELATIVE ${CMAKE_CURRENT_SOURCE_DIR} 
+"./test_suite/DFGF_T2_test.cpp"
 )
 
 file(GLOB TEST_FILES_DRIVER RELATIVE ${CMAKE_CURRENT_SOURCE_DIR} 
@@ -93,6 +103,10 @@ if(GTEST_FOUND)
     # create an executable for DFGF_S1 tests 
 	add_executable( run_DFGF_S1_tests ${TEST_FILES_ALL} ${USER_FILES_2} )
 	target_link_libraries( run_DFGF_S1_tests gtest_main ${GTEST_LIBRARIES} pthread)
+
+	# create an executable for DFGF_T2 tests 
+	add_executable( run_DFGF_T2_tests ${TEST_FILES_ALL} ${USER_FILES_2} )
+	target_link_libraries( run_DFGF_T2_tests gtest_main ${GTEST_LIBRARIES} pthread)
 
     # create an executable for driver tests 
 	add_executable( run_driver_tests ${TEST_FILES_ALL} ${USER_FILES_1} )
@@ -137,6 +151,10 @@ else()
     # create an executable for DFGF_S1 tests 
 	add_executable( run_DFGF_S1_tests ${TEST_FILES_ALL} ${USER_FILES_2} )
 	target_link_libraries( run_DFGF_S1_tests gtest_main)
+
+	# create an executable for DFGF_T2 tests 
+	add_executable( run_DFGF_T2_tests ${TEST_FILES_ALL} ${USER_FILES_2} )
+	target_link_libraries( run_DFGF_T2_tests gtest_main)
 
     # create an executable for driver tests 
 	add_executable( run_driver_tests ${TEST_FILES_ALL} ${USER_FILES_1} )
