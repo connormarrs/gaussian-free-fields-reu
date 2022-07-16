@@ -29,6 +29,7 @@ class RandVec{
 		RandVec() = default; // pass in default constructor
 		~RandVec() = default;
 		vector<vector<double>> getSample(int size);
-};
+		vector<vector<double>> getSampleArray(int dimension); 
+		}
 
 #endif

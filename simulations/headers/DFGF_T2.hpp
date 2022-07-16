@@ -18,6 +18,8 @@ using namespace std;
  */
 class DFGF_T2: public DFGF {
     private:
+        int n;
+        double s;
         vector<vector<double>> eigenVals;
         // 2d vector to hold the values of the eigenfunctions at each point in the domain
         vector<vector<vector<vector<double>>>> eigenVectors;  /* eigenVector[r-1][k] = f_r(theta_k) */
@@ -25,9 +27,10 @@ class DFGF_T2: public DFGF {
         // multiplied by 1/eigenfunction^s
         vector<vector<vector<vector<double>>>> coefficients;
         // RandVec to generate samples of random vectors
-        RandVec gaussianVector;
+        //the length of this vector should be the number of trials
+        vector<RandVec> gaussianVector;
         // 2d vector to hold the many samples of the random vector; allows for multithreading
-        vector<vector<vector<vector<double>>>> trialData;
+        vector<vector<vector<double>>> trialData;
         // vector where the nth entry represents the maximum of the DFGF computed for that nth trial.
         vector<double> maxima;
         double meanOfMaxima;
@@ -40,7 +43,7 @@ class DFGF_T2: public DFGF {
 
     public:
         // constructors
-        DFGF_T2(double s, int n, int numberTrials, RandVec gaussianVector);
+        DFGF_T2(double sVals, int nVals, int numberTrials, RandVec gaussianVector);
 		DFGF_T2()=default;
         ~DFGF_T2()=default;
 
@@ -60,9 +63,9 @@ class DFGF_T2: public DFGF {
         vector<vector<vector<vector<double>>>>  getCoefficients();
 
         /* returns value of DFGF at point (j,k) in grid */
-        double evaluatePoint(int j, int k, vector<double> sampleVector);
+        double evaluatePoint(int j, int k, vector<vector<double>> sampleVector);
         /* returns 2d array containing values of DFGF at each point given the sample random vector*/
-        vector<vector<double>> evaluate(vector<double> sampleVector);
+        vector<vector<double>> evaluate(vector<vector<double>> sampleVector);
 
         void runTrials();
         double computeEmpMean();
