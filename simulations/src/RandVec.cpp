@@ -104,9 +104,9 @@ vector<vector<double>> RandVec::getSample(int size) {
 }
 vector<vector<double>> RandVec::getSampleArray(int dimension) {
 	vector<vector<double>> subArray;
-	for(int j=0; j<size; j++){
+	for(int j=0; j<dimension; j++){
 		vector<double> temp;
-		for(int k=0; k<size; k++){
+		for(int k=0; k<dimension; k++){
 			temp.push_back(samples[j][k]);
 		}
 		subArray.push_back(temp);

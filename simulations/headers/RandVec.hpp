@@ -30,6 +30,6 @@ class RandVec{
 		~RandVec() = default;
 		vector<vector<double>> getSample(int size);
 		vector<vector<double>> getSampleArray(int dimension); 
-		}
+		};
 
 #endif
