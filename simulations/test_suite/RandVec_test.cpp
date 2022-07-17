@@ -34,8 +34,8 @@ class RandVec_Fixture: public ::testing::Test {
  */
 TEST_F(RandVec_Fixture, test_get_sample) {
     // instantiate a RandVec object
-    int n1 = 1000;
-    int numTrials1 = 500;
+    int n1 = 100;
+    int numTrials1 = 50;
     bool ran = true;
     RandVec randvec(n1, numTrials1);
 
