@@ -99,6 +99,7 @@ TEST_F (DFGF_T2_Fixture, checkEigenValues){
 
 
 TEST_F(DFGF_T2_Fixture, checkCoefficients){
+    //tests sizes and that values stored in arrays are within 1e-8
     vector<vector<vector<vector<double>>>> tested_coefficients_n = sample_field_n.getCoefficients();
     vector<vector<vector<vector<double>>>> tested_coefficients_m = sample_field_m.getCoefficients();
 
@@ -134,6 +135,11 @@ TEST_F(DFGF_T2_Fixture, checkCoefficients){
 
 }
 
-TEST_F(DFGF_T2_Fixture, check){
-    
+TEST_F(DFGF_T2_Fixture, checkEvaluatePoint){
+    for(unsigned int j=0; j<n; j++){
+        for(unsigned int i=0; i < n; i++){
+            
+        }
+
+    }
 }
