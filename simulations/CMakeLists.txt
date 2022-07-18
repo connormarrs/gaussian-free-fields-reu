@@ -81,16 +81,16 @@ file(GLOB TEST_FILES_TOOLS RELATIVE ${CMAKE_CURRENT_SOURCE_DIR}
 "./test_suite/tools_test.cpp"
 )
 
-configure_file(CMakeLists.txt.in jsonCpp-download/CMakeLists.txt)
+# configure_file(CMakeLists.txt.in jsonCpp-download/CMakeLists.txt)
 # execute_process(COMMAND ${CMAKE_COMMAND} -G "${CMAKE_GENERATOR}" .
 # 	RESULT_VARIABLE result
-# 	WORKING_DIRECTORY ${external}/jsonCpp-download )
+# 	WORKING_DIRECTORY ${CMAKE_CURRENT_BINARY_DIR}/jsonCpp-download )
 # if(result)
 # 	message(FATAL_ERROR "CMake step for jsonCpp failed: ${result}")
 # endif()
 # execute_process(COMMAND ${CMAKE_COMMAND} --build .
 # 	RESULT_VARIABLE result
-# 	WORKING_DIRECTORY ${external}/jsonCpp-download )
+# 	WORKING_DIRECTORY ${CMAKE_CURRENT_BINARY_DIR}/jsonCpp-download )
 # if(result)
 # 	message(FATAL_ERROR "Build step for jsonCpp failed: ${result}")
 # endif()
@@ -99,11 +99,11 @@ configure_file(CMakeLists.txt.in jsonCpp-download/CMakeLists.txt)
 # # settings on Windows
 # set(jsonCpp_force_shared_crt ON CACHE BOOL "" FORCE)
 
-# Add jsonCpp directly to our build. This defines
-# the jsonCpp and jsonCpp_main targets.
-# add_subdirectory(${CMAKE_CURRENT_BINARY_DIR}/installed/x64-linux/include/json
-	# ${CMAKE_CURRENT_BINARY_DIR}/buildtrees
-		# EXCLUDE_FROM_ALL)
+# # Add jsonCpp directly to our build. This defines
+# # the jsonCpp and jsonCpp_main targets.
+# add_subdirectory(${CMAKE_CURRENT_BINARY_DIR}/jsonCpp-src
+# 	${CMAKE_CURRENT_BINARY_DIR}/jsonCpp-build
+# 		EXCLUDE_FROM_ALL)
 
 
 # set(JSON_INC_PATH external/vcpkg/packages/jsoncpp_x64-linux/include)
@@ -162,7 +162,6 @@ else()
 	if(result)
 		message(FATAL_ERROR "Build step for googletest failed: ${result}")
 	endif()
-
 	# Prevent overriding the parent project's compiler/linker
 	# settings on Windows
 	set(gtest_force_shared_crt ON CACHE BOOL "" FORCE)
@@ -172,6 +171,31 @@ else()
 	add_subdirectory(${CMAKE_CURRENT_BINARY_DIR}/googletest-src
 		${CMAKE_CURRENT_BINARY_DIR}/googletest-build
 	        EXCLUDE_FROM_ALL)
+
+	# Download and unpack jsonCpp at configure time
+	configure_file(CMakeLists.txt.in jsonCpp-download/CMakeLists.txt)
+	execute_process(COMMAND ${CMAKE_COMMAND} -G "${CMAKE_GENERATOR}" .
+		RESULT_VARIABLE result
+		WORKING_DIRECTORY ${CMAKE_CURRENT_BINARY_DIR}/jsonCpp-download )
+	if(result)
+		message(FATAL_ERROR "CMake step for jsonCpp failed: ${result}")
+	endif()
+	execute_process(COMMAND ${CMAKE_COMMAND} --build .
+		RESULT_VARIABLE result
+		WORKING_DIRECTORY ${CMAKE_CURRENT_BINARY_DIR}/jsonCpp-download )
+	if(result)
+		message(FATAL_ERROR "Build step for jsonCpp failed: ${result}")
+	endif()
+
+	# Prevent overriding the parent project's compiler/linker
+	# settings on Windows
+	set(jsonCpp_force_shared_crt ON CACHE BOOL "" FORCE)
+
+	# Add jsonCpp directly to our build. This defines
+	# the jsonCpp and jsonCpp_main targets.
+	add_subdirectory(${CMAKE_CURRENT_BINARY_DIR}/jsonCpp-src
+	${CMAKE_CURRENT_BINARY_DIR}/jsonCpp-build
+		EXCLUDE_FROM_ALL)
 
     # create an executable for driver 
 	add_executable( run_driver ${USER_FILES_1} )
