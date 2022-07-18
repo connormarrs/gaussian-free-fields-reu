@@ -4,11 +4,8 @@
 #include "RandArr.hpp"
 #include "DFGF.hpp"
 #include "tools.hpp"
-#include <iostream>
-#include <string>
 #include <vector>
 #include <random>
-#include <ctime>
 #include <cmath>
 
 using namespace std;
@@ -35,7 +32,7 @@ class DFGF_T2: public DFGF {
         vector<double> maxima;
         double meanOfMaxima;
 
-        void computeEigenVals();
+
         double computeEigenVal(int p, int q);
         void computeEigenVectors();
         void computeCoeffs();
@@ -43,7 +40,7 @@ class DFGF_T2: public DFGF {
 
     public:
         // constructors
-        DFGF_T2(double sVals, int nVals, int numberTrials, vector<RandVec> gaussianVector);
+        DFGF_T2(double sVals, int nVals, int numberTrials, RandArr randomArray);
 		DFGF_T2()=default;
         ~DFGF_T2()=default;
 
@@ -66,6 +63,8 @@ class DFGF_T2: public DFGF {
         double evaluatePoint(int j, int k, vector<vector<double>> sampleVector);
         /* returns 2d array containing values of DFGF at each point given the sample random vector*/
         vector<vector<double>> evaluate(vector<vector<double>> sampleVector);
+
+        void computeEigenVals();
 
         void runTrials();
         double computeEmpMean();
