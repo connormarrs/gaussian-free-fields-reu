@@ -106,8 +106,8 @@ configure_file(CMakeLists.txt.in jsonCpp-download/CMakeLists.txt)
 		# EXCLUDE_FROM_ALL)
 
 
-set(JSON_INC_PATH external/vcpkg/packages/jsoncpp_x64-linux/include)
-set(JSON_LIB_PATH external/vcpkg/packages/jsoncpp_x64-linux/lib)
+# set(JSON_INC_PATH external/vcpkg/packages/jsoncpp_x64-linux/include)
+# set(JSON_LIB_PATH external/vcpkg/packages/jsoncpp_x64-linux/lib)
 
 # Try to Find GTest
 find_package(GTest QUIET)

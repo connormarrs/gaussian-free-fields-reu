@@ -6,8 +6,7 @@
 #include <iostream>
 #include <fstream>
 #include <string>
-// #include "../vcpkg/installed/x64linux/include/json/json.h"
-#include <jsoncpp/json/json.h>
+#include <json/json.h>
 
 //Gives the mean of the maxima for specified s and n values over a number of trials
 //Not Used?
@@ -120,12 +119,12 @@ int main() {
 		//open files and write
 		if(intermittentSave){
 			//Open Files to Append
-			string filename1("expectedMaxData.csv");
+			string filename1("../output/expectedMaxData.csv");
 			fstream file1;
 			file1.open(filename1, std::ios_base::app | std::ios_base::in);
 			
 			//Writing Time
-			string filename2("timeData.csv");
+			string filename2("../output/timeData.csv");
 			fstream file2;
 			file2.open(filename2, std::ios_base::app | std::ios_base::in);
 			if (file1.is_open()) {
@@ -140,12 +139,12 @@ int main() {
 	}
 
 			if(!intermittentSave){
-			string filename1("expectedMeanData.csv");
+			string filename1("../output/expectedMeanData.csv");
 			fstream file1;
 			file1.open(filename1, std::ios_base::app | std::ios_base::in);
 			
 				
-			string filename2("timeData.csv");
+			string filename2("../output/timeData.csv");
 			fstream file2;
 			file2.open(filename2, std::ios_base::app | std::ios_base::in);\
 			for(long unsigned int n = 0; n<means.size();n++){
