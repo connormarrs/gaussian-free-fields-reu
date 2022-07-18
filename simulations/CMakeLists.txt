@@ -106,8 +106,8 @@ file(GLOB TEST_FILES_TOOLS RELATIVE ${CMAKE_CURRENT_SOURCE_DIR}
 # 		EXCLUDE_FROM_ALL)
 
 
-# set(JSON_INC_PATH external/vcpkg/packages/jsoncpp_x64-linux/include)
-# set(JSON_LIB_PATH external/vcpkg/packages/jsoncpp_x64-linux/lib)
+# set(JSON_INC_PATH ../vcpkg/packages/jsoncpp_x64-linux/include)
+# set(JSON_LIB_PATH ../vcpkg/packages/jsoncpp_x64-linux/lib)
 
 # Try to Find GTest
 find_package(GTest QUIET)
@@ -115,35 +115,35 @@ find_package(GTest QUIET)
 if(GTEST_FOUND)
 	message(">> GTest was found among local libraries.")
 	include_directories(${GTEST_INCLUDE_DIRS})
-	include_directories(PUBLIC ${JSON_INC_PATH})
+	# include_directories(PUBLIC $(JSON_INC_PATH))
 
     # create an executable for driver 
 	add_executable( run_driver ${USER_FILES_1} )
-	target_link_libraries( run_driver gtest_main ${GTEST_LIBRARIES} jsoncpp pthread)
+	target_link_libraries( run_driver gtest_main ${GTEST_LIBRARIES} pthread)
 
     # create an executable for tools tests 
 	add_executable( run_tools_tests ${TEST_FILES_ALL} ${USER_FILES_2} )
-	target_link_libraries( run_tools_tests gtest_main ${GTEST_LIBRARIES} jsoncpp pthread)
+	target_link_libraries( run_tools_tests gtest_main ${GTEST_LIBRARIES} pthread)
 
     # create an executable for RandVec tests 
 	add_executable( run_RandVec_tests ${TEST_FILES_ALL} ${USER_FILES_2} )
-	target_link_libraries( run_RandVec_tests gtest_main ${GTEST_LIBRARIES} jsoncpp pthread)
+	target_link_libraries( run_RandVec_tests gtest_main ${GTEST_LIBRARIES} pthread)
 
     # create an executable for DFGF_S1 tests 
 	add_executable( run_DFGF_S1_tests ${TEST_FILES_ALL} ${USER_FILES_2} )
-	target_link_libraries( run_DFGF_S1_tests gtest_main ${GTEST_LIBRARIES} jsoncpp pthread)
+	target_link_libraries( run_DFGF_S1_tests gtest_main ${GTEST_LIBRARIES} pthread)
 
 	# create an executable for DFGF_T2 tests 
 	add_executable( run_DFGF_T2_tests ${TEST_FILES_ALL} ${USER_FILES_2} )
-	target_link_libraries( run_DFGF_T2_tests gtest_main ${GTEST_LIBRARIES} jsoncpp pthread)
+	target_link_libraries( run_DFGF_T2_tests gtest_main ${GTEST_LIBRARIES} pthread)
 
     # create an executable for driver tests 
 	add_executable( run_driver_tests ${TEST_FILES_ALL} ${USER_FILES_1} )
-	target_link_libraries( run_driver_tests gtest_main ${GTEST_LIBRARIES} jsoncpp pthread)
+	target_link_libraries( run_driver_tests gtest_main ${GTEST_LIBRARIES} pthread)
 
     # create an executable for all tests 
 	add_executable( run_all_tests ${TEST_FILES_ALL} ${USER_FILES_1} )
-	target_link_libraries( run_all_tests gtest_main ${GTEST_LIBRARIES} jsoncpp pthread)
+	target_link_libraries( run_all_tests gtest_main ${GTEST_LIBRARIES} pthread)
 
 else()
 	message(">> Couldn't find Local GTest library, Downloading one instead ...")
@@ -172,30 +172,33 @@ else()
 		${CMAKE_CURRENT_BINARY_DIR}/googletest-build
 	        EXCLUDE_FROM_ALL)
 
-	# Download and unpack jsonCpp at configure time
-	configure_file(CMakeLists.txt.in jsonCpp-download/CMakeLists.txt)
-	execute_process(COMMAND ${CMAKE_COMMAND} -G "${CMAKE_GENERATOR}" .
-		RESULT_VARIABLE result
-		WORKING_DIRECTORY ${CMAKE_CURRENT_BINARY_DIR}/jsonCpp-download )
-	if(result)
-		message(FATAL_ERROR "CMake step for jsonCpp failed: ${result}")
-	endif()
-	execute_process(COMMAND ${CMAKE_COMMAND} --build .
-		RESULT_VARIABLE result
-		WORKING_DIRECTORY ${CMAKE_CURRENT_BINARY_DIR}/jsonCpp-download )
-	if(result)
-		message(FATAL_ERROR "Build step for jsonCpp failed: ${result}")
-	endif()
+	# # Download and unpack jsonCpp at configure time
+	# configure_file(CMakeLists.txt.in jsonCpp-download/CMakeLists.txt)
+	# execute_process(COMMAND ${CMAKE_COMMAND} -G "${CMAKE_GENERATOR}" .
+	# 	RESULT_VARIABLE result
+	# 	WORKING_DIRECTORY ${CMAKE_CURRENT_BINARY_DIR}/jsonCpp-download )
+	# if(result)
+	# 	message(FATAL_ERROR "CMake step for jsonCpp failed: ${result}")
+	# endif()
+	# execute_process(COMMAND ${CMAKE_COMMAND} --build .
+	# 	RESULT_VARIABLE result
+	# 	WORKING_DIRECTORY ${CMAKE_CURRENT_BINARY_DIR}/jsonCpp-download )
+	# if(result)
+	# 	message(FATAL_ERROR "Build step for jsonCpp failed: ${result}")
+	# endif()
 
-	# Prevent overriding the parent project's compiler/linker
-	# settings on Windows
-	set(jsonCpp_force_shared_crt ON CACHE BOOL "" FORCE)
+	# # Prevent overriding the parent project's compiler/linker
+	# # settings on Windows
+	# set(jsonCpp_force_shared_crt ON CACHE BOOL "" FORCE)
 
-	# Add jsonCpp directly to our build. This defines
-	# the jsonCpp and jsonCpp_main targets.
-	add_subdirectory(${CMAKE_CURRENT_BINARY_DIR}/jsonCpp-src
-	${CMAKE_CURRENT_BINARY_DIR}/jsonCpp-build
-		EXCLUDE_FROM_ALL)
+	# # Add jsonCpp directly to our build. This defines
+	# # the jsonCpp and jsonCpp_main targets.
+	# add_subdirectory(${CMAKE_CURRENT_BINARY_DIR}/jsonCpp-src
+	# ${CMAKE_CURRENT_BINARY_DIR}/jsonCpp-build
+	# 	EXCLUDE_FROM_ALL)
+
+	# get_target_property(JSON_INC_PATH jsoncpp_lib INTERFACE_INCLUDE_DIRECTORIES)
+	# include_directories(${JSON_INC_PATH})
 
     # create an executable for driver 
 	add_executable( run_driver ${USER_FILES_1} )
@@ -203,11 +206,11 @@ else()
 
     # create an executable for DFGF_S1 tests 
 	add_executable( run_DFGF_S1_tests ${TEST_FILES_ALL} ${USER_FILES_2} )
-	target_link_libraries( run_DFGF_S1_tests gtest_main jsoncpp)
+	target_link_libraries( run_DFGF_S1_tests gtest_main)
 
 	# create an executable for DFGF_T2 tests 
 	add_executable( run_DFGF_T2_tests ${TEST_FILES_ALL} ${USER_FILES_2} )
-	target_link_libraries( run_DFGF_T2_tests gtest_main jsoncpp)
+	target_link_libraries( run_DFGF_T2_tests gtest_main)
 
     # create an executable for driver tests 
 	add_executable( run_driver_tests ${TEST_FILES_ALL} ${USER_FILES_1} )
@@ -215,11 +218,11 @@ else()
 
     # create an executable for RandVec tests 
 	add_executable( run_RandVec_tests ${TEST_FILES_ALL} ${USER_FILES_2} )
-	target_link_libraries( run_RandVec_tests gtest_main jsoncpp)
+	target_link_libraries( run_RandVec_tests gtest_main)
 
     # create an executable for tools tests 
 	add_executable( run_tools_tests ${TEST_FILES_ALL} ${USER_FILES_2} )
-	target_link_libraries( run_tools_tests gtest_main jsoncpp)
+	target_link_libraries( run_tools_tests gtest_main)
 
 	# create an executable for all tests 
 	add_executable( run_all_tests ${TEST_FILES_ALL} ${USER_FILES_1} )
