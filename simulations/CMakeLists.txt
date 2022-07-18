@@ -153,23 +153,23 @@ else()
 	target_link_libraries( run_driver gtest_main jsoncpp)
 
     # create an executable for DFGF_S1 tests 
-	add_executable( run_DFGF_S1_tests ${TEST_FILES_ALL} ${USER_FILES_2} )
+	add_executable( run_DFGF_S1_tests ${TEST_FILES_DFGF_S1} ${USER_FILES_2} )
 	target_link_libraries( run_DFGF_S1_tests gtest_main)
 
 	# create an executable for DFGF_T2 tests 
-	add_executable( run_DFGF_T2_tests ${TEST_FILES_ALL} ${USER_FILES_2} )
+	add_executable( run_DFGF_T2_tests ${TEST_FILES_DFGF_T2} ${USER_FILES_2} )
 	target_link_libraries( run_DFGF_T2_tests gtest_main)
 
     # create an executable for driver tests 
-	add_executable( run_driver_tests ${TEST_FILES_ALL} ${USER_FILES_1} )
+	add_executable( run_driver_tests ${TEST_FILES_DRIVER} ${USER_FILES_1} )
 	target_link_libraries( run_driver_tests gtest_main jsoncpp)
 
     # create an executable for RandVec tests 
-	add_executable( run_RandVec_tests ${TEST_FILES_ALL} ${USER_FILES_2} )
+	add_executable( run_RandVec_tests ${TEST_FILES_RANDVEC} ${USER_FILES_2} )
 	target_link_libraries( run_RandVec_tests gtest_main)
 
     # create an executable for tools tests 
-	add_executable( run_tools_tests ${TEST_FILES_ALL} ${USER_FILES_2} )
+	add_executable( run_tools_tests ${TEST_FILES_TOOLS} ${USER_FILES_2} )
 	target_link_libraries( run_tools_tests gtest_main)
 
 	# create an executable for all tests 
