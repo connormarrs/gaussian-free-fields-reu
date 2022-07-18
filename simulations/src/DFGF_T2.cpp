@@ -286,7 +286,7 @@ void DFGF_T2::runTrials(){
 }
 
 /**
- * @brief for each instance of DFGF generated, the maximum value achieved is found and stored
+ * @brief creates vector of maxima for each instance of DFGF generated
  * 
  */
 void DFGF_T2::computeMaxVectors(){
