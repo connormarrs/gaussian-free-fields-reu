@@ -32,7 +32,7 @@ class DFGF_T2: public DFGF {
         vector<double> maxima;
         double meanOfMaxima;
 
-        void computeEigenVals();
+
         double computeEigenVal(int p, int q);
         void computeEigenVectors();
         void computeCoeffs();
@@ -63,6 +63,8 @@ class DFGF_T2: public DFGF {
         double evaluatePoint(int j, int k, vector<double> sampleVector);
         /* returns 2d array containing values of DFGF at each point given the sample random vector*/
         vector<vector<double>> evaluate(vector<double> sampleVector);
+
+        void computeEigenVals();
 
         void runTrials();
         double computeEmpMean();
