@@ -14,6 +14,9 @@
 double getMeans(double s, int n, int numTrials){
 	RandVec randvec(n, numTrials);
 	DFGF_S1 dfgf(s, n, numTrials, randvec);
+	dfgf.runTrials();
+	dfgf.computeMaxVectors();
+
 	return dfgf.computeEmpMean();
 }
 
@@ -58,7 +61,7 @@ int main() {
 	 * to generate the data.
 	 */
 	int start_in = 10;
-	int end_in = 101;
+	int end_in = 100;
 	int num_in = 10;
 	int numTrials = 500;
 	// int size = end_in;
@@ -96,7 +99,7 @@ int main() {
 	vec2.append(Json::Value(4));
 	test1.append(vec1);
 	test1.append(vec2);
-	jsonRoot["info"]["n"]["3"]["testArr"] = test1;
+	// jsonRoot["info"]["n"]["3"]["testArr"] = test1;
 	
 
 	vector<vector<int>> timeData;
@@ -107,9 +110,12 @@ int main() {
 		//Adding Mean of Max Values for n and s over numTrials to json file
 		RandVec randvec(n_vals[n], numTrials);
 		DFGF_S1 dfgf(s, n_vals[n], numTrials, randvec);
+		dfgf.runTrials();
+		jsonRoot["info"]["n"][to_string(n_vals[n])]["maxima"] = dfgf.computeMaxVectors();
+
 		jsonRoot["info"]["n"][to_string(n_vals[n])]["meanOfMaxima"] = dfgf.computeEmpMean();
 		// This could be usefull for displaying all means at once instead of individually
-		means.push_back(dfgf.computeEmpMean()); 
+		// means.push_back(dfgf.computeEmpMean()); 
 		
 		//Ending Time and Printing
 		auto end = std::chrono::high_resolution_clock::now();
@@ -158,10 +164,10 @@ int main() {
 			}
 		}
 
-	for (unsigned long int i=0; i<means.size(); i++) {
-		cout << means[i] << ", ";
-	}
-	cout << endl;
+	// for (unsigned long int i=0; i<means.size(); i++) {
+	// 	cout << means[i] << ", ";
+	// }
+	// cout << endl;
 	
 
 	cout << jsonRoot << endl;
