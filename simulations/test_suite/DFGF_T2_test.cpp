@@ -134,4 +134,6 @@ TEST_F(DFGF_T2_Fixture, checkCoefficients){
 
 }
 
-TEST_F(DFGF_T2_Fixture, check)
+TEST_F(DFGF_T2_Fixture, check){
+    
+}
