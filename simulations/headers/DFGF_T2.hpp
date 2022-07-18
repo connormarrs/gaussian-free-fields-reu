@@ -1,7 +1,7 @@
 #ifndef DFGF_T2_H
 #define DFGF_T2_H
 
-#include "RandVec.hpp"
+#include "RandArr.hpp"
 #include "DFGF.hpp"
 #include "tools.hpp"
 #include <iostream>
@@ -28,7 +28,7 @@ class DFGF_T2: public DFGF {
         vector<vector<vector<vector<double>>>> coefficients;
         // RandVec to generate samples of random vectors
         //the length of this vector should be the number of trials
-        vector<RandVec> gaussianVector;
+        RandArr gaussianArray;
         // 2d vector to hold the many samples of the random vector; allows for multithreading
         vector<vector<vector<double>>> trialData;
         // vector where the nth entry represents the maximum of the DFGF computed for that nth trial.
@@ -43,7 +43,7 @@ class DFGF_T2: public DFGF {
 
     public:
         // constructors
-        DFGF_T2(double sVals, int nVals, int numberTrials, RandVec gaussianVector);
+        DFGF_T2(double sVals, int nVals, int numberTrials, vector<RandVec> gaussianVector);
 		DFGF_T2()=default;
         ~DFGF_T2()=default;
 
