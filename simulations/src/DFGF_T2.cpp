@@ -313,6 +313,10 @@ void DFGF_T2::computeMaxVectors(){
  * @return double 
  */
 double DFGF_T2::computeEmpMean(){
-    /* returns 0 */
-    return 0.0;
+    double sum = 0;
+    for (long unsigned int j=0; j<maxima.size(); j++){
+        sum += maxima[j];
+    }
+    meanOfMaxima = sum/maxima.size();
+    return meanOfMaxima;
 }
