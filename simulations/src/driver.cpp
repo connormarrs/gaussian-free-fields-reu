@@ -6,8 +6,9 @@
 #include <iostream>
 #include <fstream>
 #include <string>
-#include "../build/jsonCpp-src/include/json/json.h"
-
+// #include "../vcpkg/packages/jsoncpp_x64-linux/include/json/json_features.h"
+// #include "../vcpkg/packages/jsoncpp_x64-linux/include/json/writer.h"
+#include <jsoncpp/json/json.h>
 //Gives the mean of the maxima for specified s and n values over a number of trials
 //Not Used?
 double getMeans(double s, int n, int numTrials){

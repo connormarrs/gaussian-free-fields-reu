@@ -16,17 +16,18 @@ ExternalProject_Add(googletest
 	TEST_COMMAND      ""
 )
 
-project(jsonCpp-download NONE)
-
-include(ExternalProject)
-
-ExternalProject_Add(jsonCpp
-	GIT_REPOSITORY    https://github.com/open-source-parsers/jsoncpp.git
-	GIT_TAG           "1.9.5"
-	SOURCE_DIR        "${CMAKE_CURRENT_BINARY_DIR}/jsonCpp-src"
-	BINARY_DIR        "${CMAKE_CURRENT_BINARY_DIR}/jsonCpp-build"
-	CONFIGURE_COMMAND ""
-	BUILD_COMMAND     ""
-	INSTALL_COMMAND   ""
-	TEST_COMMAND      ""
-)
+#project(jsonCpp-download NONE)
+#
+#include(ExternalProject)
+#
+#ExternalProject_Add(jsonCpp
+#	GIT_REPOSITORY    https://github.com/open-source-parsers/jsoncpp.git
+#	GIT_TAG           "1.9.5"
+#	CMAKE_ARGS		  -DCMAKE_INSTALL_PREFIX=${EXTERNAL_INSTALL_LOCATION}
+#	SOURCE_DIR        "${CMAKE_CURRENT_BINARY_DIR}/jsonCpp-src"
+#	BINARY_DIR        "${CMAKE_CURRENT_BINARY_DIR}/jsonCpp-build"
+#	CONFIGURE_COMMAND ""
+#	BUILD_COMMAND     ""
+#	INSTALL_COMMAND   ""
+#	TEST_COMMAND      ""
+#)
