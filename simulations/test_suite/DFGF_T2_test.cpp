@@ -62,6 +62,7 @@ class DFGF_T2_Fixture: public ::testing::Test {
             {3.771458841908593, 4.756922455235777, 7.542917683817189, 11.64772064265902, 16.361573609213334, 20.86940858155309, 24.391779940565662, 26.319637678538573, 26.319637678538573, 24.391779940565666, 20.8694085815531, 16.361573609213345, 11.647720642659023, 7.542917683817186, 4.7569224552357765}, 
             {0.9854636133271834, 1.9709272266543678, 4.756922455235779, 8.861725414077611, 13.575578380631924, 18.08341335297168, 21.605784711984253, 23.533642449957156, 23.533642449957156, 21.605784711984256, 18.08341335297169, 13.575578380631935, 8.861725414077613, 4.7569224552357765, 1.9709272266543667}
         };
+
 };
 
 /**
@@ -92,3 +93,45 @@ TEST_F (DFGF_T2_Fixture, checkEigenValues){
         }
     }
 }
+
+
+
+
+
+TEST_F(DFGF_T2_Fixture, checkCoefficients){
+    vector<vector<vector<vector<double>>>> tested_coefficients_n = sample_field_n.getCoefficients();
+    vector<vector<vector<vector<double>>>> tested_coefficients_m = sample_field_m.getCoefficients();
+
+    ASSERT_EQ(tested_coefficients_n.size(), known_coefficients_n.size());
+    ASSERT_EQ(tested_coefficients_m.size(), known_coefficients_m.size());
+
+    for(unsigned int i=0; i<tested_coefficients_n.size(); i++){
+        ASSERT_EQ(tested_coefficients_n[i].size(), known_coefficients_n[i].size());
+        for(unsigned int j=0; j<tested_coefficients_n[i].size(); j++ ){
+            ASSERT_EQ(tested_coefficients_n[i][j].size(), known_coefficients_n[i][j].size());
+            for(unsigned int k=0; k<tested_coefficients_n[i][j].size(); k++){
+                ASSERT_EQ(tested_coefficients_n[i][j][k].size(), known_coefficients_n[i][j][k].size());
+                for(unsigned int l=0; k<tested_coefficients_n[i][j][k].size(); l++){
+                    ASSERT_EQ(tested_coefficients_n[i][j][k][l].size(), known_coefficients_n[i][j][k][l].size());
+                    ASSERT_NEAR(tested_coefficients_n[i][j][k][l], known_coefficients_n[i][j][k][l],1e-08)
+                }
+            }       
+        }
+    }
+    for(unsigned int i=0; i<tested_coefficients_m.size(); i++){
+        ASSERT_EQ(tested_coefficients_m[i].size(), known_coefficients_m[i].size());
+        for(unsigned int j=0; j<tested_coefficients_m[i].size(); j++ ){
+            ASSERT_EQ(tested_coefficients_m[i][j].size(), known_coefficients_m[i][j].size());
+            for(unsigned int k=0; k<tested_coefficients_m[i][j].size(); k++){
+                ASSERT_EQ(tested_coefficients_m[i][j][k].size(), known_coefficients_m[i][j][k].size());
+                for(unsigned int l=0; k<tested_coefficients_m[i][j][k].size(); l++){
+                    ASSERT_EQ(tested_coefficients_m[i][j][k][l].size(), known_coefficients_m[i][j][k][l].size());
+                    ASSERT_NEAR(tested_coefficients_m[i][j][k][l], known_coefficients_m[i][j][k][l],1e-08)
+                }
+            }       
+        }
+    }
+
+}
+
+TEST_F(DFGF_T2_Fixture, check)
