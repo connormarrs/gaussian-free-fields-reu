@@ -36,7 +36,6 @@ class DFGF_S1: public DFGF {
         double computeEigenVal(int k);
         void computeEigenVectors();
         void computeCoeffs();
-        void computeMaxVectors();
 
     public:
         // constructors
@@ -44,6 +43,7 @@ class DFGF_S1: public DFGF {
 		DFGF_S1()=default;
         ~DFGF_S1()=default;
 
+        vector<double> computeMaxVectors();
         vector<double> getEigenVals();
 
         double computeEigenFunctionPoint(int r, int k);

@@ -224,7 +224,7 @@ void DFGF_S1::runTrials(){
  * @brief Compute a vector where the nth entry represents the
  * maximum of the DFGF computed for that nth trial.
  */
-void DFGF_S1::computeMaxVectors(){
+vector<double> DFGF_S1::computeMaxVectors(){
 	vector<future<double>> tasks;
 	for(long unsigned int j = 0; j<trialData.size(); j++){	
 		tasks.push_back(std::async(Tools::compute_max, trialData[j]));
@@ -232,6 +232,7 @@ void DFGF_S1::computeMaxVectors(){
 	for(long unsigned int l = 0; l < tasks.size(); l++){
 		maxima.push_back(tasks[l].get());
 	}
+	return maxima;
 }
 
 /**
