@@ -69,7 +69,7 @@ int main() {
 	string sVal = "025";
 	//decide whether or not you want to save during the calcualtions or after
 	//saving during slightly slows the code
-	bool intermittentSave = true;
+	// bool intermittentSave = true;
 
 	// Simulations setup
 	vector<int> n_vals = Tools::linspace(start_in, end_in, num_in);
@@ -159,49 +159,49 @@ int main() {
 		//Ending Time and Printing
 		auto end = std::chrono::high_resolution_clock::now();
 		auto elapsed = std::chrono::duration_cast<std::chrono::milliseconds>(end - begin);
-		cout<< "time elapsed is " << elapsed.count()<< "\n";
+		cout << "Finished n=" << n_vals[n] << ". Time elapsed is " << elapsed.count() << " milliseconds." << "\n";
 		times.push_back(elapsed.count());
 
-		//open files and write
-		if(intermittentSave){
-			//Open Files to Append
-			string filename1("../output/expectedMaxData.csv");
-			fstream file1;
-			file1.open(filename1, std::ios_base::app | std::ios_base::in);
+	// 	//open files and write
+	// 	if(intermittentSave){
+	// 		//Open Files to Append
+	// 		string filename1("../output/expectedMaxData.csv");
+	// 		fstream file1;
+	// 		file1.open(filename1, std::ios_base::app | std::ios_base::in);
 			
-			//Writing Time
-			string filename2("../output/timeData.csv");
-			fstream file2;
-			file2.open(filename2, std::ios_base::app | std::ios_base::in);
-			if (file1.is_open()) {
-				file1 << n_vals[n] << ',' << means[n] << '\n';		
-			}
-			if (file1.is_open()) {
-				file2 << n_vals[n] << ',' << times[n] << '\n';
-			}	
-		}
+	// 		//Writing Time
+	// 		string filename2("../output/timeData.csv");
+	// 		fstream file2;
+	// 		file2.open(filename2, std::ios_base::app | std::ios_base::in);
+	// 		if (file1.is_open()) {
+	// 			file1 << n_vals[n] << ',' << means[n] << '\n';		
+	// 		}
+	// 		if (file1.is_open()) {
+	// 			file2 << n_vals[n] << ',' << times[n] << '\n';
+	// 		}	
+	// 	}
 		
 
 	}
 
-			if(!intermittentSave){
-			string filename1("../output/expectedMeanData.csv");
-			fstream file1;
-			file1.open(filename1, std::ios_base::app | std::ios_base::in);
+	// 		if(!intermittentSave){
+	// 		string filename1("../output/expectedMeanData.csv");
+	// 		fstream file1;
+	// 		file1.open(filename1, std::ios_base::app | std::ios_base::in);
 			
 				
-			string filename2("../output/timeData.csv");
-			fstream file2;
-			file2.open(filename2, std::ios_base::app | std::ios_base::in);\
-			for(long unsigned int n = 0; n<means.size();n++){
-				if (file1.is_open()) {
-					file1 << n_vals[n] << ',' << means[n] << '\n';		
-				}
-				if (file1.is_open()) {
-					file2 << n_vals[n] << ',' << times[n] << '\n';
-				}	
-			}
-		}
+	// 		string filename2("../output/timeData.csv");
+	// 		fstream file2;
+	// 		file2.open(filename2, std::ios_base::app | std::ios_base::in);
+	// 		for(long unsigned int n = 0; n<means.size();n++){
+	// 			if (file1.is_open()) {
+	// 				file1 << n_vals[n] << ',' << means[n] << '\n';		
+	// 			}
+	// 			if (file1.is_open()) {
+	// 				file2 << n_vals[n] << ',' << times[n] << '\n';
+	// 			}	
+	// 		}
+	// 	}
 
 	// Creates a name for the file and includes it in the json
 	string runName = "../output/test1.json";
@@ -210,7 +210,7 @@ int main() {
 	// Writes the contents of jsonRoot (our json object) to a file
 	Json::StreamWriterBuilder builder;
 	builder["commentStyle"] = "None";
-	builder["indentation"] = "   ";
+	builder["indentation"] = "";
 	std::unique_ptr<Json::StreamWriter> writer(builder.newStreamWriter());
 	std::ofstream outputFileStream("test1.json");
 	writer -> write(jsonRoot, &outputFileStream);
