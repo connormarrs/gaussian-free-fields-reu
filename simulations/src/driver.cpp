@@ -8,7 +8,7 @@
 #include <string>
 // #include "../vcpkg/packages/jsoncpp_x64-linux/include/json/json_features.h"
 // #include "../vcpkg/packages/jsoncpp_x64-linux/include/json/writer.h"
-#include <jsoncpp/json/json.h>
+#include <json/json.h>
 //Gives the mean of the maxima for specified s and n values over a number of trials
 //Not Used?
 double getMeans(double s, int n, int numTrials){
@@ -204,18 +204,18 @@ int main() {
 	// 	}
 
 	// Creates a name for the file and includes it in the json
-	string runName = "../output/test1.json";
+	std::string runName = "..\\output\\test_1.json";
 	jsonRoot["run"] = runName;
 
 	// Writes the contents of jsonRoot (our json object) to a file
 	Json::StreamWriterBuilder builder;
 	builder["commentStyle"] = "None";
-	builder["indentation"] = "";
+	builder["indentation"] = "  ";
 	std::unique_ptr<Json::StreamWriter> writer(builder.newStreamWriter());
-	std::ofstream outputFileStream("test1.json");
+	std::ofstream outputFileStream("../../output/test_1.json");
 	writer -> write(jsonRoot, &outputFileStream);
 	// cout << jsonRoot << endl;
-
+	outputFileStream.close();
 	return 0;
 }
 
