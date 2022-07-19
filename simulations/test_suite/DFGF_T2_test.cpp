@@ -28,9 +28,13 @@ class DFGF_T2_Fixture: public ::testing::Test {
 
         RandArr rand_arr_m = RandArr(m, numTrials);
         DFGF_T2 sample_field_m = DFGF_T2(s,m,numTrials, rand_arr_m);
-
         RandArr rand_arr_n = RandArr(n, numTrials);
         DFGF_T2 sample_field_n = DFGF_T2(s,n,numTrials, rand_arr_n);
+
+        RandArr rand_arr_m_trials = RandArr(m, 1000);
+        vector<vector<vector<double>>>test_n_arr_trials = rand_arr_m_trials.getSample(n);
+        vector<vector<vector<double>>>test_m_arr_trials = rand_arr_m_trials.getSample(m);
+
         vector<vector<double>> mock_random_array_m={
             {1.62434536,-0.61175641,-0.52817175,-1.07296862,0.86540763,-2.3015387,
             1.74481176,-0.7612069,},
@@ -161,6 +165,7 @@ TEST_F(DFGF_T2_Fixture, checkCoefficients){
             for(unsigned int k=0; k<tested_coefficients_n[i][j].size(); k++){
                 ASSERT_EQ(tested_coefficients_n[i][j][k].size(), known_coefficients_n[i][j][k].size());
                 for(unsigned int l=0; k<tested_coefficients_n[i][j][k].size(); l++){
+                    SCOPED_TRACE("known coefficients ["+to_string(tested_coefficients_n[i][j][k][l])+", "+to_string(known_coefficients_n[i][j][k][l])+"]");
                     ASSERT_NEAR(tested_coefficients_n[i][j][k][l], known_coefficients_n[i][j][k][l],1e-08);
                 }
             }       
@@ -173,6 +178,7 @@ TEST_F(DFGF_T2_Fixture, checkCoefficients){
             for(unsigned int k=0; k<tested_coefficients_m[i][j].size(); k++){
                 ASSERT_EQ(tested_coefficients_m[i][j][k].size(), known_coefficients_m[i][j][k].size());
                 for(unsigned int l=0; k<tested_coefficients_m[i][j][k].size(); l++){
+                    cout<< "tested coefficients m : " <<tested_coefficients_m[i][j][k][l]<< "known coefficients: "<<known_coefficients_m[i][j][k][l];
                     ASSERT_NEAR(tested_coefficients_m[i][j][k][l], known_coefficients_m[i][j][k][l],1e-08);
                 }
             }       
@@ -195,5 +201,23 @@ TEST_F(DFGF_T2_Fixture, checkEvaluatePoint){
             ASSERT_NEAR(sample_field_n.evaluatePoint(i,j, mock_random_array_m), known_evaluations_n[i][j],1e-08);
         }
 
+    }
+}
+
+TEST_F(DFGF_T2_Fixture, checkRunTrials){
+    vector<vector<vector<vector<double>>>> vectorOfTrialData_n;
+    vector<vector<vector<vector<double>>>> vectorOfTrialData_m;
+    int numberOfTests;
+    for(int i = 0; i<numberOfTests; i++){
+        vectorOfTrialData_n.push_back(sample_field_n.debugRunTrials(test_n_arr_trials));
+    }
+    for(int i = 0; i<vectorOfTrialData_n.size(); i++){
+        for(int j = 0; i<vectorOfTrialData_n[i].size(); j++){
+            for(int k = 0; i<vectorOfTrialData_n[i][j].size(); k++){
+                for(int l = 0; i<vectorOfTrialData_n[i][j][k].size(); k++){
+
+                }
+            }
+        }
     }
 }

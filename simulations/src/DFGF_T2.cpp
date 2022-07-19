@@ -193,7 +193,7 @@ vector<vector<double>> DFGF_T2::computeCoefficientVector(int p, int q){
 double DFGF_T2::computeCoefficientPoint(int p, int q, int j, int k){
 
     /* we do not sum over the first eigenvector which has eigenvalue 0, so we make this coefficient 0 */
-    if(p == 0 && q == 0){
+    if(p == 0 and q == 0){
         return 0;
     }
     else{
@@ -284,6 +284,24 @@ void DFGF_T2::runTrials(){
         );
 	}
 }
+void DFGF_T2::debugRunTrials(vector<vector<vector<double>>> testRandomArrs){
+    /* instantiate a vector of tasks */
+	vector<future<vector<vector<double>>>> tasks; 
+    /* start a new thread to compute the DFGF for each random array */
+	for(int i = 0; i < numTrials; i++){
+		tasks.push_back(
+            async(&DFGF_T2::evaluate, this, testRandomArrs[i])
+        );
+	}
+
+    /* loop through tasks array and upon completion of each task, append data to trialData array */
+	for(long unsigned int i = 0; i < tasks.size(); i++){
+		trialData.push_back(
+            tasks[i].get()
+        );
+	}
+}
+
 
 /**
  * @brief creates vector of maxima for each instance of DFGF generated
