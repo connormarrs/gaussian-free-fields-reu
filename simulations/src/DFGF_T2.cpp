@@ -284,9 +284,10 @@ void DFGF_T2::runTrials(){
         );
 	}
 }
-void DFGF_T2::debugRunTrials(vector<vector<vector<double>>> testRandomArrs){
+vector<vector<vector<double>>> DFGF_T2::debugRunTrials(vector<vector<vector<double>>> testRandomArrs){
     /* instantiate a vector of tasks */
 	vector<future<vector<vector<double>>>> tasks; 
+    vector<vector<vector<double>>> data;
     /* start a new thread to compute the DFGF for each random array */
 	for(int i = 0; i < numTrials; i++){
 		tasks.push_back(
@@ -296,10 +297,11 @@ void DFGF_T2::debugRunTrials(vector<vector<vector<double>>> testRandomArrs){
 
     /* loop through tasks array and upon completion of each task, append data to trialData array */
 	for(long unsigned int i = 0; i < tasks.size(); i++){
-		trialData.push_back(
+		data.push_back(
             tasks[i].get()
         );
 	}
+    return data;
 }
 
 
