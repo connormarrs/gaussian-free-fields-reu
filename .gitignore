@@ -3,5 +3,5 @@
 
 # ignore vscode settings
 .vscode/
-simulations/build/*
-!simulations/build/.gitkeep
+# simulations/build/*
+# !simulations/build/.gitkeep
