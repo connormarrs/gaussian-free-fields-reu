@@ -57,7 +57,7 @@ class DFGF_S1: public DFGF {
         double evaluatePoint(int k, vector<double> sampleVector);
         vector<double> evaluate(vector<double> sampleVector);
 
-        void runTrials();
+        vector<vector<double>> runTrials();
         double computeEmpMean();
 };
 

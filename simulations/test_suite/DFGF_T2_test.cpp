@@ -157,15 +157,15 @@ TEST_F(DFGF_T2_Fixture, checkCoefficients){
 }
 
 TEST_F(DFGF_T2_Fixture, checkEvaluatePoint){
-    for(unsigned int i=0; i<n; i++){
-        for(unsigned int j=0; j < n; j++){
+    for(int i=0; i<n; i++){
+        for(int j=0; j < n; j++){
             SCOPED_TRACE("N=10: Iteration ["+to_string(j)+", "+to_string(i)+"]");
             ASSERT_NEAR(sample_field_n.evaluatePoint(i,j, mock_random_array_n), known_evaluations_n[i][j],1e-08);
         }
 
     }
-    for(unsigned int i=0; i<m; i++){
-        for(unsigned int j=0; j < m; j++){
+    for(int i=0; i<m; i++){
+        for(int j=0; j < m; j++){
             SCOPED_TRACE("N=10: Iteration ["+to_string(j)+", "+to_string(i)+"]");
             ASSERT_NEAR(sample_field_n.evaluatePoint(i,j, mock_random_array_m), known_evaluations_n[i][j],1e-08);
         }

@@ -207,7 +207,7 @@ vector<double> DFGF_S1::evaluate(vector<double> sampleVector){
 /**
  * @brief samples numTrials samples and stores them in trialData
  */
-void DFGF_S1::runTrials(){
+vector<vector<double>> DFGF_S1::runTrials(){
 	vector<future<vector<double>>> tasks;
 	/* get the sample data from gaussianVector but scale size for DFGF */
 	vector<vector<double>> sampleArray = gaussianVector.getSample(n);
@@ -218,6 +218,7 @@ void DFGF_S1::runTrials(){
 	for(long unsigned int i =0; i<tasks.size(); i++){
 		trialData.push_back(tasks[i].get());
 	}
+	return trialData;
 }
 
 /**
