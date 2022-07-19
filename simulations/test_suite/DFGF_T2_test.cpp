@@ -129,20 +129,54 @@ TEST_F (DFGF_T2_Fixture, checkEigenValues){
     /* loop through all values and assert that they are within 1e-8 of each other */
     for(unsigned int j=0; j<tested_eigenVals_n.size(); j++) {
         ASSERT_EQ(tested_eigenVals_n[j].size(), known_eigvals_n[j].size());
-        for(unsigned int k=0; k<tested_eigenVals_n.size(); k++) {
+        for(unsigned int k=0; k<tested_eigenVals_n[j].size(); k++) {
             ASSERT_NEAR(tested_eigenVals_n[j][k], known_eigvals_n[j][k], 1e-8);
         }
     }
 
     for(unsigned int j=0; j<tested_eigenVals_m.size(); j++) {
         ASSERT_EQ(tested_eigenVals_m[j].size(), known_eigvals_m[j].size());
-        for(unsigned int k=0; k<tested_eigenVals_m.size(); k++) {
+        for(unsigned int k=0; k<tested_eigenVals_m[j].size(); k++) {
             ASSERT_NEAR(tested_eigenVals_m[j][k], known_eigvals_m[j][k], 1e-8);
         }
     }
 }
 
+TEST_F(DFGF_T2_Fixture, checkEigenVects){
+    vector<vector<vector<vector<double>>>> tested_eigenVects_n = sample_field_n.getEigenVectors();
+    vectpr<vector<vector<vector<double>>>> tested_eigenVects_m = sample_field_m.getEigenVectors();
 
+    ASSERT_EQ(tested_eigenVects_n.size(), known_eigenvectors_n.size());
+    ASSERT_EQ(tested_eigenVects_m.size(), known_eigenvectors_m.size());
+
+    for(unsigned int p = 0; p < tested_eigenVects_n.size(); p++){
+        ASSERT_EQ(tested_eigenVects_n[p].size(), known_eigenvectors_n[p].size());
+        for(unsigned int q = 0; q < tested_eigenVects_n[p].size(); q++){
+            ASSERT_EQ(tested_eigenVects_n[p][q].size(), known_eigenvectors_n[p][q].size());
+            for(unsigned int j = 0; j < tested_eigenVects_n[p][q].size(); j++){
+                ASSERT_EQ(tested_eigenVects_n[p][q][j].size(), known_eigenvectors_n[p][q][j].size());
+                for(unsigned int k = 0; k < tested_eigenVects_n[p][q][j].size(); k++){
+                    SCOPED_TRACE("N=5: Iteration ["+to_string(p)+", "+to_string(q)+", "+to_string(j)+", "+to_string(k)+"]");
+                    ASSERT_NEAR(test_eigvectors_n[p][q][j][k], known_eigenvectors_n[p][q][j][k], 1e-8);
+                }
+            }
+        }
+    }
+
+    for(unsigned int p = 0; p < tested_eigenVects_m.size(); p++){
+        ASSERT_EQ(tested_eigenVects_m[p].size(), known_eigenvectors_m[p].size());
+        for(unsigned int q = 0; q < tested_eigenVects_m[p].size(); q++){
+            ASSERT_EQ(tested_eigenVects_m[p][q].size(), known_eigenvectors_m[p][q].size());
+            for(unsigned int j = 0; j < tested_eigenVects_m[p][q].size(); j++){
+                ASSERT_EQ(tested_eigenVects_m[p][q][j].size(), known_eigenvectors_m[p][q][j].size());
+                for(unsigned int k = 0; k < tested_eigenVects_m[p][q][j].size(); k++){
+                    SCOPED_TRACE("M=8: Iteration ["+to_string(p)+", "+to_string(q)+", "+to_string(j)+", "+to_string(k)+"]");
+                    ASSERT_NEAR(test_eigvectors_m[p][q][j][k], known_eigenvectors_m[p][q][j][k], 1e-8);
+                }
+            }
+        }
+    }
+}
 
 
 
