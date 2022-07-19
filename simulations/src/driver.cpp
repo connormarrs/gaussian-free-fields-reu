@@ -61,9 +61,9 @@ int main() {
 	 * to generate the data.
 	 */
 	int start_in = 10;
-	int end_in = 100;
-	int num_in = 10;
-	int numTrials = 500;
+	int end_in = 50;
+	int num_in = 5;
+	int numTrials = 20;
 	// int size = end_in;
 	double s = 0.25;
 	string sVal = "025";
@@ -71,49 +71,88 @@ int main() {
 	//saving during slightly slows the code
 	bool intermittentSave = true;
 
-	string runName = "name";
-
-	//simulations setup
+	// Simulations setup
 	vector<int> n_vals = Tools::linspace(start_in, end_in, num_in);
 	vector<double> means;
 	vector<future<double>> tasks;
 	vector<int> times;
 
+	// Creates the main json object
 	Json::Value jsonRoot;
 
+	// Adds already known information to the json
 	jsonRoot["info"]["maxN"] = end_in;
 	jsonRoot["info"]["numTrials"] = numTrials;
 	jsonRoot["info"]["s"] = s;
-	jsonRoot["run"] = runName;
-	
-	Json::Value test1(Json::arrayValue);
-	Json::Value test2(Json::arrayValue);
-	// test1 = Json::arrayValue((1,2,3));
-	// test2 = Json::arrayValue((3,4,5));
 
-	Json::Value vec1(Json::arrayValue);
-	Json::Value vec2(Json::arrayValue);
-	vec1.append(Json::Value(1));
-	vec1.append(Json::Value(2));
-	vec2.append(Json::Value(3));
-	vec2.append(Json::Value(4));
-	test1.append(vec1);
-	test1.append(vec2);
-	// jsonRoot["info"]["n"]["3"]["testArr"] = test1;
-	
-
+	// Runs through each n val to run the whole program
 	vector<vector<int>> timeData;
 	for(long unsigned int n=0; n < n_vals.size(); n++){
-    // 		Start Time
+    	// Start Time
 		auto begin = std::chrono::high_resolution_clock::now();
 		
-		//Adding Mean of Max Values for n and s over numTrials to json file
+		// Instantiates the objects to collect data for the json file.
 		RandVec randvec(n_vals[n], numTrials);
 		DFGF_S1 dfgf(s, n_vals[n], numTrials, randvec);
-		dfgf.runTrials();
-		jsonRoot["info"]["n"][to_string(n_vals[n])]["maxima"] = dfgf.computeMaxVectors();
 
+		// Adds trialData to json. p indexes each trial,
+		// where q indexes the individual data points
+		vector<vector<double>> trialData = dfgf.runTrials();
+		Json::Value vec1(Json::arrayValue);
+		for (long unsigned int p=0; p<trialData.size(); p++) {
+			Json::Value vec2(Json::arrayValue);
+			for (long unsigned int q=0; q<trialData[0].size(); q++) {
+				vec2.append(trialData[p][q]);
+			}
+			vec1.append(vec2);
+		}
+		jsonRoot["info"]["n"][to_string(n_vals[n])]["trialData"] = vec1;
+
+		// Adds the maxima vector to the json. f indexes each trial.
+		vector<double> maxes = dfgf.computeMaxVectors();
+		Json::Value vec3(Json::arrayValue);
+		for (long unsigned int f=0; f<maxes.size(); f++) {
+			vec3.append(maxes[f]);
+		}
+		jsonRoot["info"]["n"][to_string(n_vals[n])]["maxima"] = vec3;
+
+		// Adds the coefficients to the json. m indexes each trial,
+		// where n indexes the individual data points
+		vector<vector<double>> coeffs = dfgf.getCoeffs();
+		Json::Value vec4(Json::arrayValue);
+		for (long unsigned int m=0; m<coeffs.size(); m++) {
+			Json::Value vec5(Json::arrayValue);
+			for (long unsigned int n=0; n<coeffs[0].size();n++) {
+				vec5.append(coeffs[m][n]);
+			}
+			vec4.append(vec5);
+		}
+		jsonRoot["info"]["n"][to_string(n_vals[n])]["coefficients"] = vec4;
+
+		// Adds eigen vectors to the json. x indexes trials,
+		// where y indexes the individual data points
+		vector<vector<double>> eigVects = dfgf.getEigenVectors();
+		Json::Value vec6(Json::arrayValue);
+		for (long unsigned int x=0; x<eigVects.size(); x++) {
+			Json::Value vec7(Json::arrayValue);
+			for (long unsigned int y=0; y<eigVects[0].size(); y++) {
+				vec7.append(eigVects[x][y]);
+			}
+			vec6.append(vec7);
+		}
+		jsonRoot["info"]["n"][to_string(n_vals[n])]["eigenVectors"] = vec6;
+
+		// Adds eigen values to the json. z indexes individual values.
+		vector<double> eigVals = dfgf.getEigenVals();
+		Json::Value vec8(Json::arrayValue);
+		for (long unsigned int z=0; z<eigVals.size(); z++) {
+			vec8.append(eigVals[z]);
+		}
+		jsonRoot["info"]["n"][to_string(n_vals[n])]["eigenVals"] = vec8;
+
+		// Adds the meanOfMaxima to the json.
 		jsonRoot["info"]["n"][to_string(n_vals[n])]["meanOfMaxima"] = dfgf.computeEmpMean();
+		
 		// This could be usefull for displaying all means at once instead of individually
 		// means.push_back(dfgf.computeEmpMean()); 
 		
@@ -164,13 +203,18 @@ int main() {
 			}
 		}
 
-	// for (unsigned long int i=0; i<means.size(); i++) {
-	// 	cout << means[i] << ", ";
-	// }
-	// cout << endl;
-	
+	// Creates a name for the file and includes it in the json
+	string runName = "../output/test1.json";
+	jsonRoot["run"] = runName;
 
-	cout << jsonRoot << endl;
+	// Writes the contents of jsonRoot (our json object) to a file
+	Json::StreamWriterBuilder builder;
+	builder["commentStyle"] = "None";
+	builder["indentation"] = "   ";
+	std::unique_ptr<Json::StreamWriter> writer(builder.newStreamWriter());
+	std::ofstream outputFileStream("test1.json");
+	writer -> write(jsonRoot, &outputFileStream);
+	// cout << jsonRoot << endl;
 
 	return 0;
 }
