@@ -3,11 +3,6 @@
 
 # ignore vscode settings
 .vscode/
-<<<<<<< HEAD
-# simulations/build/*
-# !simulations/build/.gitkeep
-=======
+#ignore build files but keep the folder
 simulations/build/*
-# simulations/test_suite/gaussVect.csv
 !simulations/build/.gitkeep
->>>>>>> 8656b89507714b435ee81428e297d5024567674e
