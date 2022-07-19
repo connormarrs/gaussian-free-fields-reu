@@ -30,7 +30,6 @@ class DFGF_T2_Fixture: public ::testing::Test {
         DFGF_T2 sample_field_m = DFGF_T2(s,m,numTrials, rand_arr_m);
         RandArr rand_arr_n = RandArr(n, numTrials);
         DFGF_T2 sample_field_n = DFGF_T2(s,n,numTrials, rand_arr_n);
-
         RandArr rand_arr_m_trials = RandArr(m, 1000);
         vector<vector<vector<double>>>test_n_arr_trials = rand_arr_m_trials.getSample(n);
         vector<vector<vector<double>>>test_m_arr_trials = rand_arr_m_trials.getSample(m);
@@ -54,14 +53,15 @@ class DFGF_T2_Fixture: public ::testing::Test {
             0.51292982,-0.29809284}
 
         };
+
         vector<vector<double>> mock_random_array_n={
             {1.62434536,-0.61175641,-0.52817175,-1.07296862,0.86540763},
             {-2.3015387,1.74481176,-0.7612069,0.3190391,-0.24937038},
             {1.46210794,-2.06014071,-0.3224172,-0.38405435,1.13376944},
             {-1.09989127,-0.17242821,-0.87785842,0.04221375,0.58281521},
-            {-1.10061918,1.14472371,0.90159072,0.50249434,0.90085595},
-
+            {-1.10061918,1.14472371,0.90159072,0.50249434,0.90085595}
         };
+
         vector<vector<double>> known_eigvals_n = {
             {0.0, 0.8751402000833808, 2.291146788739675, 2.291146788739675, 0.8751402000833811}, 
             {0.8751402000833808, 1.7502804001667616, 3.1662869888230554, 3.1662869888230554, 1.750280400166762}, 
@@ -148,34 +148,34 @@ TEST_F (DFGF_T2_Fixture, checkEigenValues){
 
 TEST_F(DFGF_T2_Fixture, checkEigenVects){
     vector<vector<vector<vector<double>>>> tested_eigenVects_n = sample_field_n.getEigenVectors();
-    vectpr<vector<vector<vector<double>>>> tested_eigenVects_m = sample_field_m.getEigenVectors();
+    vector<vector<vector<vector<double>>>> tested_eigenVects_m = sample_field_m.getEigenVectors();
 
-    ASSERT_EQ(tested_eigenVects_n.size(), known_eigenvectors_n.size());
-    ASSERT_EQ(tested_eigenVects_m.size(), known_eigenvectors_m.size());
+    ASSERT_EQ(tested_eigenVects_n.size(), known_eigvects_n.size());
+    ASSERT_EQ(tested_eigenVects_m.size(), known_eigvects_m.size());
 
     for(unsigned int p = 0; p < tested_eigenVects_n.size(); p++){
-        ASSERT_EQ(tested_eigenVects_n[p].size(), known_eigenvectors_n[p].size());
+        ASSERT_EQ(tested_eigenVects_n[p].size(), known_eigvects_n[p].size());
         for(unsigned int q = 0; q < tested_eigenVects_n[p].size(); q++){
-            ASSERT_EQ(tested_eigenVects_n[p][q].size(), known_eigenvectors_n[p][q].size());
+            ASSERT_EQ(tested_eigenVects_n[p][q].size(), known_eigvects_n[p][q].size());
             for(unsigned int j = 0; j < tested_eigenVects_n[p][q].size(); j++){
-                ASSERT_EQ(tested_eigenVects_n[p][q][j].size(), known_eigenvectors_n[p][q][j].size());
+                ASSERT_EQ(tested_eigenVects_n[p][q][j].size(), known_eigvects_n[p][q][j].size());
                 for(unsigned int k = 0; k < tested_eigenVects_n[p][q][j].size(); k++){
                     SCOPED_TRACE("N=5: Iteration ["+to_string(p)+", "+to_string(q)+", "+to_string(j)+", "+to_string(k)+"]");
-                    ASSERT_NEAR(test_eigvectors_n[p][q][j][k], known_eigenvectors_n[p][q][j][k], 1e-8);
+                    ASSERT_NEAR(tested_eigenVects_n[p][q][j][k], known_eigvects_n[p][q][j][k], 1e-8);
                 }
             }
         }
     }
 
     for(unsigned int p = 0; p < tested_eigenVects_m.size(); p++){
-        ASSERT_EQ(tested_eigenVects_m[p].size(), known_eigenvectors_m[p].size());
+        ASSERT_EQ(tested_eigenVects_m[p].size(), known_eigvects_m[p].size());
         for(unsigned int q = 0; q < tested_eigenVects_m[p].size(); q++){
-            ASSERT_EQ(tested_eigenVects_m[p][q].size(), known_eigenvectors_m[p][q].size());
+            ASSERT_EQ(tested_eigenVects_m[p][q].size(), known_eigvects_m[p][q].size());
             for(unsigned int j = 0; j < tested_eigenVects_m[p][q].size(); j++){
-                ASSERT_EQ(tested_eigenVects_m[p][q][j].size(), known_eigenvectors_m[p][q][j].size());
+                ASSERT_EQ(tested_eigenVects_m[p][q][j].size(), known_eigvects_m[p][q][j].size());
                 for(unsigned int k = 0; k < tested_eigenVects_m[p][q][j].size(); k++){
                     SCOPED_TRACE("M=8: Iteration ["+to_string(p)+", "+to_string(q)+", "+to_string(j)+", "+to_string(k)+"]");
-                    ASSERT_NEAR(test_eigvectors_m[p][q][j][k], known_eigenvectors_m[p][q][j][k], 1e-8);
+                    ASSERT_NEAR(tested_eigenVects_m[p][q][j][k], known_eigvects_m[p][q][j][k], 1e-8);
                 }
             }
         }
@@ -198,8 +198,9 @@ TEST_F(DFGF_T2_Fixture, checkCoefficients){
             ASSERT_EQ(tested_coefficients_n[i][j].size(), known_coefficients_n[i][j].size());
             for(unsigned int k=0; k<tested_coefficients_n[i][j].size(); k++){
                 ASSERT_EQ(tested_coefficients_n[i][j][k].size(), known_coefficients_n[i][j][k].size());
-                for(unsigned int l=0; k<tested_coefficients_n[i][j][k].size(); l++){
+                for(unsigned int l=0; l<tested_coefficients_n[i][j][k].size(); l++){
                     SCOPED_TRACE("known coefficients ["+to_string(tested_coefficients_n[i][j][k][l])+", "+to_string(known_coefficients_n[i][j][k][l])+"]");
+                    SCOPED_TRACE("i= "+to_string(i)+", "+"j= "+to_string(j)+", "+"k= "+to_string(k)+", "+"l= "+to_string(l));
                     ASSERT_NEAR(tested_coefficients_n[i][j][k][l], known_coefficients_n[i][j][k][l],1e-08);
                 }
             }       
@@ -211,8 +212,7 @@ TEST_F(DFGF_T2_Fixture, checkCoefficients){
             ASSERT_EQ(tested_coefficients_m[i][j].size(), known_coefficients_m[i][j].size());
             for(unsigned int k=0; k<tested_coefficients_m[i][j].size(); k++){
                 ASSERT_EQ(tested_coefficients_m[i][j][k].size(), known_coefficients_m[i][j][k].size());
-                for(unsigned int l=0; k<tested_coefficients_m[i][j][k].size(); l++){
-                    cout<< "tested coefficients m : " <<tested_coefficients_m[i][j][k][l]<< "known coefficients: "<<known_coefficients_m[i][j][k][l];
+                for(unsigned int l=0; l<tested_coefficients_m[i][j][k].size(); l++){
                     ASSERT_NEAR(tested_coefficients_m[i][j][k][l], known_coefficients_m[i][j][k][l],1e-08);
                 }
             }       
@@ -222,34 +222,44 @@ TEST_F(DFGF_T2_Fixture, checkCoefficients){
 }
 
 TEST_F(DFGF_T2_Fixture, checkEvaluatePoint){
-    for(unsigned int i=0; i<n; i++){
-        for(unsigned int j=0; j < n; j++){
-            SCOPED_TRACE("N=10: Iteration ["+to_string(j)+", "+to_string(i)+"]");
+    cout<<"hello";
+    SUCCEED();
+    for(int i=0; i<n; i++){
+        cout<<"\n"<<"Entered iteration i="+to_string(i)<<"\n";
+        for(int j=0; j < n; j++){
+            ASSERT_EQ(mock_random_array_n.size(),(unsigned int)n);
+            ASSERT_EQ(mock_random_array_n[i].size(),(unsigned int)n);
+
             ASSERT_NEAR(sample_field_n.evaluatePoint(i,j, mock_random_array_n), known_evaluations_n[i][j],1e-08);
         }
-
     }
-    for(unsigned int i=0; i<m; i++){
-        for(unsigned int j=0; j < m; j++){
-            SCOPED_TRACE("N=10: Iteration ["+to_string(j)+", "+to_string(i)+"]");
-            ASSERT_NEAR(sample_field_n.evaluatePoint(i,j, mock_random_array_m), known_evaluations_n[i][j],1e-08);
+    for(int i=0; i<m; i++){    for(int i=0; i<m; i++){
+        for(int j=0; j < m; j++){
+            cout << "M=8: Iteration ["+to_string(j)+", "+to_string(i)+"]";
+            SCOPED_TRACE("M=8: Iteration ["+to_string(j)+", "+to_string(i)+"]");
+            ASSERT_NEAR(sample_field_m.evaluatePoint(i,j, mock_random_array_m), known_evaluations_m[i][j],1e-08);
         }
-
+    }
+        for(int j=0; j < m; j++){
+            cout << "M=8: Iteration ["+to_string(j)+", "+to_string(i)+"]";
+            SCOPED_TRACE("M=8: Iteration ["+to_string(j)+", "+to_string(i)+"]");
+            ASSERT_NEAR(sample_field_m.evaluatePoint(i,j, mock_random_array_m), known_evaluations_m[i][j],1e-08);
+        }
     }
 }
 
 TEST_F(DFGF_T2_Fixture, checkRunTrials){
     vector<vector<vector<vector<double>>>> vectorOfTrialData_n;
     vector<vector<vector<vector<double>>>> vectorOfTrialData_m;
-    int numberOfTests;
+    int numberOfTests=100;
     for(int i = 0; i<numberOfTests; i++){
         vectorOfTrialData_n.push_back(sample_field_n.debugRunTrials(test_n_arr_trials));
     }
-    for(int i = 0; i<vectorOfTrialData_n.size(); i++){
-        for(int j = 0; i<vectorOfTrialData_n[i].size(); j++){
-            for(int k = 0; i<vectorOfTrialData_n[i][j].size(); k++){
-                for(int l = 0; i<vectorOfTrialData_n[i][j][k].size(); k++){
-
+    for(unsigned int i = 0; i<vectorOfTrialData_n.size(); i++){
+        for(unsigned int j = 0; j<vectorOfTrialData_n[i].size(); j++){
+            for(unsigned int k = 0; k<vectorOfTrialData_n[i][j].size(); k++){
+                for(unsigned int l = 0; l<vectorOfTrialData_n[i][j][k].size(); l++){
+                    ASSERT_NEAR(vectorOfTrialData_n[0][j][k][l], vectorOfTrialData_n[i][j][k][l], 1e-08);
                 }
             }
         }
