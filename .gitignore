@@ -6,3 +6,6 @@
 #ignore build files but keep the folder
 simulations/build/*
 !simulations/build/.gitkeep
+#ignore output files but keep the folder
+simulations/output/*
+!simulations/build/template.json

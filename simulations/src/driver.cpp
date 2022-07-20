@@ -6,42 +6,13 @@
 #include <iostream>
 #include <fstream>
 #include <string>
-// #include "../vcpkg/packages/jsoncpp_x64-linux/include/json/json_features.h"
-// #include "../vcpkg/packages/jsoncpp_x64-linux/include/json/writer.h"
-#include <jsoncpp/json/json.h>
-//Gives the mean of the maxima for specified s and n values over a number of trials
-//Not Used?
-double getMeans(double s, int n, int numTrials){
-	RandVec randvec(n, numTrials);
-	DFGF_S1 dfgf(s, n, numTrials, randvec);
-	dfgf.runTrials();
-	dfgf.computeMaxVectors();
+#include <json/json.h>
 
-	return dfgf.computeEmpMean();
-}
+string fileName(int start_n, int end_n, string s_Val) {
+	string name;
+	name += s_Val+"_n"+to_string(start_n)+"-"+to_string(end_n)+".json";
 
-string fileNaming(int sVal, int numTrialVal) {
-	time_t     now = time(0);
-    struct tm  tstruct;
-    char       buf[80];
-    tstruct = *localtime(&now);
-    // Visit http://en.cppreference.com/w/cpp/chrono/c/strftime
-    // for more information about date/time format
-    strftime(buf, sizeof(buf), "%m-%d-%Y", &tstruct);
-	string outFileName;
-	string runNumFile("../output/runNum.txt");
-    fstream file1;
-    file1.open(runNumFile);
-	string runNumStr;
-	// int runNumInt = 0;
-	getline(file1, runNumStr);
-	// runNumInt = stoi(runNumStr) +1;
-	file1.close();
-	file1.open(runNumFile);
-	file1 << buf;
-	file1.close();
-	
-	return "";
+	return name;
 }
 
 
@@ -61,21 +32,23 @@ int main() {
 	 * to generate the data.
 	 */
 	int start_in = 10;
-	int end_in = 50;
-	int num_in = 5;
+	int end_in = 100;
+	int num_in = 10;
 	int numTrials = 20;
-	// int size = end_in;
+
+	// Change these values at the same time for fileName usage.
+	// Example: 0.25 -> "s025"  OR 0 -> "s0"
 	double s = 0.25;
-	string sVal = "025";
-	//decide whether or not you want to save during the calcualtions or after
-	//saving during slightly slows the code
-	// bool intermittentSave = true;
+	string sVal = "s025";
 
 	// Simulations setup
 	vector<int> n_vals = Tools::linspace(start_in, end_in, num_in);
 	vector<double> means;
 	vector<future<double>> tasks;
 	vector<int> times;
+
+	// Creates a name for the file
+	std::string runName = "../../output/" + fileName(start_in, end_in, sVal);
 
 	// Creates the main json object
 	Json::Value jsonRoot;
@@ -84,6 +57,7 @@ int main() {
 	jsonRoot["info"]["maxN"] = end_in;
 	jsonRoot["info"]["numTrials"] = numTrials;
 	jsonRoot["info"]["s"] = s;
+	jsonRoot["run"] = runName;
 
 	// Runs through each n val to run the whole program
 	vector<vector<int>> timeData;
@@ -159,65 +133,20 @@ int main() {
 		//Ending Time and Printing
 		auto end = std::chrono::high_resolution_clock::now();
 		auto elapsed = std::chrono::duration_cast<std::chrono::milliseconds>(end - begin);
-		cout << "Finished n=" << n_vals[n] << ". Time elapsed is " << elapsed.count() << " milliseconds." << "\n";
+		std::cout << "Finished n=" << n_vals[n] << ". Time elapsed is " << elapsed.count() << " milliseconds." << "\n";
 		times.push_back(elapsed.count());
-
-	// 	//open files and write
-	// 	if(intermittentSave){
-	// 		//Open Files to Append
-	// 		string filename1("../output/expectedMaxData.csv");
-	// 		fstream file1;
-	// 		file1.open(filename1, std::ios_base::app | std::ios_base::in);
-			
-	// 		//Writing Time
-	// 		string filename2("../output/timeData.csv");
-	// 		fstream file2;
-	// 		file2.open(filename2, std::ios_base::app | std::ios_base::in);
-	// 		if (file1.is_open()) {
-	// 			file1 << n_vals[n] << ',' << means[n] << '\n';		
-	// 		}
-	// 		if (file1.is_open()) {
-	// 			file2 << n_vals[n] << ',' << times[n] << '\n';
-	// 		}	
-	// 	}
-		
-
 	}
 
-	// 		if(!intermittentSave){
-	// 		string filename1("../output/expectedMeanData.csv");
-	// 		fstream file1;
-	// 		file1.open(filename1, std::ios_base::app | std::ios_base::in);
-			
-				
-	// 		string filename2("../output/timeData.csv");
-	// 		fstream file2;
-	// 		file2.open(filename2, std::ios_base::app | std::ios_base::in);
-	// 		for(long unsigned int n = 0; n<means.size();n++){
-	// 			if (file1.is_open()) {
-	// 				file1 << n_vals[n] << ',' << means[n] << '\n';		
-	// 			}
-	// 			if (file1.is_open()) {
-	// 				file2 << n_vals[n] << ',' << times[n] << '\n';
-	// 			}	
-	// 		}
-	// 	}
-
-	// Creates a name for the file and includes it in the json
-	string runName = "../output/test1.json";
-	jsonRoot["run"] = runName;
-
-	// Writes the contents of jsonRoot (our json object) to a file
+	/*
+	* Writes the contents of jsonRoot (our json object) to a file
+	*/
 	Json::StreamWriterBuilder builder;
 	builder["commentStyle"] = "None";
 	builder["indentation"] = "";
 	std::unique_ptr<Json::StreamWriter> writer(builder.newStreamWriter());
-	std::ofstream outputFileStream("test1.json");
-	writer -> write(jsonRoot, &outputFileStream);
-	// cout << jsonRoot << endl;
+	std::ofstream outFile(runName);
+	writer -> write(jsonRoot, &outFile);
+	outFile.close();
 
 	return 0;
 }
-
-
-

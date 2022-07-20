@@ -40,7 +40,7 @@ TEST_F(RandVec_Fixture, test_get_sample) {
     RandVec randvec(n1, numTrials1);
 
     // set up file to be written to
-    string filename2("../test_suite/gaussVect.csv");
+    string filename2("../../output/gaussVect.csv");
     fstream file2;
     file2.open(filename2, ios_base::out);
     
