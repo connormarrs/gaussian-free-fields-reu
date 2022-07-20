@@ -7,7 +7,7 @@ if(NOT CMAKE_BUILD_TYPE)
   set(CMAKE_BUILD_TYPE "Debug" CACHE STRING "Release or Debug" FORCE)
 endif(NOT CMAKE_BUILD_TYPE)
 
-SET(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=c++14 -Wall" CACHE INTERNAL "")
+SET(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -l/usr/include/jsoncpp -std=c++14 -Wall" CACHE INTERNAL "")
 
 # get folder name as project name
 get_filename_component(ProjectId ${CMAKE_CURRENT_SOURCE_DIR} NAME)
