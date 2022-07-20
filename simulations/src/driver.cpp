@@ -6,15 +6,15 @@
 #include <iostream>
 #include <fstream>
 #include <string>
-#include <jsoncpp/json/json.h>
 
 string fileName(int start_n, int end_n, string s_Val) {
 	string name;
-	name += s_Val+"_n"+to_string(start_n)+"-"+to_string(end_n)+".json";
+	name += s_Val+"_n"+to_string(start_n)+"-"+to_string(end_n)+".csv";
 
 	return name;
 }
 
+using namespace std;
 
 /**
  * The main file that runs the code
@@ -48,16 +48,9 @@ int main() {
 	vector<int> times;
 
 	// Creates a name for the file
-	std::string runName = "../../output/" + fileName(start_in, end_in, sVal);
-
-	// Creates the main json object
-	Json::Value jsonRoot;
-
-	// Adds already known information to the json
-	jsonRoot["info"]["maxN"] = end_in;
-	jsonRoot["info"]["numTrials"] = numTrials;
-	jsonRoot["info"]["s"] = s;
-	jsonRoot["run"] = runName;
+	string runName = "../../output/" + fileName(start_in, end_in, sVal);
+	std::ofstream myfile;
+	myfile.open (runName);
 
 	// Runs through each n val to run the whole program
 	vector<vector<int>> timeData;
@@ -72,63 +65,22 @@ int main() {
 		// Adds trialData to json. p indexes each trial,
 		// where q indexes the individual data points
 		vector<vector<double>> trialData = dfgf.runTrials();
-		Json::Value vec1(Json::arrayValue);
-		for (long unsigned int p=0; p<trialData.size(); p++) {
-			Json::Value vec2(Json::arrayValue);
-			for (long unsigned int q=0; q<trialData[0].size(); q++) {
-				vec2.append(trialData[p][q]);
-			}
-			vec1.append(vec2);
-		}
-		jsonRoot["info"]["n"][to_string(n_vals[n])]["trialData"] = vec1;
 
 		// Adds the maxima vector to the json. f indexes each trial.
 		vector<double> maxes = dfgf.computeMaxVectors();
-		Json::Value vec3(Json::arrayValue);
-		for (long unsigned int f=0; f<maxes.size(); f++) {
-			vec3.append(maxes[f]);
-		}
-		jsonRoot["info"]["n"][to_string(n_vals[n])]["maxima"] = vec3;
+		double max = dfgf.computeEmpMean();
+		myfile << n << ", " << max << " \n";
 
 		// Adds the coefficients to the json. m indexes each trial,
 		// where n indexes the individual data points
 		vector<vector<double>> coeffs = dfgf.getCoeffs();
-		Json::Value vec4(Json::arrayValue);
-		for (long unsigned int m=0; m<coeffs.size(); m++) {
-			Json::Value vec5(Json::arrayValue);
-			for (long unsigned int n=0; n<coeffs[0].size();n++) {
-				vec5.append(coeffs[m][n]);
-			}
-			vec4.append(vec5);
-		}
-		jsonRoot["info"]["n"][to_string(n_vals[n])]["coefficients"] = vec4;
 
 		// Adds eigen vectors to the json. x indexes trials,
 		// where y indexes the individual data points
 		vector<vector<double>> eigVects = dfgf.getEigenVectors();
-		Json::Value vec6(Json::arrayValue);
-		for (long unsigned int x=0; x<eigVects.size(); x++) {
-			Json::Value vec7(Json::arrayValue);
-			for (long unsigned int y=0; y<eigVects[0].size(); y++) {
-				vec7.append(eigVects[x][y]);
-			}
-			vec6.append(vec7);
-		}
-		jsonRoot["info"]["n"][to_string(n_vals[n])]["eigenVectors"] = vec6;
 
 		// Adds eigen values to the json. z indexes individual values.
 		vector<double> eigVals = dfgf.getEigenVals();
-		Json::Value vec8(Json::arrayValue);
-		for (long unsigned int z=0; z<eigVals.size(); z++) {
-			vec8.append(eigVals[z]);
-		}
-		jsonRoot["info"]["n"][to_string(n_vals[n])]["eigenVals"] = vec8;
-
-		// Adds the meanOfMaxima to the json.
-		jsonRoot["info"]["n"][to_string(n_vals[n])]["meanOfMaxima"] = dfgf.computeEmpMean();
-		
-		// This could be usefull for displaying all means at once instead of individually
-		// means.push_back(dfgf.computeEmpMean()); 
 		
 		//Ending Time and Printing
 		auto end = std::chrono::high_resolution_clock::now();
@@ -140,13 +92,7 @@ int main() {
 	/*
 	* Writes the contents of jsonRoot (our json object) to a file
 	*/
-	Json::StreamWriterBuilder builder;
-	builder["commentStyle"] = "None";
-	builder["indentation"] = "";
-	std::unique_ptr<Json::StreamWriter> writer(builder.newStreamWriter());
-	std::ofstream outFile(runName);
-	writer -> write(jsonRoot, &outFile);
-	outFile.close();
+	myfile.close();
 
 	return 0;
 }

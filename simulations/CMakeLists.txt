@@ -7,7 +7,7 @@ if(NOT CMAKE_BUILD_TYPE)
   set(CMAKE_BUILD_TYPE "Debug" CACHE STRING "Release or Debug" FORCE)
 endif(NOT CMAKE_BUILD_TYPE)
 
-SET(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -l/usr/include/jsoncpp -std=c++14 -Wall" CACHE INTERNAL "")
+SET(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=c++14 -Wall" CACHE INTERNAL "")
 
 # get folder name as project name
 get_filename_component(ProjectId ${CMAKE_CURRENT_SOURCE_DIR} NAME)
@@ -110,7 +110,7 @@ add_subdirectory(${CMAKE_CURRENT_BINARY_DIR}/googletest-src
 
 # create an executable for driver 
 add_executable( run_driver ${USER_FILES_1} )
-target_link_libraries( run_driver gtest_main jsoncpp)
+target_link_libraries( run_driver gtest_main )
 
 # create an executable for DFGF_S1 tests 
 add_executable( run_DFGF_S1_tests ${TEST_FILES_DFGF_S1} ${USER_FILES_2} )
@@ -122,7 +122,7 @@ target_link_libraries( run_DFGF_T2_tests gtest_main)
 
 # create an executable for driver tests 
 add_executable( run_driver_tests ${TEST_FILES_DRIVER} ${USER_FILES_1} )
-target_link_libraries( run_driver_tests gtest_main jsoncpp)
+target_link_libraries( run_driver_tests gtest_main )
 
 # create an executable for RandVec tests 
 add_executable( run_RandVec_tests ${TEST_FILES_RANDVEC} ${RANDVEC_FILES} )
@@ -134,6 +134,6 @@ target_link_libraries( run_tools_tests gtest_main)
 
 # create an executable for all tests 
 add_executable( run_all_tests ${TEST_FILES_ALL} ${USER_FILES_1} )
-target_link_libraries( run_all_tests gtest_main jsoncpp)
+target_link_libraries( run_all_tests gtest_main )
 
 ENABLE_TESTING()
