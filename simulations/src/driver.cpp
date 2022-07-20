@@ -6,7 +6,7 @@
 #include <iostream>
 #include <fstream>
 #include <string>
-#include <json/json.h>
+#include <jsoncpp/json/json.h>
 
 string fileName(int start_n, int end_n, string s_Val) {
 	string name;
