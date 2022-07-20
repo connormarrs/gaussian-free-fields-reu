@@ -1,7 +1,6 @@
 #include "../headers/DFGF_S1.hpp"
 #include <vector>
 #include <stdio.h>
-#include <ctime>
 #include <time.h>
 #include <chrono>
 #include <iostream>
