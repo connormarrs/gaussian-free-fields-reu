@@ -47,21 +47,21 @@ file(GLOB USER_FILES_2
 "./headers/tools.hpp"
 )
 
-file(GLOB USER_FILES_3
-"./src/DFGF_S1.cpp"
+# file(GLOB USER_FILES_3
+# "./src/DFGF_S1.cpp"
 # "./src/DFGF_T2.cpp"
-"./src/driver2.cpp"
-"./src/RandVec.cpp"
-"./src/RandArr.cpp"
-"./src/tools.cpp"
-"./headers/DFGF.hpp"
-"./headers/DFGF_S1.hpp"
+# "./src/driver2.cpp"
+# "./src/RandVec.cpp"
+# "./src/RandArr.cpp"
+# "./src/tools.cpp"
+# "./headers/DFGF.hpp"
+# "./headers/DFGF_S1.hpp"
 # "./headers/DFGF_T2.hpp"
-"./headers/driver2.hpp"
-"./headers/RandVec.hpp"
-"./headers/RandArr.hpp"
-"./headers/tools.hpp"
-)
+# "./headers/driver2.hpp"
+# "./headers/RandVec.hpp"
+# "./headers/RandArr.hpp"
+# "./headers/tools.hpp"
+# )
 
 file(GLOB RANDVEC_FILES
 "./src/RandVec.cpp"
@@ -129,31 +129,31 @@ add_executable( run_driver ${USER_FILES_1} )
 target_link_libraries( run_driver gtest_main jsoncpp)
 
 # create an executable for driver 
-add_executable( run_driver2 ${USER_FILES_3} )
+add_executable( run_driver2 ${USER_FILES_1} )
 target_link_libraries( run_driver2 gtest_main jsoncpp)
 
-# # create an executable for DFGF_S1 tests 
-# add_executable( run_DFGF_S1_tests ${TEST_FILES_DFGF_S1} ${USER_FILES_2} )
-# target_link_libraries( run_DFGF_S1_tests gtest_main)
+# create an executable for DFGF_S1 tests 
+add_executable( run_DFGF_S1_tests ${TEST_FILES_DFGF_S1} ${USER_FILES_2} )
+target_link_libraries( run_DFGF_S1_tests gtest_main)
 
-# # create an executable for DFGF_T2 tests 
-# add_executable( run_DFGF_T2_tests ${TEST_FILES_DFGF_T2} ${USER_FILES_2} )
-# target_link_libraries( run_DFGF_T2_tests gtest_main)
+# create an executable for DFGF_T2 tests 
+add_executable( run_DFGF_T2_tests ${TEST_FILES_DFGF_T2} ${USER_FILES_2} )
+target_link_libraries( run_DFGF_T2_tests gtest_main)
 
-# # create an executable for driver tests 
-# add_executable( run_driver_tests ${TEST_FILES_DRIVER} ${USER_FILES_1} )
-# target_link_libraries( run_driver_tests gtest_main jsoncpp)
+# create an executable for driver tests 
+add_executable( run_driver_tests ${TEST_FILES_DRIVER} ${USER_FILES_1} )
+target_link_libraries( run_driver_tests gtest_main jsoncpp)
 
-# # create an executable for RandVec tests 
-# add_executable( run_RandVec_tests ${TEST_FILES_RANDVEC} ${RANDVEC_FILES} )
-# target_link_libraries( run_RandVec_tests gtest_main)
+# create an executable for RandVec tests 
+add_executable( run_RandVec_tests ${TEST_FILES_RANDVEC} ${RANDVEC_FILES} )
+target_link_libraries( run_RandVec_tests gtest_main)
 
-# # create an executable for tools tests 
-# add_executable( run_tools_tests ${TEST_FILES_TOOLS} ${TOOLS_FILES} )
-# target_link_libraries( run_tools_tests gtest_main)
+# create an executable for tools tests 
+add_executable( run_tools_tests ${TEST_FILES_TOOLS} ${TOOLS_FILES} )
+target_link_libraries( run_tools_tests gtest_main)
 
-# # create an executable for all tests 
-# add_executable( run_all_tests ${TEST_FILES_ALL} ${USER_FILES_1} )
-# target_link_libraries( run_all_tests gtest_main jsoncpp)
+# create an executable for all tests 
+add_executable( run_all_tests ${TEST_FILES_ALL} ${USER_FILES_1} )
+target_link_libraries( run_all_tests gtest_main jsoncpp)
 
 ENABLE_TESTING()
