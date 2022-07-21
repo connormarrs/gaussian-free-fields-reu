@@ -32,13 +32,13 @@ int main() {
 	 * to generate the data.
 	 */
 	int start_in = 1;
-	int end_in = 50;
-	int num_in = 50;
+	int end_in = 500;
+	int num_in = 500;
     double start_es = 0.0;
     double end_es = 0.5;
     string sRange = "s0.0-0.5";
-    double increm = 0.01;
-	int numTrials = 3000;
+    double increm = 0.001;
+	int numTrials = 1000;
 
 	// Simulations setup
 	vector<int> n_vals = Tools::linspace(start_in, end_in, num_in);
@@ -82,10 +82,10 @@ int main() {
 		// for (long unsigned int f=0; f<maxes.size(); f++) {
 		// 	vec3.append(maxes[f]);
 		// }
-		// jsonRoot["info"]["n"][to_string(n_vals[n])+"n"][to_string(s_vals[s])+"s"]["maxima"] = vec3;
+		// jsonRoot["info"]["n"][to_string(n_vals[n])]["s"][to_string(s_vals[s])]["maxima"] = vec3;
 
 		// Adds the meanOfMaxima to the json.
-		jsonRoot["info"]["n"][to_string(n_vals[n])+"n"][to_string(s_vals[s])+"s"]["meanOfMaxima"] = dfgf.computeEmpMean();
+		jsonRoot["info"]["n"][to_string(n_vals[n])]["s"][to_string(s_vals[s])]["meanOfMaxima"] = dfgf.computeEmpMean();
 		
 		// This could be usefull for displaying all means at once instead of individually
 		// means.push_back(dfgf.computeEmpMean()); 
@@ -93,7 +93,7 @@ int main() {
 		//Ending Time and Printing
 		auto end = std::chrono::high_resolution_clock::now();
 		auto elapsed = std::chrono::duration_cast<std::chrono::milliseconds>(end - begin);
-		std::cout << "Finished n=" << n_vals[n] << ". Time elapsed is " << elapsed.count() << " milliseconds." << "\n";
+		std::cout << "Finished n=" << n_vals[n] << ", s=" << s_vals[s] << ". Time elapsed is " << elapsed.count() << " milliseconds." << "\n";
 		times.push_back(elapsed.count());
 	    }
     }
