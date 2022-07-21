@@ -43,12 +43,14 @@ class DFGF_S1: public DFGF {
 		DFGF_S1()=default;
         ~DFGF_S1()=default;
 
-        vector<double> computeMaxVectors();
         vector<double> getEigenVals();
 
         double computeEigenFunctionPoint(int r, int k);
         vector<double> computeEigenFunctionVector(int r);
         vector<vector<double>> getEigenVectors();
+	    vector<vector<double>> getTrialData();
+	    vector<double> getMaximaList();
+	    double getEmpMean();
 
         double computeCoeffPoint(int r, int k);
         vector<double> computeCoefficientVector(int r);
@@ -56,9 +58,9 @@ class DFGF_S1: public DFGF {
 
         double evaluatePoint(int k, vector<double> sampleVector);
         vector<double> evaluate(vector<double> sampleVector);
-
-        vector<vector<double>> runTrials();
-        double computeEmpMean();
+        void computeMaxVectors();
+        void runTrials();
+        void computeEmpMean();
 };
 
 #endif

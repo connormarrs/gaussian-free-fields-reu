@@ -169,6 +169,34 @@ vector<vector<double>> DFGF_S1::getCoeffs(){
 	return coefficients;
 }
 
+
+/**
+ * @brief Get the Coefficients object
+ * 
+ * @return vector<vector<double>> 
+ */
+vector<vector<double>> DFGF_S1::getTrialData(){
+	return trialData;
+}
+
+/**
+ * @brief Get the Coefficients object
+ * 
+ * @return vector<vector<double>> 
+ */
+vector<double> DFGF_S1::getMaximaList(){
+	return maxima;
+}
+
+/**
+ * @brief Get the Coefficients object
+ * 
+ * @return vector<vector<double>> 
+ */
+double DFGF_S1::getEmpMean(){
+	return meanOfMaxima;
+}
+
 /**********************************************
  * 
  * 			EVALUATE AND SAMPLE METHODS
@@ -207,7 +235,7 @@ vector<double> DFGF_S1::evaluate(vector<double> sampleVector){
 /**
  * @brief samples numTrials samples and stores them in trialData
  */
-vector<vector<double>> DFGF_S1::runTrials(){
+void DFGF_S1::runTrials(){
 	vector<future<vector<double>>> tasks;
 	/* get the sample data from gaussianVector but scale size for DFGF */
 	vector<vector<double>> sampleArray = gaussianVector.getSample(n);
@@ -218,14 +246,15 @@ vector<vector<double>> DFGF_S1::runTrials(){
 	for(long unsigned int i =0; i<tasks.size(); i++){
 		trialData.push_back(tasks[i].get());
 	}
-	return trialData;
+	computeMaxVectors();
+	computeEmpMean();
 }
 
 /**
  * @brief Compute a vector where the nth entry represents the
  * maximum of the DFGF computed for that nth trial.
  */
-vector<double> DFGF_S1::computeMaxVectors(){
+void DFGF_S1::computeMaxVectors(){
 	vector<future<double>> tasks;
 	for(long unsigned int j = 0; j<trialData.size(); j++){	
 		tasks.push_back(std::async(Tools::compute_max, trialData[j]));
@@ -233,7 +262,6 @@ vector<double> DFGF_S1::computeMaxVectors(){
 	for(long unsigned int l = 0; l < tasks.size(); l++){
 		maxima.push_back(tasks[l].get());
 	}
-	return maxima;
 }
 
 /**
@@ -241,11 +269,10 @@ vector<double> DFGF_S1::computeMaxVectors(){
  * 
  * @return double 
  */
-double DFGF_S1::computeEmpMean(){
+void DFGF_S1::computeEmpMean(){
 	double sum = 0;
 	for(long unsigned int j=0; j<maxima.size(); j++){
 		sum += maxima[j];
 	}
 	meanOfMaxima = sum/maxima.size();
-	return meanOfMaxima;
 }

@@ -340,3 +340,12 @@ double DFGF_T2::computeEmpMean(){
     meanOfMaxima = sum/maxima.size();
     return meanOfMaxima;
 }
+
+/**
+ * @brief Computes the average of the maxima among all trials
+ * 
+ * @return double 
+ */
+double DFGF_T2::getEmpMean(){
+    return meanOfMaxima;
+}

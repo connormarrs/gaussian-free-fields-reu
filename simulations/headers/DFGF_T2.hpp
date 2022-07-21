@@ -68,6 +68,7 @@ class DFGF_T2: public DFGF {
 
         void runTrials();
         double computeEmpMean();
+        double getEmpMean();
         vector<vector<vector<double>>> debugRunTrials(vector<vector<vector<double>>> testRandomArrs);
 };
 
