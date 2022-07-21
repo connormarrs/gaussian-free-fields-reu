@@ -1,0 +1,46 @@
+{
+	"sources" : 
+	[
+		{
+			"file" : "/home/elevensor/test/gff/gaussian-free-fields-reu/simulations/build/googletest-download/CMakeFiles/googletest"
+		},
+		{
+			"file" : "/home/elevensor/test/gff/gaussian-free-fields-reu/simulations/build/googletest-download/CMakeFiles/googletest.rule"
+		},
+		{
+			"file" : "/home/elevensor/test/gff/gaussian-free-fields-reu/simulations/build/googletest-download/CMakeFiles/googletest-complete.rule"
+		},
+		{
+			"file" : "/home/elevensor/test/gff/gaussian-free-fields-reu/simulations/build/googletest-download/googletest-prefix/src/googletest-stamp/googletest-build.rule"
+		},
+		{
+			"file" : "/home/elevensor/test/gff/gaussian-free-fields-reu/simulations/build/googletest-download/googletest-prefix/src/googletest-stamp/googletest-configure.rule"
+		},
+		{
+			"file" : "/home/elevensor/test/gff/gaussian-free-fields-reu/simulations/build/googletest-download/googletest-prefix/src/googletest-stamp/googletest-download.rule"
+		},
+		{
+			"file" : "/home/elevensor/test/gff/gaussian-free-fields-reu/simulations/build/googletest-download/googletest-prefix/src/googletest-stamp/googletest-install.rule"
+		},
+		{
+			"file" : "/home/elevensor/test/gff/gaussian-free-fields-reu/simulations/build/googletest-download/googletest-prefix/src/googletest-stamp/googletest-mkdir.rule"
+		},
+		{
+			"file" : "/home/elevensor/test/gff/gaussian-free-fields-reu/simulations/build/googletest-download/googletest-prefix/src/googletest-stamp/googletest-patch.rule"
+		},
+		{
+			"file" : "/home/elevensor/test/gff/gaussian-free-fields-reu/simulations/build/googletest-download/googletest-prefix/src/googletest-stamp/googletest-test.rule"
+		},
+		{
+			"file" : "/home/elevensor/test/gff/gaussian-free-fields-reu/simulations/build/googletest-download/googletest-prefix/src/googletest-stamp/googletest-update.rule"
+		}
+	],
+	"target" : 
+	{
+		"labels" : 
+		[
+			"googletest"
+		],
+		"name" : "googletest"
+	}
+}

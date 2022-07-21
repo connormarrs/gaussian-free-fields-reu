@@ -1,0 +1,1 @@
+/usr/bin/c++  -std=c++14 -Wall -std=c++14 -Wall -std=c++14 -Wall -std=c++14 -Wall -std=c++14 -Wall -std=c++14 -Wall -std=c++14 -Wall -std=c++14 -Wall -std=c++14 -Wall -std=c++14 -Wall -g CMakeFiles/run_tools_tests.dir/test_suite/tools_test.cpp.o CMakeFiles/run_tools_tests.dir/src/tools.cpp.o -o run_tools_tests  lib/libgtest_main.a lib/libgtest.a 

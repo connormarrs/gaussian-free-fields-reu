@@ -1,0 +1,21 @@
+file(REMOVE_RECURSE
+  "CMakeFiles/run_DFGF_T2_tests.dir/src/DFGF_S1.cpp.o"
+  "CMakeFiles/run_DFGF_T2_tests.dir/src/DFGF_S1.cpp.o.d"
+  "CMakeFiles/run_DFGF_T2_tests.dir/src/DFGF_T2.cpp.o"
+  "CMakeFiles/run_DFGF_T2_tests.dir/src/DFGF_T2.cpp.o.d"
+  "CMakeFiles/run_DFGF_T2_tests.dir/src/RandArr.cpp.o"
+  "CMakeFiles/run_DFGF_T2_tests.dir/src/RandArr.cpp.o.d"
+  "CMakeFiles/run_DFGF_T2_tests.dir/src/RandVec.cpp.o"
+  "CMakeFiles/run_DFGF_T2_tests.dir/src/RandVec.cpp.o.d"
+  "CMakeFiles/run_DFGF_T2_tests.dir/src/tools.cpp.o"
+  "CMakeFiles/run_DFGF_T2_tests.dir/src/tools.cpp.o.d"
+  "CMakeFiles/run_DFGF_T2_tests.dir/test_suite/DFGF_T2_test.cpp.o"
+  "CMakeFiles/run_DFGF_T2_tests.dir/test_suite/DFGF_T2_test.cpp.o.d"
+  "run_DFGF_T2_tests"
+  "run_DFGF_T2_tests.pdb"
+)
+
+# Per-language clean rules from dependency scanning.
+foreach(lang CXX)
+  include(CMakeFiles/run_DFGF_T2_tests.dir/cmake_clean_${lang}.cmake OPTIONAL)
+endforeach()
