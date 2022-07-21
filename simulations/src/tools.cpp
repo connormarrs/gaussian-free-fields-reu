@@ -31,7 +31,7 @@ vector<double> Tools::linspaceDouble(double start_in, double end_in, double incr
 		linspacedDouble.push_back(temp);
 		temp += increment;
 	}
-	while (temp <= end_in);
+	while (temp <= end_in+increment);
 	return linspacedDouble;
 }
 
