@@ -129,8 +129,8 @@ add_executable( run_driver ${USER_FILES_1} )
 target_link_libraries( run_driver gtest_main jsoncpp)
 
 # create an executable for driver 
-add_executable( run_driver2 ${USER_FILES_1} )
-target_link_libraries( run_driver2 gtest_main jsoncpp)
+# add_executable( run_driver2 ${USER_FILES_1} )
+# target_link_libraries( run_driver2 gtest_main jsoncpp)
 
 # create an executable for DFGF_S1 tests 
 add_executable( run_DFGF_S1_tests ${TEST_FILES_DFGF_S1} ${USER_FILES_2} )

@@ -9,3 +9,7 @@ simulations/build/*
 #ignore output files but keep the folder
 simulations/output/*
 !simulations/build/template.json
+
+simulations/vcpkg/
+
+simulations/src/driver-old.cpp
