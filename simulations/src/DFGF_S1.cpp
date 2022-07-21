@@ -221,6 +221,18 @@ vector<vector<double>> DFGF_S1::runTrials(){
 	return trialData;
 }
 
+vector<vector<double>> DFGF_S1::debugRunTrials(vector<vector<double>> testRandomVecs){
+	vector<future<vector<double>>> tasks;
+	for(int i = 0; i < numTrials; i++){
+		tasks.push_back(async(&DFGF_S1::evaluate, this, testRandomVecs[i]));
+	}
+	vector<vector<double>> testTrials;
+	for(long unsigned int i =0; i<tasks.size(); i++){
+		testTrials.push_back(tasks[i].get());
+	}
+	return testTrials;
+}
+
 /**
  * @brief Compute a vector where the nth entry represents the
  * maximum of the DFGF computed for that nth trial.

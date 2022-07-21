@@ -58,6 +58,8 @@ class DFGF_S1: public DFGF {
         vector<double> evaluate(vector<double> sampleVector);
 
         vector<vector<double>> runTrials();
+        vector<vector<double>> debugRunTrials(vector<vector<double>> testRanomVecs);
+
         double computeEmpMean();
 };
 

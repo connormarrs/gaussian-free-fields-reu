@@ -31,7 +31,10 @@ class DFGF_S1_Fixture: public ::testing::Test {
 
         RandVec gauss_vector_n = RandVec(n, numTrials);
         DFGF_S1 sample_field_n = DFGF_S1(s,n,numTrials, gauss_vector_n);
-
+        RandVec rand_vec_m_trials = RandVec(m, 100);
+        vector<vector<double>>test_n_vec_trials = rand_vec_m_trials.getSample(n);
+        vector<vector<double>>test_m_vec_trials = rand_vec_m_trials.getSample(m);
+         
         vector<double> known_eigvals_n = {
             0.0,
             0.9675312092750789,
@@ -536,4 +539,30 @@ TEST_F(DFGF_S1_Fixture, testEvaluateVector){
         
         FAIL();
     }
+}
+
+TEST_F(DFGF_S1_Fixture, checkRunTrials){
+    vector<vector<vector<double>>> vectorOfTrialData_n;
+    vector<vector<vector<double>>> vectorOfTrialData_m;
+    //increase numberOfTests for computer with more cores
+    int numberOfTests=2000;
+    for(int i = 0; i<numberOfTests; i++){
+        vectorOfTrialData_n.push_back(sample_field_n.debugRunTrials(test_n_vec_trials));
+    }
+    for(unsigned int i=0; i<vectorOfTrialData_n.size();i++){
+        for(unsigned int j = 0; j<vectorOfTrialData_n[i].size(); j++){
+            for(unsigned int k=0; k<vectorOfTrialData_n[i][j].size(); k++){
+                ASSERT_NEAR(vectorOfTrialData_n[0][j][k], vectorOfTrialData_n[i][j][k], 1e-08);
+            }
+        }
+    }
+
+    for(unsigned int i=0; i<vectorOfTrialData_m.size();i++){
+        for(unsigned int j = 0; j<vectorOfTrialData_m[i].size(); j++){
+            for(unsigned int k=0; k<vectorOfTrialData_m[i][j].size(); k++){
+                ASSERT_NEAR(vectorOfTrialData_m[0][j][k], vectorOfTrialData_m[i][j][k], 1e-08);
+            }
+        }
+    }
+
 }
