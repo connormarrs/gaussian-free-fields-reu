@@ -17,12 +17,21 @@ string fileName(int start_n, int end_n, string range) {
 
 	return name;
 }
+double getMean(int nvalue, double svalue, int numTrials, RandVec randvec){
+	// Instantiates the objects to collect data for the json file.
+	//DFGF_S1 *dfgf = new DFGF_S1(svalue, nvalue, numTrials, randvec);
+	std::shared_ptr<DFGF_S1> dfgf(new DFGF_S1);
+	dfgf->runTrials();
+	double empMean = dfgf->getEmpMean();
+	//dfgf->~DFGF_S1();
+	return empMean;
+}
 /**
  * The main file that runs the code
  */
 int main() {
 	/**
-	 *	EXPERIMENT SECTION
+	 *	EXPERIMENT SECTION 
 	 *
 	 * Set the parameters and run the main method in the driver
 	 * to generate the data.
@@ -56,15 +65,7 @@ int main() {
 
 		for (long unsigned int s_index=0; s_index<s_vals.size(); s_index++){
 			tasks->push(
-				async(launch::async, [](int nvalue, double svalue, int numTrials, RandVec randvec){
-					// Instantiates the objects to collect data for the json file.
-					DFGF_S1 *dfgf = new DFGF_S1(svalue, nvalue, numTrials, randvec);
-					dfgf->runTrials();
-					double empMean = dfgf->getEmpMean();
-					dfgf->~DFGF_S1();
-					operator delete(dfgf);
-					return empMean;
-				},n_vals[n_index], s_vals[s_index], numTrials, randvec)
+				async(launch::async, getMean,n_vals[n_index], s_vals[s_index], numTrials, randvec)
 			);
 		}	
 		for(long unsigned int s_index=0; s_index<s_vals.size(); s_index++){
@@ -77,9 +78,19 @@ int main() {
 		* Writes the contents of cs (our json object) to a file
 		*/
 		myfile.close();
+		operator delete(tasks);
 	}
     	
 	cout << "Job done :)" << endl;
 
 	return 0;
 }
+
+
+					// // Instantiates the objects to collect data for the json file.
+					// DFGF_S1 *dfgf = new DFGF_S1(svalue, nvalue, numTrials, randvec);
+					// dfgf->runTrials();
+					// double empMean = dfgf->getEmpMean();
+					// dfgf->~DFGF_S1();
+					// operator delete(dfgf);
+					// return empMean;
