@@ -9,8 +9,17 @@ DFGF_S1::DFGF_S1(double sVal, int nVal, int numberTrials, RandVec randVector) {
 	// set the parameters
 	n = nVal;
 	s = sVal;
-	gaussianVector = randVector;
 	numTrials = numberTrials;
+
+	/* copy array from randVector */
+	vector<vector<double>> sampleArray = randVector.getSample(n);
+	for(long unsigned int trial_index=0; trial_index<sampleArray.size(); trial_index++){
+		vector<double> temp;
+		for(long unsigned int point_index=0; point_index<sampleArray[trial_index].size(); point_index++){
+			temp.push_back(sampleArray[trial_index][point_index]);
+		}
+		gaussianVector.push_back(temp);
+	}
 
 	// construct the eigenVals
 	this->computeEigenVals();
@@ -237,11 +246,9 @@ vector<double> DFGF_S1::evaluate(vector<double> sampleVector){
  */
 void DFGF_S1::runTrials(){
 	vector<future<vector<double>>> tasks;
-	/* get the sample data from gaussianVector but scale size for DFGF */
-	vector<vector<double>> sampleArray = gaussianVector.getSample(n);
 
 	for(int i = 0; i < numTrials; i++){
-		tasks.push_back(async(&DFGF_S1::evaluate, this, sampleArray[i]));
+		tasks.push_back(async(&DFGF_S1::evaluate, this, gaussianVector[i]));
 	}
 	for(long unsigned int i =0; i<tasks.size(); i++){
 		trialData.push_back(tasks[i].get());

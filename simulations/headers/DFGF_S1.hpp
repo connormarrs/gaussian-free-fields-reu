@@ -25,7 +25,7 @@ class DFGF_S1: public DFGF {
         // multiplied by 1/eigenfunction^s
         vector<vector<double>> coefficients;
         // RandVec to generate samples of random vectors
-        RandVec gaussianVector;
+        vector<vector<double>> gaussianVector;
         // 2d vector to hold the many samples of the random vector; allows for multithreading
         vector<vector<double>> trialData;
         // vector where the nth entry represents the maximum of the DFGF computed for that nth trial.
