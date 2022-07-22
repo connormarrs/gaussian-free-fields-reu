@@ -24,6 +24,23 @@
       vector<vector<double>> parallelSampler();         // creates an array of independent gaussian random variables
       vector<double> sample();                          // samples a vector of standard normal of length n
 
+## RandArr
+
+---
+**Description of what is going on.**
+
+    Private:
+      int dimArray;
+      int numTrials;
+      vector<vector<vector<double>>> samples;
+      void threadSafe_Sample();
+      void sample_univariate_gaussian(unsigned int seed, int index1, int index2);
+    Public:
+      RandArr array(int maxDim, int numTrials);
+      RandArr()=default;
+      ~RandArr;
+      vector<vector<vector<double>>> getSample(int size);
+
 ## DFGF (Abstract)
 
 ---
@@ -39,10 +56,10 @@
         virtual double computeMax();                    //
         virtual double computEmpMean();                 //
 
-## DFGF_S1:public DFGF
+## DFGF_S1
 
 ---
-**Description of waht is going on**
+**Description of what is going on**
 
     Private:
         vector<double> domain;                          // comment here
@@ -61,6 +78,47 @@
         vector<vector<double>> runTrials();             // runs the trials using multi threading
         double getMax;                                  // gets the maxima of each resulting thread and pushes it back to the maxima vector
         double emperialMean();                          // returns the means
+        
+## DFGF_T2
+
+---
+**Description of what is going on**
+
+    Private:
+        int n;
+        double s;
+        vector<vector<double>> eigenVals;
+        vector<vector<vector<vector<double>>> eigenVectors;
+        vector<vector<vector<vector<double>>> coefficients;
+        RandArr gaussianArray;
+        vector<vector<vector<double>>> trialData;
+        vector<double> maxima;
+        double meanOfMaxima;
+        double computeEigenVal(int p, int q);
+        void computeEigenVectors();
+        void computeCoeffs();
+        void computeMaxVectors();
+        
+    Public:
+        DFGF_T2 (double sVals, int nVales, int numberTrials, RandArr randomArray);
+        DFGF_T2=default;
+        ~DFGF_T2;
+        vector<vector<double>> getEigenVals;
+        double compute eigenFunctionPoint(int p, int q, int j, int k);
+        vector<vector<double>> computeEigenFunctionVector(int p, int q);
+        vector<vector<vector<vector<double>>> getEigenVector();
+        double compute eigenCoefficientPoint(int p, int q, int j, int k);
+        vector<vector<double>> computeCoefficientVector(int p, int q);
+        vector<vector<vector<vector<double>>> getCoefficients();
+        double evaluatePoint(int j, int k, vector<vector<double>> sampleVector);
+        vector<vector<double>> evaluate(vector<vector<double>> sampleVector);
+        void computeEigenVals();
+        void runTrials();
+        double computeEmpMean();
+        double getEmpMean();
+        double compute eigenFunctionPoint(int p, int q, int j, int k);
+        vector<vector<double>> computeEigenFunctionVector(int p, int q);
+        vector<vector<vector<double>>> debugRunTrials(vector<vector<vector<double>>> testRandomArrs);
 
 ### Naming Conventions
 
