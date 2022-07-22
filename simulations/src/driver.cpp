@@ -40,7 +40,9 @@ int main() {
 	int end_in = 2500;
 	int num_in = 400;
 	double start_es = 0.0;
-	double intermediate_es;
+	double intermediate_es0=0.125;
+	double intermediate_es1=0.25;
+	double intermediate_es2=0.375;
 	double end_es = 0.5;
 	string sRange = "s0.0-0.5";
 	double increm = 0.001;
@@ -48,8 +50,10 @@ int main() {
 
 	// Simulations setup
 	vector<int> n_vals = Tools::linspace(start_in, end_in, num_in);
-    vector<double> s_vals0 = Tools::linspaceDouble( start_es, intermediate_es, increm);
-	vector<double> s_vals1 = Tools::linspaceDouble( intermediate_es, end_es, increm);
+    vector<double> s_vals0 = Tools::linspaceDouble( start_es, intermediate_es0, increm);
+    vector<double> s_vals1 = Tools::linspaceDouble( intermediate_es0, intermediate_es1, increm);
+	vector<double> s_vals2 = Tools::linspaceDouble( intermediate_es1, intermediate_es2, increm);
+	vector<double> s_vals3 = Tools::linspaceDouble( intermediate_es2, end_es, increm);
 
 	// Compute a single randvec for the largest value of n
 	RandVec randvec(n_vals[n_vals.size()-1], numTrials);
@@ -89,6 +93,7 @@ int main() {
 			tasks->pop();
 			std::cout << "Thread n=" << n_vals[n_index] << " s=" << s_vals0[s_index] << endl;
 		}
+
 		for (long unsigned int s_index=0; s_index<s_vals1.size(); s_index++){
 			tasks->push(
 				async(launch::async, getMean,n_vals[n_index], s_vals1[s_index], numTrials, randvec)
@@ -100,6 +105,28 @@ int main() {
 			std::cout << "Thread n=" << n_vals[n_index] << " s=" << s_vals1[s_index] << endl;
 		}
 
+		for (long unsigned int s_index=0; s_index<s_vals2.size(); s_index++){
+			tasks->push(
+				async(launch::async, getMean,n_vals[n_index], s_vals2[s_index], numTrials, randvec)
+			);
+		}		
+		for(long unsigned int s_index=0; s_index<s_vals2.size(); s_index++){
+			myfile << to_string(n_vals[n_index]) << ',' << to_string(s_vals2[s_index]) << ',' << tasks->front().get() << endl;
+			tasks->pop();
+			std::cout << "Thread n=" << n_vals[n_index] << " s=" << s_vals2[s_index] << endl;
+		}
+		for (long unsigned int s_index=0; s_index<s_vals3.size(); s_index++){
+			tasks->push(
+				async(launch::async, getMean,n_vals[n_index], s_vals3[s_index], numTrials, randvec)
+			);
+		}		
+		for(long unsigned int s_index=0; s_index<s_vals3.size(); s_index++){
+			myfile << to_string(n_vals[n_index]) << ',' << to_string(s_vals3[s_index]) << ',' << tasks->front().get() << endl;
+			tasks->pop();
+			std::cout << "Thread n=" << n_vals[n_index] << " s=" << s_vals3[s_index] << endl;
+		}
+
+
 		/*
 		* Writes the contents of cs (our json object) to a file
 		*/
@@ -107,7 +134,7 @@ int main() {
 		operator delete(tasks);
 	}
     	
-	cout << "Job done :)" << endl;
+	std::cout << "Job done :)" << endl;
 
 	return 0;
 }
