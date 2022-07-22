@@ -246,7 +246,6 @@ vector<double> DFGF_S1::evaluate(vector<double> sampleVector){
  */
 void DFGF_S1::runTrials(){
 	vector<future<vector<double>>> tasks;
-
 	for(int i = 0; i < numTrials; i++){
 		tasks.push_back(async(&DFGF_S1::evaluate, this, gaussianVector[i]));
 	}

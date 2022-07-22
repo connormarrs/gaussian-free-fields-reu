@@ -20,7 +20,7 @@ string fileName(int start_n, int end_n, string range) {
 double getMean(int nvalue, double svalue, int numTrials, RandVec randvec){
 	// Instantiates the objects to collect data for the json file.
 	//DFGF_S1 *dfgf = new DFGF_S1(svalue, nvalue, numTrials, randvec);
-	std::shared_ptr<DFGF_S1> dfgf(new DFGF_S1);
+	std::shared_ptr<DFGF_S1> dfgf(new DFGF_S1(svalue,nvalue,numTrials,randvec));
 	dfgf->runTrials();
 	double empMean = dfgf->getEmpMean();
 	//dfgf->~DFGF_S1();
@@ -63,24 +63,25 @@ int main() {
 		myfile.open (runName);
 
 
-		for (long unsigned int s_index=0; s_index<s_vals.size(); s_index++){
-			tasks->push(
-				async(launch::async, [](int nvalue, double svalue, int numTrials, RandVec randvec){
-					// Instantiates the objects to collect data for the json file.
-					//DFGF_S1 *dfgf = new DFGF_S1(svalue, nvalue, numTrials, randvec);
-					std::shared_ptr<DFGF_S1> dfgf(new DFGF_S1);
-					dfgf->runTrials();
-					double empMean = dfgf->getEmpMean();
-					//dfgf->~DFGF_S1();
-					return empMean;
-				},n_vals[n_index], s_vals[s_index], numTrials, randvec)
-			);
-		}
 		// for (long unsigned int s_index=0; s_index<s_vals.size(); s_index++){
 		// 	tasks->push(
-		// 		async(launch::async, getMean,n_vals[n_index], s_vals[s_index], numTrials, randvec)
+		// 		async(launch::async, [](int nvalue, double svalue, int numTrials, RandVec randvec){
+		// 			// Instantiates the objects to collect data for the json file.
+		// 			//DFGF_S1 *dfgf = new DFGF_S1(svalue, nvalue, numTrials, randvec);
+		// 			std::shared_ptr<DFGF_S1> dfgf(new DFGF_S1);
+		// 			dfgf->runTrials();
+		// 			double empMean = dfgf->getEmpMean();
+		// 			cout<<"empMean"<<empMean;
+		// 			//dfgf->~DFGF_S1();
+		// 			return empMean;
+		// 		},n_vals[n_index], s_vals[s_index], numTrials, randvec)
 		// 	);
-		// }		
+		// }
+		for (long unsigned int s_index=0; s_index<s_vals.size(); s_index++){
+			tasks->push(
+				async(launch::async, getMean,n_vals[n_index], s_vals[s_index], numTrials, randvec)
+			);
+		}		
 		for(long unsigned int s_index=0; s_index<s_vals.size(); s_index++){
 			myfile << to_string(n_vals[n_index]) << ',' << to_string(s_vals[s_index]) << ',' << tasks->front().get() << endl;
 			tasks->pop();
