@@ -28,13 +28,13 @@ int main() {
 	 * to generate the data.
 	 */
 	int start_in = 500;
-	int end_in = 1000;
-	int num_in = 10;
+	int end_in = 2500;
+	int num_in = 400;
 	double start_es = 0.0;
 	double end_es = 0.5;
 	string sRange = "s0.0-0.5";
-	double increm = 0.01;
-	int numTrials = 500;
+	double increm = 0.001;
+	int numTrials = 2000;
 
 	// Simulations setup
 	vector<int> n_vals = Tools::linspace(start_in, end_in, num_in);
@@ -47,7 +47,7 @@ int main() {
 	for(long unsigned int n_index=0; n_index < n_vals.size(); n_index++){
 		// Runs through each s val for a given n val
 		Json::Value jsonSmallRoot;
-		queue<future<double>> tasks;
+		queue<future<double>> *tasks = new queue<future<double>>(); // make this pointer
 
 		/* set up filename and stuff for json */
 		string runName = "../../output/numTrials"+to_string(numTrials)+"_sRange_"+sRange+"_n_val"+to_string(n_vals[n_index])+".json";
@@ -55,7 +55,7 @@ int main() {
 		jsonSmallRoot["info"]["numTrials"] = numTrials;
 		jsonSmallRoot["run"] = runName;
 		for (long unsigned int s_index=0; s_index<s_vals.size(); s_index++){
-			tasks.push(
+			tasks->push(
 				async(launch::async, [](int nvalue, double svalue, int numTrials, RandVec randvec){
 					// Instantiates the objects to collect data for the json file.
 					DFGF_S1 *dfgf = new DFGF_S1(svalue, nvalue, numTrials, randvec);
@@ -68,10 +68,15 @@ int main() {
 			);
 		}	
 		for(long unsigned int s_index=0; s_index<s_vals.size(); s_index++){
-			jsonSmallRoot["info"]["n"][to_string(n_vals[n_index])]["s"][to_string(s_vals[s_index])]["meanOfMaxima"] = tasks.front().get();
+			jsonSmallRoot["info"]["n"][to_string(n_vals[n_index])]["s"][to_string(s_vals[s_index])]["meanOfMaxima"] = tasks->front().get();
 			cout << "Thread n=" << n_vals[n_index] << " s=" << s_vals[s_index] << endl; // << " mean=" << tasks.front().get()
-			tasks.pop();
+			tasks->pop();
 		}
+
+		/* clean up  queue once done */
+		tasks->~queue();
+		operator delete(tasks);
+
 		Json::StreamWriterBuilder builder;
 		builder["commentStyle"] = "None";
 		builder["indentation"] = "";
