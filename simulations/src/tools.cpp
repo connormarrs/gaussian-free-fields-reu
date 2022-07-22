@@ -24,6 +24,17 @@ vector<int> Tools::linspace(int start_in, int end_in, int num_in) {
 	return linspaced;
 }
 
+vector<double> Tools::linspaceDouble(double start_in, double end_in, double increment) {
+	vector<double> linspacedDouble;
+	double temp = start_in;
+	do {
+		linspacedDouble.push_back(temp);
+		temp += increment;
+	}
+	while (temp <= end_in+increment);
+	return linspacedDouble;
+}
+
 vector<double> Tools::exponentiate(vector<int> A, double s, int start, int stop){
 	// this function will help streamline the code for multi threading
 	vector<double> result;

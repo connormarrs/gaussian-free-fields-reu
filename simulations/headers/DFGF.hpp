@@ -19,7 +19,7 @@ using namespace std;
  */
 class DFGF {
     public:
-        virtual double computeEmpMean()=0;
+        virtual double getEmpMean()=0;
     protected:
         int n;
         double s;

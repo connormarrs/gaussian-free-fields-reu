@@ -541,13 +541,13 @@ TEST_F(DFGF_S1_Fixture, testEvaluateVector){
     }
 }
 
-TEST_F(DFGF_S1_Fixture, checkRunTrials){
+TEST_F(DFGF_S1_Fixture, DISABLE_checkRunTrials){
     vector<vector<vector<double>>> vectorOfTrialData_n;
     vector<vector<vector<double>>> vectorOfTrialData_m;
     //increase numberOfTests for computer with more cores
     int numberOfTests=2000;
     for(int i = 0; i<numberOfTests; i++){
-        vectorOfTrialData_n.push_back(sample_field_n.debugRunTrials(test_n_vec_trials));
+        vectorOfTrialData_n.push_back(sample_field_n.debugRunTrials());
     }
     for(unsigned int i=0; i<vectorOfTrialData_n.size();i++){
         for(unsigned int j = 0; j<vectorOfTrialData_n[i].size(); j++){

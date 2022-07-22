@@ -47,6 +47,22 @@ file(GLOB USER_FILES_2
 "./headers/tools.hpp"
 )
 
+# file(GLOB USER_FILES_3
+# "./src/DFGF_S1.cpp"
+# "./src/DFGF_T2.cpp"
+# "./src/driver2.cpp"
+# "./src/RandVec.cpp"
+# "./src/RandArr.cpp"
+# "./src/tools.cpp"
+# "./headers/DFGF.hpp"
+# "./headers/DFGF_S1.hpp"
+# "./headers/DFGF_T2.hpp"
+# "./headers/driver2.hpp"
+# "./headers/RandVec.hpp"
+# "./headers/RandArr.hpp"
+# "./headers/tools.hpp"
+# )
+
 file(GLOB RANDVEC_FILES
 "./src/RandVec.cpp"
 "./headers/RandVec.hpp"
@@ -111,6 +127,10 @@ add_subdirectory(${CMAKE_CURRENT_BINARY_DIR}/googletest-src
 # create an executable for driver 
 add_executable( run_driver ${USER_FILES_1} )
 target_link_libraries( run_driver gtest_main jsoncpp)
+
+# create an executable for driver 
+# add_executable( run_driver2 ${USER_FILES_1} )
+# target_link_libraries( run_driver2 gtest_main jsoncpp)
 
 # create an executable for DFGF_S1 tests 
 add_executable( run_DFGF_S1_tests ${TEST_FILES_DFGF_S1} ${USER_FILES_2} )

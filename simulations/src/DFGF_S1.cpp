@@ -9,8 +9,17 @@ DFGF_S1::DFGF_S1(double sVal, int nVal, int numberTrials, RandVec randVector) {
 	// set the parameters
 	n = nVal;
 	s = sVal;
-	gaussianVector = randVector;
 	numTrials = numberTrials;
+
+	/* copy array from randVector */
+	vector<vector<double>> sampleArray = randVector.getSample(n);
+	for(long unsigned int trial_index=0; trial_index<sampleArray.size(); trial_index++){
+		vector<double> temp;
+		for(long unsigned int point_index=0; point_index<sampleArray[trial_index].size(); point_index++){
+			temp.push_back(sampleArray[trial_index][point_index]);
+		}
+		gaussianVector.push_back(temp);
+	}
 
 	// construct the eigenVals
 	this->computeEigenVals();
@@ -169,6 +178,34 @@ vector<vector<double>> DFGF_S1::getCoeffs(){
 	return coefficients;
 }
 
+
+/**
+ * @brief Get the Coefficients object
+ * 
+ * @return vector<vector<double>> 
+ */
+vector<vector<double>> DFGF_S1::getTrialData(){
+	return trialData;
+}
+
+/**
+ * @brief Get the Coefficients object
+ * 
+ * @return vector<vector<double>> 
+ */
+vector<double> DFGF_S1::getMaximaList(){
+	return maxima;
+}
+
+/**
+ * @brief Get the Coefficients object
+ * 
+ * @return vector<vector<double>> 
+ */
+double DFGF_S1::getEmpMean(){
+	return meanOfMaxima;
+}
+
 /**********************************************
  * 
  * 			EVALUATE AND SAMPLE METHODS
@@ -207,37 +244,40 @@ vector<double> DFGF_S1::evaluate(vector<double> sampleVector){
 /**
  * @brief samples numTrials samples and stores them in trialData
  */
-vector<vector<double>> DFGF_S1::runTrials(){
+void DFGF_S1::runTrials(){
 	vector<future<vector<double>>> tasks;
-	/* get the sample data from gaussianVector but scale size for DFGF */
-	vector<vector<double>> sampleArray = gaussianVector.getSample(n);
 
 	for(int i = 0; i < numTrials; i++){
-		tasks.push_back(async(&DFGF_S1::evaluate, this, sampleArray[i]));
+		tasks.push_back(async(&DFGF_S1::evaluate, this, gaussianVector[i]));
 	}
 	for(long unsigned int i =0; i<tasks.size(); i++){
 		trialData.push_back(tasks[i].get());
 	}
-	return trialData;
+	computeMaxVectors();
+	computeEmpMean();
 }
 
-vector<vector<double>> DFGF_S1::debugRunTrials(vector<vector<double>> testRandomVecs){
+/**
+ * @brief samples numTrials samples and stores them in trialData
+ */
+vector<vector<double>> DFGF_S1::debugRunTrials(){
 	vector<future<vector<double>>> tasks;
+
+	vector<vector<double>> data;
 	for(int i = 0; i < numTrials; i++){
-		tasks.push_back(async(&DFGF_S1::evaluate, this, testRandomVecs[i]));
+		tasks.push_back(async(&DFGF_S1::evaluate, this, gaussianVector[i]));
 	}
-	vector<vector<double>> testTrials;
 	for(long unsigned int i =0; i<tasks.size(); i++){
-		testTrials.push_back(tasks[i].get());
+		data.push_back(tasks[i].get());
 	}
-	return testTrials;
+	return data;
 }
 
 /**
  * @brief Compute a vector where the nth entry represents the
  * maximum of the DFGF computed for that nth trial.
  */
-vector<double> DFGF_S1::computeMaxVectors(){
+void DFGF_S1::computeMaxVectors(){
 	vector<future<double>> tasks;
 	for(long unsigned int j = 0; j<trialData.size(); j++){	
 		tasks.push_back(std::async(Tools::compute_max, trialData[j]));
@@ -245,7 +285,6 @@ vector<double> DFGF_S1::computeMaxVectors(){
 	for(long unsigned int l = 0; l < tasks.size(); l++){
 		maxima.push_back(tasks[l].get());
 	}
-	return maxima;
 }
 
 /**
@@ -253,11 +292,10 @@ vector<double> DFGF_S1::computeMaxVectors(){
  * 
  * @return double 
  */
-double DFGF_S1::computeEmpMean(){
+void DFGF_S1::computeEmpMean(){
 	double sum = 0;
 	for(long unsigned int j=0; j<maxima.size(); j++){
 		sum += maxima[j];
 	}
 	meanOfMaxima = sum/maxima.size();
-	return meanOfMaxima;
 }

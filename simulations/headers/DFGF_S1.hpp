@@ -25,7 +25,7 @@ class DFGF_S1: public DFGF {
         // multiplied by 1/eigenfunction^s
         vector<vector<double>> coefficients;
         // RandVec to generate samples of random vectors
-        RandVec gaussianVector;
+        vector<vector<double>> gaussianVector;
         // 2d vector to hold the many samples of the random vector; allows for multithreading
         vector<vector<double>> trialData;
         // vector where the nth entry represents the maximum of the DFGF computed for that nth trial.
@@ -43,12 +43,14 @@ class DFGF_S1: public DFGF {
 		DFGF_S1()=default;
         ~DFGF_S1()=default;
 
-        vector<double> computeMaxVectors();
         vector<double> getEigenVals();
 
         double computeEigenFunctionPoint(int r, int k);
         vector<double> computeEigenFunctionVector(int r);
         vector<vector<double>> getEigenVectors();
+	    vector<vector<double>> getTrialData();
+	    vector<double> getMaximaList();
+	    double getEmpMean();
 
         double computeCoeffPoint(int r, int k);
         vector<double> computeCoefficientVector(int r);
@@ -56,11 +58,11 @@ class DFGF_S1: public DFGF {
 
         double evaluatePoint(int k, vector<double> sampleVector);
         vector<double> evaluate(vector<double> sampleVector);
+        void computeMaxVectors();
+        void runTrials();
+        void computeEmpMean();
 
-        vector<vector<double>> runTrials();
-        vector<vector<double>> debugRunTrials(vector<vector<double>> testRanomVecs);
-
-        double computeEmpMean();
+        vector<vector<double>> debugRunTrials();
 };
 
 #endif

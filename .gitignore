@@ -7,5 +7,9 @@
 simulations/build/*
 !simulations/build/.gitkeep
 #ignore output files but keep the folder
-simulations/output/*
+# output/
 !simulations/build/template.json
+
+simulations/vcpkg/
+
+simulations/src/driver-old.cpp
