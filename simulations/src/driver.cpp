@@ -68,8 +68,8 @@ int main() {
 			);
 		}	
 		for(long unsigned int s_index=0; s_index<s_vals.size(); s_index++){
-			myfile << to_string(n_vals[n_index]) << ',' << to_string(s_vals[s_index]) << ',' << tasks.front().get() << endl;
-			tasks.pop();
+			myfile << to_string(n_vals[n_index]) << ',' << to_string(s_vals[s_index]) << ',' << tasks->front().get() << endl;
+			tasks->pop();
 			cout << "Thread n=" << n_vals[n_index] << " s=" << s_vals[s_index] << endl;
 		}
 
