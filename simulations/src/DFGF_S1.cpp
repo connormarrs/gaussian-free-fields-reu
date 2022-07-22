@@ -5,11 +5,13 @@
  * Constructor:
  *  
  */
-DFGF_S1::DFGF_S1(double sVal, int nVal, int numberTrials, RandVec randVector) { 
+DFGF_S1::DFGF_S1(double sVal, int nVal, int numberTrials, RandVec randVector, bool dirichlet) { 
 	// set the parameters
 	n = nVal;
 	s = sVal;
 	numTrials = numberTrials;
+
+	isDirichlet = dirichlet;
 
 	/* copy array from randVector */
 	vector<vector<double>> sampleArray = randVector.getSample(n);
@@ -71,9 +73,9 @@ double DFGF_S1::computeEigenFunctionPoint(int r, int k) {
 	
 	//Accounts for Alternatning Sine Function
 	if(n%2==0 && r==(n/2)) {
-		return (M_SQRT2/2.0)*pow(-1.0, k);
+		return isDirichlet ? 0.0 : (M_SQRT2/2.0)*pow(-1.0, k);
 	} else if(r<ceil(n/2.0)) {
-		return (M_SQRT2/2.0)*cos(k*arg);
+		return isDirichlet ? 0.0 : (M_SQRT2/2.0)*cos(k*arg);
 	} else {
 		return (M_SQRT2/2.0)*sin(k*arg);
 	}

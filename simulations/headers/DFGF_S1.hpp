@@ -32,6 +32,8 @@ class DFGF_S1: public DFGF {
         vector<double> maxima;
         double meanOfMaxima;
 
+        bool isDirichlet;
+
         void computeEigenVals();
         double computeEigenVal(int k);
         void computeEigenVectors();
@@ -39,7 +41,7 @@ class DFGF_S1: public DFGF {
 
     public:
         // constructors
-        DFGF_S1(double s, int n, int numberTrials, RandVec gaussianVector);
+        DFGF_S1(double s, int n, int numberTrials, RandVec gaussianVector, bool dirichlet);
 		DFGF_S1()=default;
         ~DFGF_S1()=default;
 
@@ -48,6 +50,7 @@ class DFGF_S1: public DFGF {
         double computeEigenFunctionPoint(int r, int k);
         vector<double> computeEigenFunctionVector(int r);
         vector<vector<double>> getEigenVectors();
+
 	    vector<vector<double>> getTrialData();
 	    vector<double> getMaximaList();
 	    double getEmpMean();

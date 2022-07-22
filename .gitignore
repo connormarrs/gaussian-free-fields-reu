@@ -7,7 +7,7 @@
 simulations/build/*
 !simulations/build/.gitkeep
 #ignore output files but keep the folder
-# output/
+output/
 !simulations/build/template.json
 
 simulations/vcpkg/

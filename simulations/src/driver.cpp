@@ -81,12 +81,11 @@ int main(int argc, char **argv) {
 
 	for (long unsigned int s_index=0; s_index<s_vals.size(); s_index++){
 		// Instantiates the objects to collect data for the json file.
-		DFGF_S1 *dfgf = new DFGF_S1(s_vals[s_index], nval, numTrials, randvec);
+		DFGF_S1 *dfgf = new DFGF_S1(s_vals[s_index], nval, numTrials, randvec, true);
 		dfgf->runTrials();
-		double empMean = dfgf->getEmpMean();
+		myfile << to_string(nval) << ',' << to_string(s_vals[s_index]) << ',' << dfgf->getEmpMean() << endl;
 		dfgf->~DFGF_S1();
 		operator delete(dfgf);
-		myfile << to_string(nval) << ',' << to_string(s_vals[s_index]) << ',' << empMean << endl;
 	}	
 	
 	/*
