@@ -1,10 +1,10 @@
 #!/bin/bash
 
-nvals=($(seq 500 100 2500))
+nvals=($(seq 500 10 2500))
 declare -i iter=0
 for i in ${nvals[@]}; do
 	./run_driver ${i}&
-	if ((iter%20==0));
+	if ((iter%32==0));
 	then
 		wait
 		echo "divisible by 20"
