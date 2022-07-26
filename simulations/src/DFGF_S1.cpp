@@ -298,3 +298,11 @@ void DFGF_S1::computeEmpMean(){
 	}
 	meanOfMaxima = sum/maxima.size();
 }
+
+
+DFGF_S1::~DFGF_S1(){
+	//delete member variables
+
+	//free data from the various vectors stored in DFGF_S1
+	vector<vector<double>>().swap(trialData); 
+}

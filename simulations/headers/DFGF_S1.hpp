@@ -42,6 +42,7 @@ class DFGF_S1: public DFGF {
         DFGF_S1(double s, int n, int numberTrials, RandVec gaussianVector);
 		DFGF_S1()=default;
         ~DFGF_S1()=default;
+        ~DFGF_S1();
 
         vector<double> getEigenVals();
 
@@ -63,6 +64,10 @@ class DFGF_S1: public DFGF {
         void computeEmpMean();
 
         vector<vector<double>> debugRunTrials();
+
+        void freeTrialDataMem();
+        
+
 };
 
 #endif
