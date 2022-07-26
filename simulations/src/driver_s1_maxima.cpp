@@ -19,11 +19,11 @@ string fileName(int start_n, int end_n, string range) {
 }
 double getMean(int nvalue, double svalue, int numTrials, RandVec randvec){
 	// Instantiates the objects to collect data for the json file.
-	//DFGF_S1 *dfgf = new DFGF_S1(svalue, nvalue, numTrials, randvec);
-	std::shared_ptr<DFGF_S1> dfgf(new DFGF_S1(svalue,nvalue,numTrials,randvec));
+	DFGF_S1 *dfgf = new DFGF_S1(svalue, nvalue, numTrials, randvec, true);
+	//std::shared_ptr<DFGF_S1> dfgf(new DFGF_S1(svalue,nvalue,numTrials,randvec));
 	dfgf->runTrials();
 	double empMean = dfgf->getEmpMean();
-	dfgf->freeTrialDataMem();
+	//dfgf->freeTrialDataMem();
 	//dfgf->~DFGF_S1();
 	return empMean;
 }

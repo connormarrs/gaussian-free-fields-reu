@@ -31,6 +31,7 @@ class DFGF_S1: public DFGF {
         // vector where the nth entry represents the maximum of the DFGF computed for that nth trial.
         vector<double> maxima;
         double meanOfMaxima;
+        bool isDirichlet = false;
 
         void computeEigenVals();
         double computeEigenVal(int k);
@@ -39,10 +40,10 @@ class DFGF_S1: public DFGF {
 
     public:
         // constructors
-        DFGF_S1(double s, int n, int numberTrials, RandVec gaussianVector);
+        DFGF_S1(double s, int n, int numberTrials, RandVec gaussianVector, bool dirichlet);
 		DFGF_S1()=default;
+        //~DFGF_S1();
         ~DFGF_S1()=default;
-        ~DFGF_S1();
 
         vector<double> getEigenVals();
 

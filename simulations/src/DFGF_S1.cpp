@@ -5,12 +5,12 @@
  * Constructor:
  *  
  */
-DFGF_S1::DFGF_S1(double sVal, int nVal, int numberTrials, RandVec randVector) { 
+DFGF_S1::DFGF_S1(double sVal, int nVal, int numberTrials, RandVec randVector, bool dirichlet) { 
 	// set the parameters
 	n = nVal;
 	s = sVal;
 	numTrials = numberTrials;
-
+	isDirichlet = dirichlet;
 	/* copy array from randVector */
 	vector<vector<double>> sampleArray = randVector.getSample(n);
 	for(long unsigned int trial_index=0; trial_index<sampleArray.size(); trial_index++){
@@ -70,11 +70,14 @@ double DFGF_S1::computeEigenFunctionPoint(int r, int k) {
 	double arg = 2.0 * M_PI * r/n;
 	
 	//Accounts for Alternatning Sine Function
-	if(n%2==0 && r==(n/2)) {
-		return (M_SQRT2/2.0)*pow(-1.0, k);
-	} else if(r<ceil(n/2.0)) {
+
+	if(r<=ceil(n/2.0) && !isDirichlet) {
 		return (M_SQRT2/2.0)*cos(k*arg);
-	} else {
+	}
+	else if(r<=ceil(n/2.0) && isDirichlet){
+		return 0;
+	}
+	else {
 		return (M_SQRT2/2.0)*sin(k*arg);
 	}
 }
@@ -300,9 +303,9 @@ void DFGF_S1::computeEmpMean(){
 }
 
 
-DFGF_S1::~DFGF_S1(){
-	//delete member variables
+// DFGF_S1::~DFGF_S1(){
+// 	//delete member variables
 
-	//free data from the various vectors stored in DFGF_S1
-	vector<vector<double>>().swap(trialData); 
-}
+// 	//free data from the various vectors stored in DFGF_S1
+// 	vector<vector<double>>().swap(trialData); 
+// }

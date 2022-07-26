@@ -27,10 +27,10 @@ class DFGF_S1_Fixture: public ::testing::Test {
         int numTrials = 30; 
 
         RandVec gauss_vector_m = RandVec(m, numTrials);
-        DFGF_S1 sample_field_m = DFGF_S1(s,m,numTrials, gauss_vector_m);
+        DFGF_S1 sample_field_m = DFGF_S1(s,m,numTrials, gauss_vector_m, false);
 
         RandVec gauss_vector_n = RandVec(n, numTrials);
-        DFGF_S1 sample_field_n = DFGF_S1(s,n,numTrials, gauss_vector_n);
+        DFGF_S1 sample_field_n = DFGF_S1(s,n,numTrials, gauss_vector_n, false);
         RandVec rand_vec_m_trials = RandVec(m, 100);
         vector<vector<double>>test_n_vec_trials = rand_vec_m_trials.getSample(n);
         vector<vector<double>>test_m_vec_trials = rand_vec_m_trials.getSample(m);
