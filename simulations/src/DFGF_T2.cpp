@@ -8,12 +8,13 @@
  * @param numberTrials 
  * @param gaussianVector 
  */
-DFGF_T2::DFGF_T2(double sVals, int nVals, int numberTrials, RandArr gaussianArray){
+DFGF_T2::DFGF_T2(double sVals, int nVals, int numberTrials, RandArr gaussianArray, bool dirichlet){
 	// set the parameters
 	n = nVals;
 	s = sVals;
 	this->gaussianArray = gaussianArray;
 	numTrials = numberTrials;
+    isDirichlet = dirichlet;
 
 	// construct the eigenVals
 	this->computeEigenVals();
@@ -120,8 +121,11 @@ double DFGF_T2::computeEigenFunctionPoint(int p, int q, int j, int k){
     double arg = (2 * M_PI * p * j/n) + (2 * M_PI * q * k/n);
 
     /* We use cosine to define the p,q-th eigenvector if p <= n/2, and sine otherwise */
-    if(p <= floor(1.0 * n / 2.0)){
+    if(p <= floor(1.0 * n / 2.0 && !isDirichlet)){
         return cos(arg);
+    }
+    else if (1.0 * n / 2.0 && isDirichlet){
+        return 0;
     }
     else{
         return sin(arg);

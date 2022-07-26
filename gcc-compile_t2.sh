@@ -16,10 +16,10 @@ module load gcc/9.2.0 cmake/3.10.2
 
 export LD_LIBRARY_PATH=/usr/lib
 
-fileNames="../src/DFGF_S1.cpp ../src/DFGF_T2.cpp ../src/driver.cpp ../src/RandVec.cpp ../src/RandArr.cpp ../src/tools.cpp" 
+fileNames="../src/DFGF_S1.cpp ../src/DFGF_T2.cpp ../src/driver_T2.cpp ../src/RandVec.cpp ../src/RandArr.cpp ../src/tools.cpp" 
 
-# binaryName="~/gaussian-free-fields/simulations/build/run_driver"
+# binaryName="~/gaussian-free-fields/simulations/build/run_driver_T2"
 cd simulations/build/
 
-g++ -std=c++11 -pthread -static-libstdc++ -Wall $fileNames -o run_driver && echo "compilation successful"
+g++ -std=c++11 -pthread -static-libstdc++ -Wall $fileNames -o run_driver_T2 && echo "compilation successful"
 

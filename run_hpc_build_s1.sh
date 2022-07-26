@@ -11,7 +11,7 @@ cd ~/gaussian-free-fields-reu/simulations/build/
 nvals=($(seq 910 10 10000))
 declare -i iter=0
 for i in ${nvals[@]}; do
-	./run_driver ${i}&
+	./run_driver_S1 ${i}&
 	if ((iter%64==0));
 	then
 		wait

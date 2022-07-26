@@ -29,6 +29,7 @@ class DFGF_T2: public DFGF {
         // 2d vector to hold the many samples of the random vector; allows for multithreading
         vector<vector<vector<double>>> trialData;
         // vector where the nth entry represents the maximum of the DFGF computed for that nth trial.
+        bool isDirichlet;
         vector<double> maxima;
         double meanOfMaxima;
 
@@ -40,7 +41,7 @@ class DFGF_T2: public DFGF {
 
     public:
         // constructors
-        DFGF_T2(double sVals, int nVals, int numberTrials, RandArr randomArray);
+        DFGF_T2(double sVals, int nVals, int numberTrials, RandArr randomArray, bool dirichlet);
 		DFGF_T2()=default;
         ~DFGF_T2()=default;
 
