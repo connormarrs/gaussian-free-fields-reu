@@ -11,5 +11,5 @@ simulations/build/*
 !simulations/build/template.json
 
 simulations/vcpkg/
-
+output/*
 simulations/src/driver-old.cpp
