@@ -16,11 +16,11 @@ module load gcc/9.2.0 cmake/3.10.2
 
 export LD_LIBRARY_PATH=/usr/lib
 
-fileNames="../src/DFGF_S1.cpp ../src/DFGF_T2.cpp ../src/driver_s1_trial_data.cpp ../src/RandVec.cpp ../src/RandArr.cpp ../src/tools.cpp" 
-
+fileNames1="../src/DFGF_S1.cpp ../src/DFGF_T2.cpp ../src/driver_s1_trial_data.cpp ../src/RandVec.cpp ../src/RandArr.cpp ../src/tools.cpp" 
+fileNames2="../src/DFGF_S1.cpp ../src/DFGF_T2.cpp ../src/driver_s1_maxima.cpp ../src/RandVec.cpp ../src/RandArr.cpp ../src/tools.cpp" 
 # binaryName="~/gaussian-free-fields/simulations/build/run_driver"
 cd simulations/build/
 
-g++ -std=c++11 -pthread -static-libstdc++ -Wall $fileNames -o run_driver_s1_trial_data && echo "compilation successful"
-
+g++ -std=c++11 -pthread -static-libstdc++ -Wall $fileNames1 -o run_driver_s1_trial_data && echo "compilation successful: trial data"
+g++ -std=c++11 -pthread -static-libstdc++ -Wall $fileNames2 -o run_driver_s1_maxima && echo "compilation successful: maxima"
 # ./run_driver
