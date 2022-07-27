@@ -9,6 +9,7 @@
 #include <random>
 #include <ctime>
 #include <cmath>
+#include <memory>
 
 using namespace std;
 
@@ -17,7 +18,7 @@ using namespace std;
  *  fractional field on some space. Requires methods to compute the mean and
  *  the empirical mean for a large number of trials.
  */
-class DFGF {
+class DFGF: protected enable_shared_from_this<DFGF> {
     public:
         virtual double getEmpMean()=0;
     protected:

@@ -67,20 +67,34 @@ void RandVec::sample_univariate_gaussian(unsigned int seed, int index){
  * will behave as though they are from independent random variables.
  * 
  */
+//%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+//%%%%%%%%%%%%%%%%%%%%%%%%%%%
+//% TALK TO CONNOR ABT THIS %
+//%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+//%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 void RandVec::threadSafe_Sample() {
 	/* initialize vector of tasks of length lenVec */
 	vector<thread> tasks;
 
+// 	/* for each component of the random vector spawn new thread to sample component */
+// 	for(int j=0; j<lenVec; j++){
+// 		/* we seed each generator with distinct value of j ==> different streams of random numbers */
+// 		tasks.push_back(
+// 			thread(&RandVec::sample_univariate_gaussian, this, (unsigned int)j, j)
+// 		);
+// 	}
+// 	for(int j=0; j<lenVec; j++){
+// 		/* for each task, wait until completion to return to main thread */
+// 		tasks[j].join();
+// 	}
+// }
+
 	/* for each component of the random vector spawn new thread to sample component */
 	for(int j=0; j<lenVec; j++){
 		/* we seed each generator with distinct value of j ==> different streams of random numbers */
-		tasks.push_back(
-			thread(&RandVec::sample_univariate_gaussian, this, (unsigned int)j, j)
-		);
-	}
-	for(int j=0; j<lenVec; j++){
-		/* for each task, wait until completion to return to main thread */
-		tasks[j].join();
+		sample_univariate_gaussian((unsigned int)j,j);
 	}
 }
 

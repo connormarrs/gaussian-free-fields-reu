@@ -40,7 +40,7 @@ class DFGF_S1: public DFGF {
 
     public:
         // constructors
-        DFGF_S1(double s, int n, int numberTrials, RandVec gaussianVector, bool dirichlet);
+        DFGF_S1(double s, int n, int numberTrials, RandVec randVector, bool dirichlet);
 		DFGF_S1()=default;
         //~DFGF_S1();
         ~DFGF_S1()=default;
@@ -65,8 +65,7 @@ class DFGF_S1: public DFGF {
         void computeEmpMean();
 
         vector<vector<double>> debugRunTrials();
-
-        void freeTrialDataMem();
+        void freeArrayMem();
         
 
 };

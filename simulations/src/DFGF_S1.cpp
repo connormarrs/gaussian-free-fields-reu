@@ -5,12 +5,14 @@
  * Constructor:
  *  
  */
+
 DFGF_S1::DFGF_S1(double sVal, int nVal, int numberTrials, RandVec randVector, bool dirichlet) { 
 	// set the parameters
 	n = nVal;
 	s = sVal;
 	numTrials = numberTrials;
 	isDirichlet = dirichlet;
+
 	/* copy array from randVector */
 	vector<vector<double>> sampleArray = randVector.getSample(n);
 	for(long unsigned int trial_index=0; trial_index<sampleArray.size(); trial_index++){
@@ -71,17 +73,17 @@ double DFGF_S1::computeEigenFunctionPoint(int r, int k) {
 	
 	//Accounts for Alternatning Sine Function
 
-	if(r<=ceil(n/2.0) && !isDirichlet) {
+	if(r<=floor(n/2.0) && !isDirichlet) {
 		return (M_SQRT2/2.0)*cos(k*arg);
 	}
-	else if(r<=ceil(n/2.0) && isDirichlet){
+	else if(r<=floor(n/2.0) && isDirichlet){
 		return 0;
 	}
-	else {
+	else if(r>floor(n/2.0)){
 		return (M_SQRT2/2.0)*sin(k*arg);
 	}
+	return 100000000000.0;
 }
-
 /**
  * @brief computes the rth eigenvector
  * 
@@ -147,6 +149,7 @@ void DFGF_S1::computeCoeffs() {
 		coefficients.push_back(tasks[r].get());
 	}
 }
+
 
 /**********************************************
  * 
@@ -302,10 +305,31 @@ void DFGF_S1::computeEmpMean(){
 	meanOfMaxima = sum/maxima.size();
 }
 
+void DFGF_S1::freeArrayMem(){
+	vector<double>().swap(eigenVals);
+	vector<vector<double>>().swap(eigenVectors);
+	vector<vector<double>>().swap(coefficients);
+	vector<vector<double>>().swap(gaussianVector);
+	vector<vector<double>>().swap(trialData); 
+	vector<double>().swap(maxima);	
+
+}
 
 // DFGF_S1::~DFGF_S1(){
 // 	//delete member variables
+// 	free(&isDirichlet);
+// 	free(&meanOfMaxima);
 
 // 	//free data from the various vectors stored in DFGF_S1
+// 	vector<double>().swap(eigenVals);
+// 	vector<vector<double>>().swap(eigenVectors);
+// 	vector<vector<double>>().swap(coefficients);
+// 	vector<vector<double>>().swap(gaussianVector);
 // 	vector<vector<double>>().swap(trialData); 
+// 	vector<double>().swap(maxima);	free(&eigenVals);
+// 	// free(&eigenVectors);
+// 	// free(&coefficients);
+// 	// free(&gaussianVector);
+// 	// free(&trialData); 
+// 	// free(&maxima);
 // }

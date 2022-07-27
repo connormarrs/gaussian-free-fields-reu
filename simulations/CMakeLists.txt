@@ -19,15 +19,12 @@ project(${ProjectId})
 ##############################################
 file(GLOB USER_FILES_1
 "./src/DFGF_S1.cpp"
-"./src/DFGF_T2.cpp"
-"./src/driver.cpp"
+"./src/driver_s1_maxima.cpp"
 "./src/RandVec.cpp"
 "./src/RandArr.cpp"
 "./src/tools.cpp"
 "./headers/DFGF.hpp"
 "./headers/DFGF_S1.hpp"
-"./headers/DFGF_T2.hpp"
-"./headers/driver.hpp"
 "./headers/RandVec.hpp"
 "./headers/RandArr.hpp"
 "./headers/tools.hpp"
@@ -35,69 +32,72 @@ file(GLOB USER_FILES_1
 
 file(GLOB USER_FILES_2
 "./src/DFGF_S1.cpp"
-"./src/DFGF_T2.cpp"
+"./src/driver_s1_trial_data.cpp"
 "./src/RandVec.cpp"
 "./src/RandArr.cpp"
 "./src/tools.cpp"
 "./headers/DFGF.hpp"
 "./headers/DFGF_S1.hpp"
+"./headers/RandVec.hpp"
+"./headers/RandArr.hpp"
+"./headers/tools.hpp"
+)
+
+file(GLOB USER_FILES_3
+"./src/DFGF_T2.cpp"
+"./src/driver_t2_maxima.cpp"
+"./src/RandVec.cpp"
+"./src/RandArr.cpp"
+"./src/tools.cpp"
+"./headers/DFGF.hpp"
 "./headers/DFGF_T2.hpp"
 "./headers/RandVec.hpp"
 "./headers/RandArr.hpp"
 "./headers/tools.hpp"
 )
 
-# file(GLOB USER_FILES_3
-# "./src/DFGF_S1.cpp"
-# "./src/DFGF_T2.cpp"
-# "./src/driver2.cpp"
-# "./src/RandVec.cpp"
-# "./src/RandArr.cpp"
-# "./src/tools.cpp"
-# "./headers/DFGF.hpp"
-# "./headers/DFGF_S1.hpp"
-# "./headers/DFGF_T2.hpp"
-# "./headers/driver2.hpp"
-# "./headers/RandVec.hpp"
-# "./headers/RandArr.hpp"
-# "./headers/tools.hpp"
-# )
+file(GLOB USER_FILES_4
+"./src/DFGF_T2.cpp"
+"./src/driver_t2_trial_data.cpp"
+"./src/RandVec.cpp"
+"./src/RandArr.cpp"
+"./src/tools.cpp"
+"./headers/DFGF.hpp"
+"./headers/DFGF_T2.hpp"
+"./headers/RandVec.hpp"
+"./headers/RandArr.hpp"
+"./headers/tools.hpp"
+)
+
+file(GLOB USER_FILES_5
+"./src/RandVec.cpp"
+"./src/RandArr.cpp"
+"./src/tools.cpp"
+"./headers/DFGF.hpp"
+"./headers/RandVec.hpp"
+"./headers/RandArr.hpp"
+"./headers/tools.hpp"
+)
 
 file(GLOB RANDVEC_FILES
 "./src/RandVec.cpp"
 "./headers/RandVec.hpp"
 )
 
-file(GLOB TOOLS_FILES
-"./src/tools.cpp"
-"./headers/tools.hpp"
-)
-
-file(GLOB TEST_FILES_ALL
-"./test_suite/DFGF_S1_test.cpp"
-"./test_suite/driver_test.cpp"
-"./test_suite/RandVec_test.cpp"
-"./test_suite/tools_test.cpp"
-)
-
 file(GLOB TEST_FILES_DFGF_S1 
 "./test_suite/DFGF_S1_test.cpp"
+"./src/DFGF_S1.cpp"
+"./headers/DFGF_S1.hpp"
 )
 
 file(GLOB TEST_FILES_DFGF_T2
 "./test_suite/DFGF_T2_test.cpp"
-)
-
-file(GLOB TEST_FILES_DRIVER
-"./test_suite/driver_test.cpp"
+"./src/DFGF_T2.cpp"
+"./headers/DFGF_T2.hpp"
 )
 
 file(GLOB TEST_FILES_RANDVEC 
 "./test_suite/RandVec_test.cpp"
-)
-
-file(GLOB TEST_FILES_TOOLS
-"./test_suite/tools_test.cpp"
 )
 
 # Download and unpack googletest at configure time
@@ -124,36 +124,32 @@ add_subdirectory(${CMAKE_CURRENT_BINARY_DIR}/googletest-src
 	${CMAKE_CURRENT_BINARY_DIR}/googletest-build
 		EXCLUDE_FROM_ALL)
 
-# create an executable for driver 
-add_executable( run_driver ${USER_FILES_1} )
-target_link_libraries( run_driver gtest_main jsoncpp)
+# create an executable for driver_s1_maxima 
+add_executable( run_driver_s1_maxima ${USER_FILES_1} )
+target_link_libraries( run_driver_s1_maxima gtest_main)
 
-# create an executable for driver 
-# add_executable( run_driver2 ${USER_FILES_1} )
-# target_link_libraries( run_driver2 gtest_main jsoncpp)
+# create an executable for driver_s1_trial_data 
+add_executable( run_driver_s1_trial_data ${USER_FILES_2} )
+target_link_libraries( run_driver_s1_trial_data gtest_main)
+
+# create an executable for driver_t2_maxima 
+add_executable( run_driver_t2_maxima ${USER_FILES_3} )
+target_link_libraries( run_driver_t2_maxima gtest_main)
+
+# create an executable for driver_t2_trial_data 
+add_executable( run_driver_t2_trial_data ${USER_FILES_4} )
+target_link_libraries( run_driver_t2_trial_data gtest_main)
 
 # create an executable for DFGF_S1 tests 
-add_executable( run_DFGF_S1_tests ${TEST_FILES_DFGF_S1} ${USER_FILES_2} )
+add_executable( run_DFGF_S1_tests ${TEST_FILES_DFGF_S1} ${USER_FILES_5} )
 target_link_libraries( run_DFGF_S1_tests gtest_main)
 
 # create an executable for DFGF_T2 tests 
-add_executable( run_DFGF_T2_tests ${TEST_FILES_DFGF_T2} ${USER_FILES_2} )
+add_executable( run_DFGF_T2_tests ${TEST_FILES_DFGF_T2} ${USER_FILES_5} )
 target_link_libraries( run_DFGF_T2_tests gtest_main)
-
-# create an executable for driver tests 
-add_executable( run_driver_tests ${TEST_FILES_DRIVER} ${USER_FILES_1} )
-target_link_libraries( run_driver_tests gtest_main jsoncpp)
 
 # create an executable for RandVec tests 
 add_executable( run_RandVec_tests ${TEST_FILES_RANDVEC} ${RANDVEC_FILES} )
 target_link_libraries( run_RandVec_tests gtest_main)
-
-# create an executable for tools tests 
-add_executable( run_tools_tests ${TEST_FILES_TOOLS} ${TOOLS_FILES} )
-target_link_libraries( run_tools_tests gtest_main)
-
-# create an executable for all tests 
-add_executable( run_all_tests ${TEST_FILES_ALL} ${USER_FILES_1} )
-target_link_libraries( run_all_tests gtest_main jsoncpp)
 
 ENABLE_TESTING()

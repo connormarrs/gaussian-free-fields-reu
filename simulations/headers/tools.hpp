@@ -19,7 +19,7 @@ using namespace std;
 class Tools {
     public:
         static vector<int> linspace(int start_in, int end_in, int num_in);
-		static vector<double> linspaceDouble(double start_in, double end_in, double increment);
+		static vector<double> linspaceDouble(double start_in, double end_in, double increment, bool include_upper_bound);
 		static vector<double> fracpowers(int start_in, int end_in, int num_in,double s, int thread_num);
 		static vector<double> joinVecs(vector<double> A, vector<double> B);
 		static vector<double> exponentiate(vector<int> A, double s, int start, int stop);

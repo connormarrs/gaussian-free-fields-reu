@@ -70,6 +70,7 @@ class DFGF_T2: public DFGF {
         double computeEmpMean();
         double getEmpMean();
         vector<vector<vector<double>>> debugRunTrials(vector<vector<vector<double>>> testRandomArrs);
+        void freeArrayMem();
 };
 
 #endif

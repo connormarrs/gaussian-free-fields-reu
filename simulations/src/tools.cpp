@@ -1,37 +1,34 @@
  #include "../headers/tools.hpp"
 
-vector<int> Tools::linspace(int start_in, int end_in, int num_in) {
+vector<int> Tools::linspace(int start_in, int end_in, int increment) {
 	vector<int> linspaced;
 	
-	int start = static_cast<int>(start_in);
-	int end = static_cast<int>(end_in +1);
-	int num = static_cast<int>(num_in);
-	
-	if (num == 0) { 
-		return linspaced; 
+	double temp = start_in;
+	do {
+		linspaced.push_back(temp);
+		temp += increment;
 	}
-	if (num == 1) {
-		linspaced.push_back(start);
-		return linspaced;
-	}
-	
-	int delta = (end - start) / (num - 1);
-	
-	for(int i=0; i < num; ++i) {
-		linspaced.push_back(start + delta * i);
-	}
-	
+	while (temp <= end_in);
 	return linspaced;
 }
 
-vector<double> Tools::linspaceDouble(double start_in, double end_in, double increment) {
+vector<double> Tools::linspaceDouble(double start_in, double end_in, double increment, bool include_upper_bound) {
 	vector<double> linspacedDouble;
 	double temp = start_in;
-	do {
+	if(include_upper_bound){
+		do {
+			linspacedDouble.push_back(temp);
+			temp += increment;
+		}
+		while (temp <= end_in);
+	}
+	else{
+		do {
 		linspacedDouble.push_back(temp);
 		temp += increment;
+		}
+		while (temp < end_in);
 	}
-	while (temp <= end_in+increment);
 	return linspacedDouble;
 }
 
