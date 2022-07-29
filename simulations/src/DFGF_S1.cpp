@@ -247,6 +247,16 @@ vector<double> DFGF_S1::evaluate(vector<double> sampleVector){
 	return dfgf;
 }
 
+vector<double> DFGF_S1::evaluateBB(vector<double> sampleVector){
+	vector<double> dfgf;
+	for(int k=0; k<floor(n/2); k++){
+		dfgf.push_back(this->evaluatePoint(k, sampleVector));
+	}
+	dfgf.push_back((this->evaluatePoint(floor(n/2),sampleVector)+this->evaluatePoint(ceil(n/2),sampleVector))/2);
+	return dfgf;
+}
+
+
 /**
  * @brief samples numTrials samples and stores them in trialData
  */
@@ -254,6 +264,18 @@ void DFGF_S1::runTrials(){
 	vector<future<vector<double>>> tasks;
 	for(int i = 0; i < numTrials; i++){
 		tasks.push_back(async(&DFGF_S1::evaluate, this, gaussianVector[i]));
+	}
+	for(long unsigned int i =0; i<tasks.size(); i++){
+		trialData.push_back(tasks[i].get());
+	}
+	computeMaxVectors();
+	computeEmpMean();
+}
+
+void DFGF_S1::runTrialsBB(){
+	vector<future<vector<double>>> tasks;
+	for(int i = 0; i < numTrials; i++){
+		tasks.push_back(async(&DFGF_S1::evaluateBB, this, gaussianVector[i]));
 	}
 	for(long unsigned int i =0; i<tasks.size(); i++){
 		trialData.push_back(tasks[i].get());

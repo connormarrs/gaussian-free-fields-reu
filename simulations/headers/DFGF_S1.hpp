@@ -60,6 +60,8 @@ class DFGF_S1: public DFGF {
 
         double evaluatePoint(int k, vector<double> sampleVector);
         vector<double> evaluate(vector<double> sampleVector);
+        vector<double> evaluateBB(vector<double>);
+        void runTrialsBB();
         void computeMaxVectors();
         void runTrials();
         void computeEmpMean();
