@@ -18,6 +18,9 @@ using namespace std;
  */
 class DFGF_S1: public DFGF {
     private:
+        double s;
+        int n;
+        int numTrials;
         vector<double> eigenVals;
         // 2d vector to hold the values of the eigenfunctions at each point in the domain
         vector<vector<double>> eigenVectors;  /* eigenVector[r-1][k] = f_r(theta_k) */
